@@ -30,10 +30,13 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/about" element={<About />}>
+            <About />
           </Route>
           <Route path="/users" element={<About />}>
+            <Users />
           </Route>
           <Route path="/" element={<About />}>
+            <Home />
           </Route>
         </Switch>
       </div>
