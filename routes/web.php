@@ -13,8 +13,8 @@ use App\Http\Controllers\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::view('/','app');
+Route::view('/{path?}', 'app')->middleware('');
+Route::view('/','welcome');
 Route::view('/register', 'register')->middleware(['guest']);
 Route::view('/login', 'login')->middleware(['guest']);
 
