@@ -12,7 +12,7 @@ class Product extends Model
         return $this->belongsTo(Seller::class);
     }
     public function category(){
-        return $this->belongsTo(Categorie::class);
+        return $this->belongsTo(Category::class);
     }
     public function images(){
         return $this->hasMany(Image::class);
