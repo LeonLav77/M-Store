@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->mediumText('description');
             $table->foreignId('category_id')->nullable();
-            $table->foreignId('image_id')->nullable();
+            // $table->foreignId('image_id')->nullable();
             $table->foreignId('discount_id')->nullable();
             $table->foreignId('details_id')->nullable();
             $table->foreignId('seller_id')->nullable();

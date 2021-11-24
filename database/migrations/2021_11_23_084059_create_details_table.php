@@ -15,12 +15,13 @@ class CreateDetailsTable extends Migration
     {
         Schema::create('details', function (Blueprint $table) {
             $table->id();
-            $table->string('size');
-            $table->string('condition');
-            $table->string('color');
-            $table->string('model');
-            $table->string('countryOfManifacture');
-            $table->mediumText('extraDescription');
+            $table->foreignId('product_id');
+            $table->string('size')->nullable();
+            $table->string('condition')->nullable();
+            $table->string('color')->nullable();
+            $table->string('model')->nullable();
+            $table->string('countryOfManifacture')->nullable();
+            $table->mediumText('extraDescription')->nullable();
             $table->timestamps();
         });
     }
