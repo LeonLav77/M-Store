@@ -22,5 +22,5 @@ class Product extends Model
     }
     public function details(){
         return $this->hasOne(Detail::class);
-    }                                                                                                                                                                                        
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+    }
+}
