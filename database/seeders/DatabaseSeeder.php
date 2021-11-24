@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Image;
+use App\Models\Stock;
 use App\Models\Detail;
 use App\Models\Seller;
 use App\Models\Product;
@@ -24,16 +25,18 @@ class DatabaseSeeder extends Seeder
     {
         // every seller is a user but not every user is a seller
         $arrayOfUsers = [];
-        for ($i = 0; $i < 10; $i++) {
+        $numberOfUsers = 500;
+        $numberOfProducts = 1000;
+        Category::factory(10)->create();
+        for ($i = 0; $i < $numberOfUsers; $i++) {
             if ($i % 2 == 0) {
             $seller = Seller::factory()
             ->for(User::factory()
-
-            ->has(ProfileImage::factory())
-            ->state([
-                'seller_id' => $i+1,
-                'imagePath' => $i+1,
-            ]))
+                ->has(ProfileImage::factory())
+                ->state([
+                    'seller_id' => $i+1,
+                    'imagePath' => $i+1,
+                ]))
             ->create();
         } else {
             User::factory()
@@ -43,25 +46,24 @@ class DatabaseSeeder extends Seeder
         }
         $arrayOfUsers[$i] = $seller;
         }
-        Category::factory(10)->create();
         // have to use for loop instead of count(10) or factory(10)
         // because for i need random values for user, but count produces
         // always the same random values
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < $numberOfProducts; $i++) {
             Product::factory()
                 ->has(Image::factory()->count(3))
-
-                ->for($arrayOfUsers[rand(0, 5)], 'seller')
+                ->has(Stock::factory())
+                ->for($arrayOfUsers[rand(0, ($numberOfUsers/2)-1)], 'seller')
                 ->has(Detail::factory())
                 ->state(
                     [
                     'details_id' => $i+1,
+                    'stock_id' => $i+1,
                 ]
                 )
 
                 ->create();
             if ($i % 2 == 0) {
-
                 $discount_id = DB::table('discounts')->insertGetId([
                     'discount' => rand(0, 50),
                     'product_id' => $i+1,
@@ -74,7 +76,3 @@ class DatabaseSeeder extends Seeder
         
     }
 }
-// ->state(new Sequence(
-//     ['seller_id' => null],
-//     ['seller_id' => 1],
-// ))

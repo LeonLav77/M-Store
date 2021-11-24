@@ -16,7 +16,7 @@ class DetailFactory extends Factory
         return [
             'size' => $this->faker->word,
             'condition' => $this->faker->word,
-            'color' => $this->faker->word,
+            'color' => $this->faker->colorName,
             'model' => $this->faker->word,
             'countryOfManifacture' => $this->faker->word,
             'extraDescription' => $this->faker->word,
