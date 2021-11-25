@@ -21,13 +21,31 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
+    protected static $categories = [
+        'Footwear',
+        'Bags',
+        'Accessories',
+        'Books',
+        'Electronics',
+        'Beauty',
+        'Clothing',
+        'Phones',
+        'Other',
+    ];
     public function run()
     {
         // every seller is a user but not every user is a seller
         $arrayOfUsers = [];
         $numberOfUsers = 500;
         $numberOfProducts = 1000;
-        Category::factory(10)->create();
+        $numberOfCategories = count(self::$categories);
+        for ($i=0; $i <$numberOfCategories ; $i++) { 
+            DB::table('categories')->insert([
+                'name' => self::$categories[$i],
+                'description' => 'yes',
+            ]);
+        }
+        // Category::factory(10)->create();
         for ($i = 0; $i < $numberOfUsers; $i++) {
             if ($i % 2 == 0) {
             $seller = Seller::factory()

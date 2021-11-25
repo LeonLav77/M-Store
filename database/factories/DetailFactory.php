@@ -14,12 +14,12 @@ class DetailFactory extends Factory
     public function definition()
     {
         return [
-            'size' => $this->faker->word,
-            'condition' => $this->faker->word,
-            'color' => $this->faker->colorName,
-            'model' => $this->faker->word,
-            'countryOfManifacture' => $this->faker->word,
-            'extraDescription' => $this->faker->word,
+            'size' => $this->faker->size,
+            'condition' => $this->faker->condition,
+            'color' => $this->faker->color,
+            'model' => $this->faker->model,
+            'countryOfManifacture' => $this->faker->countryOfManifacture,
+            'extraDescription' => $this->faker->sentence,
             
         ];
     }
