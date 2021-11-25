@@ -64,53 +64,6 @@ class FrameworkProvider extends Base
         'Clothing',
         'Other',
     ];
-    protected static $categoriess = [
-        'Footwear'=>[
-            'Shoes',
-            'Boots',
-            'Sandals',
-        ],
-        'Bags'=>[
-            'School Backpack',
-            'Hiking Backpack',
-            'Ski Backpack',
-        ],
-        'Accessories'=>[
-            'Rings',
-            'Necklaces',
-            'Bracelets',
-        ],
-        'Books'=>[
-            'Harry Potter',
-            'Lord Of The Rings',
-            'Eragon',
-            'The Hobbit',
-            'The Hunger Games',
-        ],
-        'Electronics'=>[
-            'Charger',
-            'Cable',
-            'Headphones',
-        ],
-        'Beauty'=>[
-            'Eyeliner',
-            'Lipbalm',
-            'Lipstick',
-            'Mascara',
-        ],
-        'Clothing'=>[
-            'Shirt',
-            'Pants',
-            'Shorts',
-            'Jacket',
-
-        ],
-        'Other'=>[
-            'Plates',
-            'Cups',
-            'Guitars'
-        ],
-    ];
     protected static $condition = [
         'New',
         'Used',
