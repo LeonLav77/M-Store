@@ -49,10 +49,6 @@ class FrameworkProvider extends Base
         'Pants',
         'Shorts',
         'Jacket',
-        'Samsung Galaxy s20',
-        'Iphone 13',
-        'Iphone 11',
-        'Iphone X',
         'Plates',
         'Cups',
         'Guitars'
@@ -66,8 +62,54 @@ class FrameworkProvider extends Base
         'Electronics',
         'Beauty',
         'Clothing',
-        'Phones',
         'Other',
+    ];
+    protected static $categoriess = [
+        'Footwear'=>[
+            'Shoes',
+            'Boots',
+            'Sandals',
+        ],
+        'Bags'=>[
+            'School Backpack',
+            'Hiking Backpack',
+            'Ski Backpack',
+        ],
+        'Accessories'=>[
+            'Rings',
+            'Necklaces',
+            'Bracelets',
+        ],
+        'Books'=>[
+            'Harry Potter',
+            'Lord Of The Rings',
+            'Eragon',
+            'The Hobbit',
+            'The Hunger Games',
+        ],
+        'Electronics'=>[
+            'Charger',
+            'Cable',
+            'Headphones',
+        ],
+        'Beauty'=>[
+            'Eyeliner',
+            'Lipbalm',
+            'Lipstick',
+            'Mascara',
+        ],
+        'Clothing'=>[
+            'Shirt',
+            'Pants',
+            'Shorts',
+            'Jacket',
+
+        ],
+        'Other'=>[
+            'Plates',
+            'Cups',
+            'Guitars'
+        ],
     ];
     protected static $condition = [
         'New',
@@ -116,10 +158,6 @@ class FrameworkProvider extends Base
     {
         return static::randomElement(static::$colors);
     }
-    public function category(): string
-    {
-        return static::randomElement(static::$categories);
-    }
     public function condition(): string
     {
         return static::randomElement(static::$condition);
@@ -131,6 +169,10 @@ class FrameworkProvider extends Base
     public function countryOfManifacture(): string
     {
         return static::randomElement(static::$countryOfManifacture);
+    }
+    public function category(): string
+    {
+        return static::randomElement(static::$categories);
     }
     public function product(): string
     {

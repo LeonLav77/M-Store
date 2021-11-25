@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory;
 use App\Models\User;
 use App\Models\Image;
 use App\Models\Stock;
@@ -34,18 +35,20 @@ class DatabaseSeeder extends Seeder
     ];
     public function run()
     {
+        $this->faker = \Faker\Factory::create();
         // every seller is a user but not every user is a seller
         $arrayOfUsers = [];
         $numberOfUsers = 500;
         $numberOfProducts = 1000;
         $numberOfCategories = count(self::$categories);
+
         for ($i=0; $i <$numberOfCategories ; $i++) { 
             DB::table('categories')->insert([
                 'name' => self::$categories[$i],
-                'description' => 'yes',
+                'description' => $this->faker->sentence,
             ]);
         }
-        // Category::factory(10)->create();
+        
         for ($i = 0; $i < $numberOfUsers; $i++) {
             if ($i % 2 == 0) {
             $seller = Seller::factory()
