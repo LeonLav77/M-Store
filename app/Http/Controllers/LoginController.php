@@ -10,10 +10,12 @@ class LoginController extends Controller
 {
     //
 
-    public function loginWithGithub(){
+    public function loginWithGithub()
+    {
         return Socialite::driver('github')->redirect();
     }
-    public function handleGithubCallback(){
+    public function handleGithubCallback()
+    {
         $githubUser = Socialite::driver('github')->user();
         $user = User::firstOrCreate([
             'name' => $githubUser->getName(),

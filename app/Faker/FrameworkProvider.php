@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Faker;
+
 use Faker\Provider\Base;
 
 class FrameworkProvider extends Base

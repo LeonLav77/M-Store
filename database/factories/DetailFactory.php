@@ -20,7 +20,7 @@ class DetailFactory extends Factory
             'model' => $this->faker->model,
             'countryOfManifacture' => $this->faker->countryOfManifacture,
             'extraDescription' => $this->faker->sentence,
-            
+
         ];
     }
 }

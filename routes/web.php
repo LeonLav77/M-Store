@@ -14,13 +14,13 @@ use App\Http\Controllers\LoginController;
 |
 */
 Route::view('/{path?}', 'app')->middleware('');
-Route::view('/','welcome');
+Route::view('/', 'welcome');
 Route::view('/register', 'register')->middleware(['guest']);
 Route::view('/login', 'login')->middleware(['guest']);
 
-Route::get('/login/github',[LoginController::class, 'loginWithGithub']);
+Route::get('/login/github', [LoginController::class, 'loginWithGithub']);
 
-Route::get('/login/github/callback',[LoginController::class, 'handleGithubCallback']);
+Route::get('/login/github/callback', [LoginController::class, 'handleGithubCallback']);
 // Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

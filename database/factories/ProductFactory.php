@@ -61,7 +61,6 @@ class ProductFactory extends Factory
     ];
     public function definition()
     {
-        
         $this->category = $this->faker->category;
         $this->subCategory = static::$categories[$this->category];
         $this->product = $this->faker->randomElement($this->subCategory);

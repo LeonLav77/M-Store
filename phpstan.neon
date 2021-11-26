@@ -1,0 +1,22 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app
+        - database
+
+    # The level 8 is the highest level
+    level: 5
+
+    ignoreErrors:
+        - '#Access to an undefined property [a-zA-Z0-9\\_]#'
+        - '#Method App\\Http\\Controllers\\Auth\\EmailVerificationNotificationController::store\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\[a-zA-Z0-9\\_]#'
+
+    excludePaths:
+        - ./database/factories
+    
+    reportUnmatchedIgnoredErrors: false
+
+    checkMissingIterableValueType: false

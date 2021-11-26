@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Faker\FrameworkProvider;
-use Faker\{Factory, Generator};
+use Faker\Factory;
+use Faker\Generator;
 use Illuminate\Support\ServiceProvider;
+
 class FakerServiceProvider extends ServiceProvider
 {
     public function register(): void

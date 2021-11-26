@@ -42,16 +42,16 @@ class DatabaseSeeder extends Seeder
         $numberOfProducts = 1000;
         $numberOfCategories = count(self::$categories);
 
-        for ($i=0; $i <$numberOfCategories ; $i++) { 
+        for ($i=0; $i <$numberOfCategories ; $i++) {
             DB::table('categories')->insert([
                 'name' => self::$categories[$i],
                 'description' => $this->faker->sentence,
             ]);
         }
-        
+
         for ($i = 0; $i < $numberOfUsers; $i++) {
             if ($i % 2 == 0) {
-            $seller = Seller::factory()
+                $seller = Seller::factory()
             ->for(User::factory()
                 ->has(ProfileImage::factory())
                 ->state([
@@ -59,13 +59,13 @@ class DatabaseSeeder extends Seeder
                     'imagePath' => $i+1,
                 ]))
             ->create();
-        } else {
-            User::factory()
+            } else {
+                User::factory()
             ->state(['imagePath' => $i+1])
             ->has(ProfileImage::factory())
             ->create();
-        }
-        $arrayOfUsers[$i] = $seller;
+            }
+            $arrayOfUsers[$i] = $seller;
         }
         // have to use for loop instead of count(10) or factory(10)
         // because for i need random values for user, but count produces
@@ -94,6 +94,5 @@ class DatabaseSeeder extends Seeder
                     ->update(['discount_id' => $discount_id]);
             }
         }
-        
     }
 }
