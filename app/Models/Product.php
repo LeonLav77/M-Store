@@ -25,10 +25,25 @@ class Product extends Model
     {
         $results = $query->where('discount_id', '!=', null)->get();
         for ($i=0; $i < count($results); $i++) {
-            $results[$i]->discount_price = $results[$i]->price - ($results[$i]->price * $results[$i]->discount->discount / 100);
+            $results[$i]->currentPrice = $results[$i]->price - ($results[$i]->price * $results[$i]->discount->discount / 100);
         }
         return $results;
     }
+    // returns all products and the discounted ones with discount applied
+    public function scopeAllProductsWithDiscounts($query)
+        {
+            $results = $query->get();
+            for ($i=0; $i < count($results); $i++) {
+                if(isset($results[$i]->discount_id)) 
+                {
+                    $results[$i]->currentPrice = $results[$i]->price - ($results[$i]->price * $results[$i]->discount->discount / 100);
+                }
+                else{
+                    $results[$i]->currentPrice = $results[$i]->price;
+                }
+            }
+            return $results;
+        }
     // returns all discounted products
     public function scopeDiscounted($query)
     {
@@ -39,7 +54,7 @@ class Product extends Model
     {
         $result = $query->where('discount_id', '!=', null)->where('id', $id)->first();
         if ($result) {
-            $result->discount_price = $result->price - ($result->price * $result->discount->discount / 100);
+            $result->currentPrice = $result->price - ($result->price * $result->discount->discount / 100);
             return $result;
         }
         return null;

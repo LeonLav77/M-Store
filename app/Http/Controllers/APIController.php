@@ -51,4 +51,9 @@ class APIController extends Controller
         $products = Product::DiscountedItem($id);
         return response()->json($products);
     }
+
+    public function getAllProductsRealPrice(){
+        $products = Product::AllProductsWithDiscounts();
+        return response()->json($products);
+    }
 }
