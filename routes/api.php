@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\APIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,21 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+// All products
+Route::get('/allProducts',[APIController::class,'getAllProducts']);
+
+// Specific product, probably not going to be used because there is a better function
+Route::get('/productById/{id}',[APIController::class,'getProductById']);
+// Specific product with its disc price
+Route::get('/DiscProductWithPrice/{id}',[APIController::class,'getDiscProductWithPrice']);
+
+// All products of a category
+Route::get('/productsByCategory/{category}',[APIController::class,'getProductsByCategory']);
+
+// They return the same result, but the first one has a calculated price
+// if backend gets too slow we can switch to using the second one and
+// calculate the price on the frontend
+Route::get('/discountedProducts',[APIController::class,'getDiscountedProducts']);
+Route::get('/discountedProductsInfo',[APIController::class,'getDiscountedProductsInfo']);
+
+

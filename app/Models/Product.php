@@ -32,7 +32,7 @@ class Product extends Model
     // returns all discounted products
     public function scopeDiscounted($query)
     {
-        return $query->where('discount_id', '!=', null);
+        return $query->where('discount_id', '!=', null)->with('discount');
     }
     // returns a product with discount applied
     public function scopeDiscountedItem($query, $id)

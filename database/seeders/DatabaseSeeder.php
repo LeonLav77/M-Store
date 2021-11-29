@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->faker = \Faker\Factory::create();
         // every seller is a user but not every user is a seller
         $arrayOfUsers = [];
+        $seller = 0;
         $numberOfUsers = 500;
         $numberOfProducts = 1000;
         $numberOfCategories = count(self::$categories);
