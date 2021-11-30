@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +38,4 @@ Route::get('/productsByCategory/{category}',[APIController::class,'getProductsBy
 Route::get('/discountedProducts',[APIController::class,'getDiscountedProducts']);
 Route::get('/discountedProductsInfo',[APIController::class,'getDiscountedProductsInfo']);
 
-
+Route::resource('cart', CartController::class);
