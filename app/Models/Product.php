@@ -16,8 +16,15 @@ class Product extends Model
     // return all in stock products
     public function scopeInStock($query)
     {
-        return $query->get()->filter(function ($product) {
-            return $product->stock->isInStock;
+        return $query->whereHas('stock', function ($query) {
+            $query->where('isInStock', true);
+        });
+    }
+    // return all out of stock products
+    public function scopeOutOfStock($query)
+    {
+        return $query->whereHas('stock', function ($query) {
+            $query->where('isInStock', false);
         });
     }
     // returns all discounted products with discount applied
@@ -44,20 +51,17 @@ class Product extends Model
             }
             return $results;
         }
-    // returns all discounted products
-    public function scopeDiscounted($query)
-    {
-        return $query->where('discount_id', '!=', null)->with('discount');
-    }
     // returns a product with discount applied
     public function scopeDiscountedItem($query, $id)
     {
-        $result = $query->where('discount_id', '!=', null)->where('id', $id)->first();
-        if ($result) {
+        $result = $query->findOrFail($id);
+        if (isset($result->discount_id)) {
             $result->currentPrice = $result->price - ($result->price * $result->discount->discount / 100);
-            return $result;
         }
-        return null;
+        else{
+            $result->currentPrice = $result->price;
+        }
+        return $result;
     }
     public function seller()
     {

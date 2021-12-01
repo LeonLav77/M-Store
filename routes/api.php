@@ -19,23 +19,42 @@ use App\Http\Controllers\CartController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// WCP = With Current Price
+// Product routes can be refactored into resource routes
+
+
 // All products, probably not going to be used because there is a better version
 Route::get('/allProducts',[APIController::class,'getAllProducts']);
 // All products, with the current price
-Route::get('/allProductsWithRealPrice',[APIController::class,'getAllProductsRealPrice']);
+Route::get('/allProductsWCP',[APIController::class,'getAllProductsRealPrice']);
 
 // Specific product, probably not going to be used because there is a better function
 Route::get('/productById/{id}',[APIController::class,'getProductById']);
 // Specific product with its current price
-Route::get('/DiscProductWithPrice/{id}',[APIController::class,'getDiscProductWithPrice']);
+Route::get('/productWCP/{id}',[APIController::class,'getDiscProductWithPrice']);
 
+// Get all categories with their info
+Route::get('/categories',[APIController::class,'getCategories']);
+// Get all category names
+Route::get('/categoryNames',[APIController::class,'getCategoryNames']);
 // All products of a category
-Route::get('/productsByCategory/{category}',[APIController::class,'getProductsByCategory']);
+Route::get('/productsByCategory/{categoryName}',[APIController::class,'getProductsByCategory']);
+// All products of a category with their current price
+Route::get('/productsByCategoryWCP/{categoryName}',[APIController::class,'getProductsByCategoryWCP']);
 
-// They return the same result, but the first one has a calculated price
-// if backend gets too slow we can switch to using the second one and
-// calculate the price on the frontend
+// Return discounted products
 Route::get('/discountedProducts',[APIController::class,'getDiscountedProducts']);
-Route::get('/discountedProductsInfo',[APIController::class,'getDiscountedProductsInfo']);
+
+// Get all In stock products
+Route::get('/inStockProducts',[APIController::class,'getInStockProducts']);
+
+Route::get('/OutOfStockProducts',[APIController::class,'getOutOfStockProducts']);
+
+Route::get('/inStockProduct/{id}',[APIController::class,'getInStockProduct']);
+
+Route::get('/complexFilterSearch',[APIController::class,'getComplexFilterSearch']);
+
+Route::get('/test',[APIController::class,'test']);
 
 Route::resource('cart', CartController::class);

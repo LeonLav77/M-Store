@@ -13,6 +13,7 @@ parameters:
     ignoreErrors:
         - '#Access to an undefined property [a-zA-Z0-9\\_]#'
         - '#Method App\\Http\\Controllers\\Auth\\EmailVerificationNotificationController::store\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\[a-zA-Z0-9\\_]#'
+        - '#Call to an undefined method Illuminate\\Database\\Schema\\[a-zA-Z0-9\\_]#'
 
     excludePaths:
         - ./database/factories

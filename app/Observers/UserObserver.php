@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use Carbon\Carbon;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -16,10 +17,12 @@ class UserObserver
      */
     public function created(User $user)
     {
-        DB::table('carts')->insert([
-            'user_id' => 1,
-            'created_at' => Carbon::now(), 
+        Cart::create([
+            'user_id' => $user->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
+        User::where('id',$user->id)->update(['cart_id' => $user->cart->id]);
     }
 
     /**

@@ -13,10 +13,11 @@ use App\Http\Controllers\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::view('/{path?}', 'app');
-Route::view('/', 'welcome');
-Route::view('/register', 'register')->middleware(['guest']);
-Route::view('/login', 'login')->middleware(['guest']);
+Route::get('/{path?}', function () {
+    return view('app');
+})->where('path', '.*');
+// Route::view('/register', 'register')->middleware(['guest']);
+// Route::view('/login', 'login')->middleware(['guest']);
 
 Route::get('/login/github', [LoginController::class, 'loginWithGithub']);
 

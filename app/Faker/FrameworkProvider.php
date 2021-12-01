@@ -16,17 +16,17 @@ class FrameworkProvider extends Base
         'XXXL',
     ];
     protected static $colors = [
-        'red',
-        'blue',
-        'green',
-        'yellow',
-        'black',
-        'white',
-        'grey',
-        'orange',
-        'purple',
-        'pink',
-        'brown',
+        'Red',
+        'Blue',
+        'Green',
+        'Yellow',
+        'Black',
+        'White',
+        'Grey',
+        'Orange',
+        'Purple',
+        'Pink',
+        'Brown',
     ];
     protected static $products = [
         'Shoes',
@@ -50,9 +50,9 @@ class FrameworkProvider extends Base
         'Pants',
         'Shorts',
         'Jacket',
-        'Plates',
-        'Cups',
-        'Guitars'
+        'Plate',
+        'Cup',
+        'Guitar'
 
     ];
     protected static $categories = [

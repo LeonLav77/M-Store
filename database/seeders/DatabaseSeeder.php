@@ -39,8 +39,8 @@ class DatabaseSeeder extends Seeder
         // every seller is a user but not every user is a seller
         $arrayOfUsers = [];
         $seller = 0;
-        $numberOfUsers = 500;
-        $numberOfProducts = 1000;
+        $numberOfUsers = 100;
+        $numberOfProducts = 2000;
         $numberOfCategories = count(self::$categories);
 
         for ($i=0; $i <$numberOfCategories ; $i++) {

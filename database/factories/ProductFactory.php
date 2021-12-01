@@ -24,9 +24,9 @@ class ProductFactory extends Factory
             'Ski Backpack',
         ],
         'Accessories'=>[
-            'Rings',
-            'Necklaces',
-            'Bracelets',
+            'Ring',
+            'Necklace',
+            'Bracelet',
         ],
         'Books'=>[
             'Harry Potter',
@@ -54,9 +54,9 @@ class ProductFactory extends Factory
 
         ],
         'Other'=>[
-            'Plates',
-            'Cups',
-            'Guitars'
+            'Plate',
+            'Cup',
+            'Guitar'
         ],
     ];
     public function definition()

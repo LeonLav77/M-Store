@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
             // $table->foreignId('image_id')->nullable();
             $table->foreignId('discount_id')->nullable();
             $table->foreignId('details_id')->nullable();
-            $table->foreignId('seller_id')->nullable();
+            $table->foreignId('seller_id')->nullable()->onDelete('cascade');
             $table->foreignId('stock_id')->nullable();
             $table->timestamps();
         });

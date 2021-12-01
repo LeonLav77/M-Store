@@ -17,7 +17,7 @@ class DetailFactory extends Factory
             'size' => $this->faker->size,
             'condition' => $this->faker->condition,
             'color' => $this->faker->color,
-            'model' => $this->faker->model,
+            'brand' => $this->faker->model,
             'countryOfManifacture' => $this->faker->countryOfManifacture,
             'extraDescription' => $this->faker->sentence,
 
