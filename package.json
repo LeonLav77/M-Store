@@ -27,6 +27,8 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
-        "react-router-dom": "^6.0.2"
+        "react-router-dom": "^6.0.2",
+        "ts-loader": "^9.2.6",
+        "typescript": "^4.5.2"
     }
 }
