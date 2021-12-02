@@ -139,7 +139,7 @@ class APIController extends Controller
         return response()->json($products);
     }
     public function test(){
-        $product = Product::limit(10)->get();
+        $product = Product::first();
             // if (isset($product->discount_id)) {
             //     $product->currentPrice = $product->price - ($product->price * $product->discount->discount / 100);
             // }

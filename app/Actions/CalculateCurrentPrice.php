@@ -2,6 +2,9 @@
 
 namespace App\Actions;
 
+use App\Models\Product;
+
+use function PHPSTORM_META\type;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class CalculateCurrentPrice
@@ -10,13 +13,27 @@ class CalculateCurrentPrice
 
     public function handle($product)
     {
-        if(is_array($product)){
+        if($product instanceof \Illuminate\Database\Eloquent\Collection){
             $product = collect($product);
             foreach($product as $p){
-                $p->current_price = $p->price * (1 - $p->discount / 100);
+                // return $p->discount->discount;
+                if (isset($p->discount)) {
+                    $p->current_price = $p->price - ($p->price * $p->discount->discount / 100);
+                }
+                else {
+                    $p->current_price = $p->price;
+                }
+            }
+            return $product;
+        }else{
+            if (isset($product->discount)) {
+                $product->current_price = $product->price - ($product->price * $product->discount->discount / 100);
+            }
+            else {
+                $product->current_price = $product->price;
             }
             return $product;
         }
-        return $product;
+        return 'Error has occured';
     }
 }
