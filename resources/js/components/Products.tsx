@@ -6,8 +6,8 @@ export const Products = () => {
     const [data, setData] = useState([]);
     const getData = () => {
         return axios
-            .get("http://m-store.ddns.net/api/allProductsWithRealPrice")
-            .then((res) => res.data.map((item) => setData(res.data)))
+            .get("http://127.0.0.1:8000/api/allProductsWCP")
+            .then((res) => setData(res.data))
             .catch((err) => console.log(err));
     };
     useEffect(() => {
@@ -31,6 +31,7 @@ export const Products = () => {
                             <Link
                                 to={`/products/${item.id}`}
                                 style={{ fontSize: 32 }}
+                                state={{ item }}
                             >
                                 {item.name}
                             </Link>
@@ -39,8 +40,7 @@ export const Products = () => {
                                 {item.discount?.discount
                                     ? "Discout: "
                                     : "Current Price: "}
-                                {item.discount?.discount ??
-                                    item.currentPrice.toFixed(2)}
+                                {item.discount?.discount ?? item.currentPrice}
                                 Kn
                             </h3>
                         </div>

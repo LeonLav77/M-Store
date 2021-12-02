@@ -1,9 +1,6 @@
-// const helloWorld = require("./components/hello-world").helloWorld();
 import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import your route components too
-import { Header } from "./components/Header";
 import { Nesto } from "./components/Nesto";
 import { Miguel } from "./components/Miguel";
 import { Drugi } from "./components/Drugi";
