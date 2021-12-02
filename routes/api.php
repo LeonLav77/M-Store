@@ -48,13 +48,15 @@ Route::get('/discountedProducts',[APIController::class,'getDiscountedProducts'])
 
 // Get all In stock products
 Route::get('/inStockProducts',[APIController::class,'getInStockProducts']);
-
+// Get all Out of stock products
 Route::get('/OutOfStockProducts',[APIController::class,'getOutOfStockProducts']);
-
+// See if a product is in stock
 Route::get('/inStockProduct/{id}',[APIController::class,'getInStockProduct']);
-
+// A search with a many options
 Route::get('/complexFilterSearch',[APIController::class,'getComplexFilterSearch']);
-
+// route for testing
 Route::get('/test',[APIController::class,'test']);
-
-Route::resource('cart', CartController::class);
+// Contents of your cart
+Route::get('/cart',[CartController::class,'getCart']);
+// Add an item to cart
+Route::post('/addItemToCart',[CartController::class,'addItemToCart']);

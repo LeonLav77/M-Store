@@ -16,7 +16,7 @@ class APIController extends Controller
     }
     public function getProductById($id)
     {
-        $product = Product::find($id);
+        $product = Product::with('Images')->find($id);
         return response()->json($product);
     }
     public function getProductsByCategory($categoryName){
@@ -24,17 +24,10 @@ class APIController extends Controller
         return response()->json($products);
     }
 
-    public function getProductsByCategoryWCP($categoryName){
-        $products = Category::where('name', $categoryName)->get()[0]->products->map(function($product){
-            if (isset($product->discount_id)) {
-                $product->currentPrice = $product->price - ($product->price * $product->discount->discount / 100);
-            }
-            else{
-                $product->currentPrice = $product->price;
-            }
-            return $product;
-        });
-        return response()->json($products);
+    public function getProductsByCategoryWCP($categoryName, request $request){
+        $products = Category::where('name', $categoryName)->get()[0]->products->take($request->numberOfProducts);
+        return CalculateCurrentPrice::run($products);
+        
     }
 
     public function getCategories(){
@@ -47,18 +40,6 @@ class APIController extends Controller
         $categoryNames = Category::all()->pluck('name');
         return response()->json($categoryNames);
     }
-    // public function getProductsByPrice($min, $max){
-    //     $products = Product::whereBetween('price', [$min, $max])->get();
-    //     return response()->json($products);
-    // }
-    // public function getProductsByName($name){
-    //     $products = Product::where('name', 'like', '%'.$name.'%')->get();
-    //     return response()->json($products);
-    // }
-    // public function getProductsByNameAndPrice($name, $min, $max){
-    //     $products = Product::where('name', 'like', '%'.$name.'%')->whereBetween('price', [$min, $max])->get();
-    //     return response()->json($products);
-    // }
 
     public function getDiscountedProducts(){
         $products = Product::DiscountedAll();
@@ -139,14 +120,7 @@ class APIController extends Controller
         return response()->json($products);
     }
     public function test(){
-        $product = Product::first();
-            // if (isset($product->discount_id)) {
-            //     $product->currentPrice = $product->price - ($product->price * $product->discount->discount / 100);
-            // }
-            // else{
-            //     $product->currentPrice = $product->price;
-            // }
-        // });
+        $product = Product::take(5)->get();
         return CalculateCurrentPrice::run($product);
     }
 }
