@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Actions\CalculateCurrentPrice;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -13,6 +14,8 @@ class Product extends Model
         $product = $query->where('id', $id)->first();
         return $product->stock->isInStock;
     }
+
+    // awfully slow
     // return all in stock products
     public function scopeInStock($query)
     {
@@ -27,41 +30,31 @@ class Product extends Model
             $query->where('isInStock', false);
         });
     }
+
+
     // returns all discounted products with discount applied
     public function scopeDiscountedAll($query)
     {
-        $results = $query->where('discount_id', '!=', null)->get();
-        for ($i=0; $i < count($results); $i++) {
-            $results[$i]->currentPrice = $results[$i]->price - ($results[$i]->price * $results[$i]->discount->discount / 100);
-        }
-        return $results;
+        $products = $query->where('discount_id', '!=', null)->get();
+        return CalculateCurrentPrice::run($products); 
     }
     // returns all products and the discounted ones with discount applied
     public function scopeAllProductsWithDiscounts($query)
         {
-            $results = $query->get();
-            for ($i=0; $i < count($results); $i++) {
-                if(isset($results[$i]->discount_id)) 
-                {
-                    $results[$i]->currentPrice = $results[$i]->price - ($results[$i]->price * $results[$i]->discount->discount / 100);
-                }
-                else{
-                    $results[$i]->currentPrice = $results[$i]->price;
-                }
-            }
-            return $results;
+            $products = $query->get();
+            return CalculateCurrentPrice::run($products); 
         }
     // returns a product with discount applied
     public function scopeDiscountedItem($query, $id)
     {
-        $result = $query->findOrFail($id);
-        if (isset($result->discount_id)) {
-            $result->currentPrice = $result->price - ($result->price * $result->discount->discount / 100);
-        }
-        else{
-            $result->currentPrice = $result->price;
-        }
-        return $result;
+        $products = $query->findOrFail($id);
+        
+        return CalculateCurrentPrice::run($products);
+    }
+    // testing Function, to delete before production
+    public function scopeNth($query, $id)
+    {
+        return $query->take(1)->skip($id-1)->get();
     }
     public function seller()
     {
