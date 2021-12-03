@@ -1,16 +1,17 @@
 import React from "react";
 import { useLocation } from "react-router";
+import "../../css/app.css";
 
 export const Product = () => {
     const location = useLocation();
     const {
-        item: { name, description, currentPrice },
+        item: { name, description, current_price },
     } = location.state;
     return (
         <div>
-            <h1>{name}</h1>
+            <h1 className="main">{name}</h1>
             <p>{description}</p>
-            <h3>{currentPrice.toFixed(2)}</h3>
+            <h3>{current_price.toFixed(2)}</h3>
         </div>
     );
 };

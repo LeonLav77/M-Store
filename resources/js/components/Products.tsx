@@ -40,7 +40,7 @@ export const Products = () => {
                                 {item.discount?.discount
                                     ? "Discout: "
                                     : "Current Price: "}
-                                {item.discount?.discount ?? item.currentPrice}
+                                {item.discount?.discount ?? item.current_price}
                                 Kn
                             </h3>
                         </div>
