@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
@@ -13,15 +14,15 @@ use App\Http\Controllers\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/{path?}', function () {
-    return view('app');
-})->where('path', '.*');
+Auth::routes();
+// Route::get('/{path?}', function () {
+    // return view('app');
+// })->where('path', '.*');
 // Route::view('/register', 'register')->middleware(['guest']);
 // Route::view('/login', 'login')->middleware(['guest']);
 
 Route::get('/login/github', [LoginController::class, 'loginWithGithub']);
 
 Route::get('/login/github/callback', [LoginController::class, 'handleGithubCallback']);
-// Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

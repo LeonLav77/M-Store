@@ -3,16 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\User;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
 
     public function getCart()
     {
-        $products = Cart::first()->productsInCart;
-        return response()->json($products);
+        if (Auth::check()) {
+            $user = Auth::user();
+            $cart = $user->cart;
+            $cartItems = $cart->cartItems;
+            return response()->json($cart);
+        }
+        return response()->json(['message' => 'You are not logged in']);
+        $cart = Cart::where('user_id', Auth::user()->id)->first();        
     }
 
     public function addItemToCart(){
