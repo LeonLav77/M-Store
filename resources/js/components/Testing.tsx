@@ -3,30 +3,52 @@ import axios from "axios";
 
 export const Testing = () => {
     const Login = () =>
-        axios
-            .get("nisto")
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+    axios({
+        method: 'post',
+        url: '/auth/login',
+        data: {
+          email: 'leon@gmail.com',
+          password: 'password'
+        }
+      }).then((res) => console.log(res))
+      .catch((err) => console.log(err));
     const Logout = () =>
-        axios
-            .get("nisto")
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+    axios({
+        method: 'post',
+        url: '/logout',
+        })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+
     const Check = () =>
-        axios
-            .get("nisto")
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+    axios({
+        method: 'post',
+        url: '/api/checkIfLoggedIn',
+      })
+     .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+
     const Register = () =>
-        axios
-            .get("nisto")
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+    axios({
+        method: 'post',
+        url: '/register',
+        data: {
+          name: 'Leon',
+          email: 'leonlav7@gmail.com',
+          password: 'password',
+          password_confirmation:'password'
+        }
+      })
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+
     const Cart = () =>
-        axios
-            .get("nisto")
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+        axios({
+            method: 'get',
+            url: '/api/cart',
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
     return (
         <div>
             <button onClick={() => Login()}>Login</button>

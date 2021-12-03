@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Actions\CalculateCurrentPrice;
 
 class APIController extends Controller
@@ -122,5 +123,11 @@ class APIController extends Controller
     public function test(){
         $product = Product::take(5)->get();
         return CalculateCurrentPrice::run($product);
+    }
+    public function checkIfLoggedIn(){
+        if (auth()->check()) {
+            return response()->json(['message' => 'Logged in']);
+        }
+        return response()->json(['message' => 'Not logged in']);
     }
 }

@@ -60,3 +60,5 @@ Route::get('/test',[APIController::class,'test']);
 Route::get('/cart',[CartController::class,'getCart']);
 // Add an item to cart
 Route::post('/addItemToCart',[CartController::class,'addItemToCart']);
+
+Route::post('/checkIfLoggedIn',[APIController::class,'checkIfLoggedIn']);
