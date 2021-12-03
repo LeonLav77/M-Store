@@ -13,6 +13,7 @@ class CartController extends Controller
 
     public function getCart()
     {
+        return Auth::user();
         if (Auth::check()) {
             $user = Auth::user();
             $cart = $user->cart;

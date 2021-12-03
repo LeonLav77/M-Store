@@ -15,9 +15,9 @@ use App\Http\Controllers\LoginController;
 |
 */
 Auth::routes();
-// Route::get('/{path?}', function () {
-    // return view('app');
-// })->where('path', '.*');
+Route::get('/{path?}', function () {
+    return view('app');
+})->where('path', '.*');
 // Route::view('/register', 'register')->middleware(['guest']);
 // Route::view('/login', 'login')->middleware(['guest']);
 
