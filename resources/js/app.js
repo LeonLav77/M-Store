@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Nesto } from "./components/Nesto";
 import { Miguel } from "./components/Miguel";
 import { Drugi } from "./components/Drugi";
+import { Testing } from "./components/Testing";
 import { Products } from "./components/Products";
 import { Product } from "./components/Product";
 import { Home } from "./components/Home";
@@ -15,6 +16,7 @@ render(
             <Route path="products" element={<Products />} />
             <Route path="products/:productId" element={<Product />} />
             <Route path="nesto" element={<Nesto></Nesto>} />
+            <Route path="testing" element={<Testing></Testing>} />
             <Route path="/miguel" element={<Miguel />}>
                 <Route path="drugi" element={<Drugi />} />
             </Route>
