@@ -44,19 +44,24 @@ export const Product = () => {
                     </div>
                     <h3 className="product_price">
                         <span className="current_price_span">
-                            Current Price:{" "}
-                        </span>
+                            Current Price:
+                        </span>{" "}
                         {discount ? (
                             <>
                                 <span className="crossed">
                                     {current_price.toFixed(2)}
                                 </span>
-                                <span>{discount.discount.toFixed(2)} </span>
+                                <span>{discount.discount.toFixed(2)} Kn</span>
                             </>
                         ) : (
-                            <span>{current_price.toFixed(2)} </span>
+                            <span
+                                style={{
+                                    letterSpacing: 2,
+                                }}
+                            >
+                                {current_price.toFixed(2)} Kn
+                            </span>
                         )}
-                        Kn
                     </h3>
                     <div className="product_buttons">
                         <button>Add To Cart</button>

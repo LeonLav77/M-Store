@@ -112,6 +112,7 @@
 .crossed {
     position: relative;
     margin: 10px;
+    letter-spacing: 1px;
 }
 .crossed::after {
     content: " ";
@@ -120,7 +121,7 @@
     top: 43%;
     width: 70px;
     height: 3px;
-    transform: rotateZ(-20deg);
+    transform: rotateZ(-25deg);
     background-color: black;
 }
 .current_price_span {
