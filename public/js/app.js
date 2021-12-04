@@ -2271,7 +2271,7 @@ var Testing = function Testing() {
   var Login = function Login() {
     return (0, axios_1["default"])({
       method: 'post',
-      url: '/login',
+      url: '/auth/login',
       data: {
         email: 'leonlav77@gmail.com',
         password: 'password'
@@ -2286,7 +2286,7 @@ var Testing = function Testing() {
   var Logout = function Logout() {
     return (0, axios_1["default"])({
       method: 'post',
-      url: '/logout'
+      url: '/auth/logout'
     }).then(function (res) {
       return console.log(res);
     })["catch"](function (err) {
@@ -2308,10 +2308,10 @@ var Testing = function Testing() {
   var Register = function Register() {
     return (0, axios_1["default"])({
       method: 'post',
-      url: '/register',
+      url: '/auth/register',
       data: {
         name: 'Leon',
-        email: 'leonlav7@gmail.com',
+        email: 'leonlav77@gmail.com',
         password: 'password',
         password_confirmation: 'password'
       }
