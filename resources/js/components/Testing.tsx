@@ -7,7 +7,7 @@ export const Testing = () => {
         method: 'post',
         url: '/auth/login',
         data: {
-          email: 'leon@gmail.com',
+          email: 'leonlav77@gmail.com',
           password: 'password'
         }
       }).then((res) => console.log(res))
@@ -15,7 +15,7 @@ export const Testing = () => {
     const Logout = () =>
     axios({
         method: 'post',
-        url: '/logout',
+        url: '/auth/logout',
         })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
@@ -31,10 +31,10 @@ export const Testing = () => {
     const Register = () =>
     axios({
         method: 'post',
-        url: '/register',
+        url: '/auth/register',
         data: {
           name: 'Leon',
-          email: 'leonlav7@gmail.com',
+          email: 'leonlav77@gmail.com',
           password: 'password',
           password_confirmation:'password'
         }
