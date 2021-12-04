@@ -18,4 +18,12 @@ Auth::routes();
 
 Route::get('/{path?}', function () {
     return view('app');
-})->where('path', '.*')->middleware('auth');
+})->where('path', '.*');
+// Route::view('/register', 'register')->middleware(['guest']);
+// Route::view('/login', 'login')->middleware(['guest']);
+
+Route::get('/login/github', [LoginController::class, 'loginWithGithub']);
+
+Route::get('/login/github/callback', [LoginController::class, 'handleGithubCallback']);
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

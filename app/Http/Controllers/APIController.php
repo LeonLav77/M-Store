@@ -125,9 +125,8 @@ class APIController extends Controller
         return CalculateCurrentPrice::run($product);
     }
     public function checkIfLoggedIn(){
-        if (auth()->check()) {
-            return response()->json(['message' => 'Logged in']);
-        }
-        return response()->json(['message' => 'Not logged in']);
+        $message = ( auth()->check() ) ? ['message' => 'Logged In'] : ['message' => 
+              'Not Logged In'];
+        return response()->json($message);
     }
 }
