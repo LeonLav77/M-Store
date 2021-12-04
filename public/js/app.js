@@ -2162,7 +2162,8 @@ var Product = function Product() {
   var _b = location.state.item,
       name = _b.name,
       description = _b.description,
-      current_price = _b.current_price;
+      current_price = _b.current_price,
+      discount = _b.discount;
   return react_1["default"].createElement("div", {
     className: "main_container"
   }, react_1["default"].createElement("div", {
@@ -2170,19 +2171,43 @@ var Product = function Product() {
   }, react_1["default"].createElement("div", {
     className: "product_img_container"
   }, react_1["default"].createElement("div", {
-    className: "on_sale"
-  }, react_1["default"].createElement("h1", null, "SALE")), react_1["default"].createElement("div", {
+    className: discount ? "on_sale" : "hide"
+  }, react_1["default"].createElement("h1", null, "ON SALE")), react_1["default"].createElement("div", {
     className: "zoom_in_icon"
   }, react_1["default"].createElement("img", {
-    src: (__webpack_require__(/*! ../../images/search_icon.png */ "./resources/images/search_icon.png")["default"])
+    src: (__webpack_require__(/*! ../../images/search_icon.png */ "./resources/images/search_icon.png")["default"]),
+    width: "25",
+    height: "25"
   })), react_1["default"].createElement("img", {
     className: "product_image",
     src: "#"
   })), react_1["default"].createElement("div", {
-    className: "product_info"
+    className: "product_infos"
   }, react_1["default"].createElement("h1", {
-    className: "main"
-  }, name), react_1["default"].createElement("div", null, react_1["default"].createElement("h4", null, "Label: ", name), react_1["default"].createElement("h4", null, "Category: Category"), react_1["default"].createElement("p", null, "Description: ", description)), react_1["default"].createElement("h3", null, "Current Price: ", current_price.toFixed(2), " Kn"), react_1["default"].createElement("div", {
+    className: "main_title"
+  }, name), react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
+    className: "product_info"
+  }, react_1["default"].createElement("span", {
+    className: "first_span"
+  }, "Label: "), react_1["default"].createElement("span", null, name)), react_1["default"].createElement("div", {
+    className: "product_info"
+  }, react_1["default"].createElement("span", {
+    className: "first_span"
+  }, "Category: "), react_1["default"].createElement("span", null, "category")), react_1["default"].createElement("div", {
+    className: "product_info"
+  }, react_1["default"].createElement("span", {
+    className: "first_span"
+  }, "Description:"), react_1["default"].createElement("span", {
+    style: {
+      fontSize: 17
+    }
+  }, description))), react_1["default"].createElement("h3", {
+    className: "product_price"
+  }, react_1["default"].createElement("span", {
+    className: "current_price_span"
+  }, "Current Price:", " "), discount ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("span", {
+    className: "crossed"
+  }, current_price.toFixed(2)), react_1["default"].createElement("span", null, discount.discount.toFixed(2), " ")) : react_1["default"].createElement("span", null, current_price.toFixed(2), " "), "Kn"), react_1["default"].createElement("div", {
     className: "product_buttons"
   }, react_1["default"].createElement("button", null, "Add To Cart"), react_1["default"].createElement("button", null, "Wishlist")))), react_1["default"].createElement("div", {
     className: "related_products_container"
@@ -2340,7 +2365,7 @@ var Testing = function Testing() {
       method: 'post',
       url: '/auth/login',
       data: {
-        email: 'leon@gmail.com',
+        email: 'leonlav77@gmail.com',
         password: 'password'
       }
     }).then(function (res) {
@@ -2570,8 +2595,9 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Lato&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".main_container {\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: #16a085;\r\n    display: flex;\r\n}\r\n.product_container {\r\n    width: 75%;\r\n    height: 90%;\r\n    background-color: whitesmoke;\r\n    border-bottom-left-radius: 20px;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n.product_image {\r\n    height: 600px;\r\n    width: 450px;\r\n}\r\n.product_info {\r\n    width: 450px;\r\n    height: 600px;\r\n    display: flex;\r\n    justify-content: space-evenly;\r\n    flex-direction: column;\r\n    margin-left: 200px;\r\n}\r\n.product_info h1 {\r\n    font-size: 40;\r\n    font-weight: bolder;\r\n}\r\n.product_info p {\r\n    font-size: large;\r\n}\r\n.related_products_container {\r\n    width: 25%;\r\n    height: 90%;\r\n    background-color: red;\r\n    border-bottom-right-radius: 20px;\r\n}\r\n.related_products {\r\n    height: 90%;\r\n    overflow-y: scroll;\r\n}\r\n.product_img_container {\r\n    position: relative;\r\n}\r\n.on_sale {\r\n    width: 230px;\r\n    height: 60px;\r\n    position: absolute;\r\n    background-color: blue;\r\n    top: 7%;\r\n    left: -11%;\r\n    transform: rotateZ(-45deg);\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.zoom_in_icon {\r\n    width: 40px;\r\n    height: 40px;\r\n    position: absolute;\r\n    right: 1%;\r\n    top: 1%;\r\n    border-radius: 50%;\r\n    background-color: green;\r\n}\r\n\r\n.product_buttons {\r\n    width: 70%;\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n.on_sale h1 {\r\n    color: white;\r\n    margin: 0;\r\n    margin-top: 4px;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n    font-family: \"Lato\", sans-serif;\r\n}\r\n\r\n.main_container {\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: #16a085;\r\n    display: flex;\r\n}\r\n.product_container {\r\n    width: 75%;\r\n    height: 90%;\r\n    background-color: whitesmoke;\r\n    border-bottom-left-radius: 20px;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n.product_image {\r\n    height: 600px;\r\n    width: 450px;\r\n}\r\n.product_infos {\r\n    width: 500px;\r\n    height: 600px;\r\n    display: flex;\r\n    justify-content: space-evenly;\r\n    flex-direction: column;\r\n    margin-left: 120px;\r\n}\r\n.related_products_container {\r\n    width: 25%;\r\n    height: 90%;\r\n    background-color: red;\r\n    border-bottom-right-radius: 20px;\r\n}\r\n.related_products {\r\n    height: 90%;\r\n    overflow-y: scroll;\r\n}\r\n.product_img_container {\r\n    position: relative;\r\n    border: 1px solid black;\r\n}\r\n.on_sale {\r\n    width: 220px;\r\n    height: 60px;\r\n    position: absolute;\r\n    background-color: #ff6969;\r\n    top: 7%;\r\n    left: -9%;\r\n    transform: rotateZ(-45deg);\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.zoom_in_icon {\r\n    width: 40px;\r\n    height: 40px;\r\n    position: absolute;\r\n    right: 1.5%;\r\n    top: 1%;\r\n    border-radius: 50%;\r\n    background-color: lightgrey;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n\r\n.product_buttons {\r\n    width: 70%;\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n.on_sale h1 {\r\n    color: white;\r\n    margin: 0;\r\n    margin-top: 4px;\r\n    font-weight: bold;\r\n    letter-spacing: 3px;\r\n}\r\n.product_info {\r\n    margin: 20px;\r\n    margin-left: 0;\r\n}\r\n.product_info span {\r\n    font-weight: bold;\r\n    font-size: 20px;\r\n}\r\n.first_span {\r\n    background-color: #a6f4e1;\r\n    color: #0b654f;\r\n    letter-spacing: 2px;\r\n    padding: 3px;\r\n    border-radius: 10px;\r\n    margin-right: 10px;\r\n    margin-bottom: 20px;\r\n}\r\n.main_title {\r\n    font-size: 40px;\r\n    color: #0b654f;\r\n    font-weight: bold;\r\n}\r\n.hide {\r\n    display: none;\r\n}\r\n.product_price {\r\n    position: relative;\r\n}\r\n.crossed {\r\n    position: relative;\r\n    margin: 10px;\r\n}\r\n.crossed::after {\r\n    content: \" \";\r\n    position: absolute;\r\n    left: 0;\r\n    top: 43%;\r\n    width: 70px;\r\n    height: 3px;\r\n    transform: rotateZ(-20deg);\r\n    background-color: black;\r\n}\r\n.current_price_span {\r\n    background-color: #a6f4e1;\r\n    color: #0b654f;\r\n    border-radius: 10px;\r\n    padding: 7px;\r\n    font-weight: bold;\r\n    letter-spacing: 3px;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
