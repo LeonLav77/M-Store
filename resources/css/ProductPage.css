@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+* {
+    font-family: "Lato", sans-serif;
+}
+
+.main_container {
+    width: 100%;
+    height: 100%;
+    background-color: #16a085;
+    display: flex;
+}
+.product_container {
+    width: 75%;
+    height: 90%;
+    background-color: whitesmoke;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product_image {
+    height: 600px;
+    width: 450px;
+}
+.product_infos {
+    width: 500px;
+    height: 600px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    margin-left: 120px;
+}
+.related_products_container {
+    width: 25%;
+    height: 90%;
+    background-color: red;
+    border-bottom-right-radius: 20px;
+}
+.related_products {
+    height: 90%;
+    overflow-y: scroll;
+}
+.product_img_container {
+    position: relative;
+    border: 1px solid black;
+}
+.on_sale {
+    width: 220px;
+    height: 60px;
+    position: absolute;
+    background-color: #ff6969;
+    top: 7%;
+    left: -9%;
+    transform: rotateZ(-45deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.zoom_in_icon {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 1.5%;
+    top: 1%;
+    border-radius: 50%;
+    background-color: lightgrey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product_buttons {
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+}
+.on_sale h1 {
+    color: white;
+    margin: 0;
+    margin-top: 4px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+.product_info {
+    margin: 20px;
+    margin-left: 0;
+}
+.product_info span {
+    font-weight: bold;
+    font-size: 20px;
+}
+.first_span {
+    background-color: #a6f4e1;
+    color: #0b654f;
+    letter-spacing: 2px;
+    padding: 3px;
+    border-radius: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+.main_title {
+    font-size: 40px;
+    color: #0b654f;
+    font-weight: bold;
+}
+.hide {
+    display: none;
+}
+.product_price {
+    position: relative;
+}
+.crossed {
+    position: relative;
+    margin: 10px;
+    letter-spacing: 1px;
+}
+.crossed::after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 43%;
+    width: 70px;
+    height: 3px;
+    transform: rotateZ(-25deg);
+    background-color: black;
+}
+.current_price_span {
+    background-color: #a6f4e1;
+    color: #0b654f;
+    border-radius: 10px;
+    padding: 7px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}

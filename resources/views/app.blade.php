@@ -9,6 +9,7 @@
         <title>Tasksman</title>
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/def.css') }}" rel="stylesheet">
     </head>
     <body>
         <div id="app"></div>
