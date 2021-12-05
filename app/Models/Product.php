@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Product extends Model
 {
     use HasFactory;
+    protected $with = ['images'];
     public function scopeItemInStock($query, $id)
     {
         $product = $query->where('id', $id)->first();
@@ -36,19 +37,19 @@ class Product extends Model
     public function scopeDiscountedAll($query)
     {
         $products = $query->where('discount_id', '!=', null)->get();
-        return CalculateCurrentPrice::run($products); 
+        return CalculateCurrentPrice::run($products);
     }
     // returns all products and the discounted ones with discount applied
     public function scopeAllProductsWithDiscounts($query)
-        {
-            $products = $query->get();
-            return CalculateCurrentPrice::run($products); 
-        }
+    {
+        $products = $query->get();
+        return CalculateCurrentPrice::run($products);
+    }
     // returns a product with discount applied
     public function scopeDiscountedItem($query, $id)
     {
         $products = $query->findOrFail($id);
-        
+
         return CalculateCurrentPrice::run($products);
     }
     // testing Function, to delete before production

@@ -22,7 +22,7 @@ class UserObserver
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        User::where('id',$user->id)->update(['cart_id' => $user->cart->id]);
+        User::where('id', $user->id)->update(['cart_id' => $user->cart->id]);
     }
 
     /**

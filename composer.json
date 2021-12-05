@@ -45,12 +45,12 @@
     },
     "scripts": {
         "post-install-cmd": "cghooks add --ignore-lock",
-        "post-update-cmd": "cghooks update",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
+            "cghooks update",
             "@php artisan vendor:publish --tag=laravel-assets --ansi"
         ],
         "post-root-package-install": [
