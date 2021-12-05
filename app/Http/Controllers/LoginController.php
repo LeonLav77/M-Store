@@ -17,11 +17,19 @@ class LoginController extends Controller
     public function handleGithubCallback()
     {
         $githubUser = Socialite::driver('github')->user();
-        $user = User::firstOrCreate([
-            'name' => $githubUser->getName(),
-            'email' => $githubUser->getEmail(),
-            'provider_id' => $githubUser->getId(),
-        ]);
+        // $user = User::firstOrCreate([
+        //     ['email' => $githubUser->getEmail()],
+        //     'name' => $githubUser->getName(),
+        //     'provider_id' => $githubUser->getId(),
+        // ]);
+        $user = User::where('email', $githubUser->getEmail())->first();
+        if (!$user) {
+            $user = User::create([
+                'name' => $githubUser->getName(),
+                'email' => $githubUser->getEmail(),
+                'provider_id' => $githubUser->getId(),
+            ]);
+        }
         auth()->login($user, true);
         return redirect('/');
         // dd($githubUser);

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // WCP = With Current Price
 // Product routes can be refactored into resource routes
+
+
+Route::get('/login/github', [LoginController::class, 'loginWithGithub']);
+
+Route::get('/login/github/callback', [LoginController::class, 'handleGithubCallback']);
 
 
 // All products, probably not going to be used because there is a better version
@@ -56,9 +62,11 @@ Route::get('/inStockProduct/{id}',[APIController::class,'getInStockProduct']);
 Route::get('/complexFilterSearch',[APIController::class,'getComplexFilterSearch']);
 // route for testing
 Route::get('/test',[APIController::class,'test']);
-// Contents of your cart
-Route::get('/cart',[CartController::class,'getCart']);
-// Add an item to cart
-Route::post('/addItemToCart',[CartController::class,'addItemToCart']);
 
 Route::post('/checkIfLoggedIn',[APIController::class,'checkIfLoggedIn']);
+Route::middleware(['auth'])->group(function () {
+    // Contents of your cart
+    Route::get('/cart',[CartController::class,'getCart']);
+    // Add an item to cart
+    Route::post('/addItemToCart',[CartController::class,'addItemToCart']);
+});
