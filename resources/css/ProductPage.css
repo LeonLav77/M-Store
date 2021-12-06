@@ -132,3 +132,10 @@
     font-weight: bold;
     letter-spacing: 3px;
 }
+
+.active {
+    opacity: 0.3;
+}
+.product_slider_image {
+    margin: 10px;
+}

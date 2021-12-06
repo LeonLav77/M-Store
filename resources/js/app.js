@@ -1,13 +1,10 @@
 import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Nesto } from "./components/Nesto";
-import { Miguel } from "./components/Miguel";
-import { Drugi } from "./components/Drugi";
-import { Testing } from "./components/Testing";
-import { Products } from "./components/Products";
-import { Product } from "./components/Product";
-import { Home } from "./components/Home";
+import { Testing } from "./pages/Testing";
+import { Products } from "./pages/Products";
+import { Product } from "./pages/Product";
+import { Home } from "./pages/Home";
 
 render(
     <BrowserRouter>
@@ -15,11 +12,7 @@ render(
             <Route path="/" element={<Home />} />
             <Route path="products" element={<Products />} />
             <Route path="products/:productId" element={<Product />} />
-            <Route path="nesto" element={<Nesto></Nesto>} />
             <Route path="testing" element={<Testing></Testing>} />
-            <Route path="/miguel" element={<Miguel />}>
-                <Route path="drugi" element={<Drugi />} />
-            </Route>
             <Route
                 path=""
                 element={

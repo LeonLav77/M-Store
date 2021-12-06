@@ -1,13 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useLocation } from "react-router";
+import { Button } from "../components/Button";
+import { Controlled as ControlledZoom } from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 import "../../css/ProductPage.css";
 
 export const Product = () => {
     const [relatedItems, setRelatedItems] = useState(Array(9).fill(" "));
     const location = useLocation();
     const {
-        item: { name, description, current_price, discount },
+        item: { name, description, current_price, discount, images },
     } = location.state;
+    const [currentId, setCurrentId] = useState(0);
+    const [zoomedIn, setZoomedIn] = useState(false);
+    const [isZoomed, setIsZoomed] = useState(false);
+
+    const handleImgLoad = useCallback(() => {
+        setIsZoomed(true);
+    }, []);
+
+    const handleZoomChange = useCallback((shouldZoom) => {
+        setIsZoomed(shouldZoom);
+    }, []);
     return (
         <div className="main_container">
             <div className="product_container">
@@ -15,7 +29,10 @@ export const Product = () => {
                     <div className={discount ? "on_sale" : "hide"}>
                         <h1>ON SALE</h1>
                     </div>
-                    <div className="zoom_in_icon">
+                    <div
+                        className="zoom_in_icon"
+                        onClick={() => setZoomedIn(!zoomedIn)}
+                    >
                         <img
                             src={
                                 require("../../images/search_icon.png").default
@@ -24,7 +41,42 @@ export const Product = () => {
                             height="25"
                         />
                     </div>
-                    <img className="product_image" src="#" />
+                    {/* {!zoomedIn ? (
+                        <img
+                            className="product_image"
+                            src={images[currentId].path}
+                        />
+                    ) : ( */}
+                    <ControlledZoom
+                        isZoomed={isZoomed}
+                        onZoomChange={handleZoomChange}
+                    >
+                        <img
+                            alt="that wanaka tree"
+                            onLoad={handleImgLoad}
+                            src={images[currentId].path}
+                            width="500"
+                        />
+                    </ControlledZoom>
+
+                    {/* )} */}
+                    <div style={{ margin: 5, border: "2px solid black" }}>
+                        {images.map((image, id) => (
+                            <img
+                                key={image.id}
+                                src={image.path}
+                                className={`product_slider_image ${
+                                    currentId == id ? "active" : ""
+                                }`}
+                                onClick={() => {
+                                    setCurrentId(id);
+                                }}
+                                alt=""
+                                width="50"
+                                height="50"
+                            />
+                        ))}
+                    </div>
                 </div>
                 <div className="product_infos">
                     <h1 className="main_title">{name}</h1>
@@ -51,7 +103,13 @@ export const Product = () => {
                                 <span className="crossed">
                                     {current_price.toFixed(2)}
                                 </span>
-                                <span>{discount.discount.toFixed(2)} Kn</span>
+                                <span
+                                    style={{
+                                        letterSpacing: 2,
+                                    }}
+                                >
+                                    {discount.discount.toFixed(2)} Kn
+                                </span>
                             </>
                         ) : (
                             <span
@@ -64,8 +122,14 @@ export const Product = () => {
                         )}
                     </h3>
                     <div className="product_buttons">
-                        <button>Add To Cart</button>
-                        <button>Wishlist</button>
+                        <Button
+                            title="Add To Cart"
+                            onClick={() => console.log("added to cart")}
+                        />
+                        <Button
+                            title="Wishlist"
+                            onClick={() => console.log("wishlist")}
+                        />
                     </div>
                 </div>
             </div>

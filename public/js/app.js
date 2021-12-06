@@ -2054,10 +2054,44 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/components/Home.tsx":
-/*!******************************************!*\
-  !*** ./resources/js/components/Home.tsx ***!
-  \******************************************/
+/***/ "./resources/js/components/Button.tsx":
+/*!********************************************!*\
+  !*** ./resources/js/components/Button.tsx ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Button = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Button = function Button(_a) {
+  var title = _a.title,
+      onClick = _a.onClick;
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
+    onClick: onClick
+  }, title));
+};
+
+exports.Button = Button;
+
+/***/ }),
+
+/***/ "./resources/js/pages/Home.tsx":
+/*!*************************************!*\
+  !*** ./resources/js/pages/Home.tsx ***!
+  \*************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -2085,12 +2119,6 @@ var Home = function Home() {
     className: "container"
   }, react_1["default"].createElement(react_router_dom_1.Link, {
     className: "navbar-brand",
-    to: "nesto"
-  }, "Tasksman"), react_1["default"].createElement(react_router_dom_1.Link, {
-    className: "navbar-brand",
-    to: "miguel"
-  }, "miguel"), react_1["default"].createElement(react_router_dom_1.Link, {
-    className: "navbar-brand",
     to: "products"
   }, "Products"))));
 };
@@ -2099,10 +2127,10 @@ exports.Home = Home;
 
 /***/ }),
 
-/***/ "./resources/js/components/Product.tsx":
-/*!*********************************************!*\
-  !*** ./resources/js/components/Product.tsx ***!
-  \*********************************************/
+/***/ "./resources/js/pages/Product.tsx":
+/*!****************************************!*\
+  !*** ./resources/js/pages/Product.tsx ***!
+  \****************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -2151,6 +2179,12 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 
 var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/index.js");
 
+var Button_1 = __webpack_require__(/*! ../components/Button */ "./resources/js/components/Button.tsx");
+
+var react_medium_image_zoom_1 = __webpack_require__(/*! react-medium-image-zoom */ "./node_modules/react-medium-image-zoom/dist/esm/index.js");
+
+__webpack_require__(/*! react-medium-image-zoom/dist/styles.css */ "./node_modules/react-medium-image-zoom/dist/styles.css");
+
 __webpack_require__(/*! ../../css/ProductPage.css */ "./resources/css/ProductPage.css");
 
 var Product = function Product() {
@@ -2163,7 +2197,27 @@ var Product = function Product() {
       name = _b.name,
       description = _b.description,
       current_price = _b.current_price,
-      discount = _b.discount;
+      discount = _b.discount,
+      images = _b.images;
+
+  var _c = (0, react_1.useState)(0),
+      currentId = _c[0],
+      setCurrentId = _c[1];
+
+  var _d = (0, react_1.useState)(false),
+      zoomedIn = _d[0],
+      setZoomedIn = _d[1];
+
+  var _e = (0, react_1.useState)(false),
+      isZoomed = _e[0],
+      setIsZoomed = _e[1];
+
+  var handleImgLoad = (0, react_1.useCallback)(function () {
+    setIsZoomed(true);
+  }, []);
+  var handleZoomChange = (0, react_1.useCallback)(function (shouldZoom) {
+    setIsZoomed(shouldZoom);
+  }, []);
   return react_1["default"].createElement("div", {
     className: "main_container"
   }, react_1["default"].createElement("div", {
@@ -2173,15 +2227,40 @@ var Product = function Product() {
   }, react_1["default"].createElement("div", {
     className: discount ? "on_sale" : "hide"
   }, react_1["default"].createElement("h1", null, "ON SALE")), react_1["default"].createElement("div", {
-    className: "zoom_in_icon"
+    className: "zoom_in_icon",
+    onClick: function onClick() {
+      return setZoomedIn(!zoomedIn);
+    }
   }, react_1["default"].createElement("img", {
     src: (__webpack_require__(/*! ../../images/search_icon.png */ "./resources/images/search_icon.png")["default"]),
     width: "25",
     height: "25"
-  })), react_1["default"].createElement("img", {
-    className: "product_image",
-    src: "#"
+  })), react_1["default"].createElement(react_medium_image_zoom_1.Controlled, {
+    isZoomed: isZoomed,
+    onZoomChange: handleZoomChange
+  }, react_1["default"].createElement("img", {
+    alt: "that wanaka tree",
+    onLoad: handleImgLoad,
+    src: images[currentId].path,
+    width: "500"
   })), react_1["default"].createElement("div", {
+    style: {
+      margin: 5,
+      border: "2px solid black"
+    }
+  }, images.map(function (image, id) {
+    return react_1["default"].createElement("img", {
+      key: image.id,
+      src: image.path,
+      className: "product_slider_image ".concat(currentId == id ? "active" : ""),
+      onClick: function onClick() {
+        setCurrentId(id);
+      },
+      alt: "",
+      width: "50",
+      height: "50"
+    });
+  }))), react_1["default"].createElement("div", {
     className: "product_infos"
   }, react_1["default"].createElement("h1", {
     className: "main_title"
@@ -2207,13 +2286,27 @@ var Product = function Product() {
     className: "current_price_span"
   }, "Current Price:"), " ", discount ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("span", {
     className: "crossed"
-  }, current_price.toFixed(2)), react_1["default"].createElement("span", null, discount.discount.toFixed(2), " Kn")) : react_1["default"].createElement("span", {
+  }, current_price.toFixed(2)), react_1["default"].createElement("span", {
+    style: {
+      letterSpacing: 2
+    }
+  }, discount.discount.toFixed(2), " Kn")) : react_1["default"].createElement("span", {
     style: {
       letterSpacing: 2
     }
   }, current_price.toFixed(2), " Kn")), react_1["default"].createElement("div", {
     className: "product_buttons"
-  }, react_1["default"].createElement("button", null, "Add To Cart"), react_1["default"].createElement("button", null, "Wishlist")))), react_1["default"].createElement("div", {
+  }, react_1["default"].createElement(Button_1.Button, {
+    title: "Add To Cart",
+    onClick: function onClick() {
+      return console.log("added to cart");
+    }
+  }), react_1["default"].createElement(Button_1.Button, {
+    title: "Wishlist",
+    onClick: function onClick() {
+      return console.log("wishlist");
+    }
+  })))), react_1["default"].createElement("div", {
     className: "related_products_container"
   }, react_1["default"].createElement("h1", {
     className: "related_products_title"
@@ -2236,10 +2329,10 @@ exports.Product = Product;
 
 /***/ }),
 
-/***/ "./resources/js/components/Products.tsx":
-/*!**********************************************!*\
-  !*** ./resources/js/components/Products.tsx ***!
-  \**********************************************/
+/***/ "./resources/js/pages/Products.tsx":
+/*!*****************************************!*\
+  !*** ./resources/js/pages/Products.tsx ***!
+  \*****************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -2339,10 +2432,10 @@ exports.Products = Products;
 
 /***/ }),
 
-/***/ "./resources/js/components/Testing.tsx":
-/*!*********************************************!*\
-  !*** ./resources/js/components/Testing.tsx ***!
-  \*********************************************/
+/***/ "./resources/js/pages/Testing.tsx":
+/*!****************************************!*\
+  !*** ./resources/js/pages/Testing.tsx ***!
+  \****************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -2466,19 +2559,16 @@ exports.Testing = Testing;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _components_Nesto__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Nesto */ "./resources/js/components/Nesto.js");
-/* harmony import */ var _components_Miguel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Miguel */ "./resources/js/components/Miguel.js");
-/* harmony import */ var _components_Drugi__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Drugi */ "./resources/js/components/Drugi.js");
-/* harmony import */ var _components_Testing__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Testing */ "./resources/js/components/Testing.tsx");
-/* harmony import */ var _components_Testing__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_Testing__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _components_Products__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Products */ "./resources/js/components/Products.tsx");
-/* harmony import */ var _components_Products__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_components_Products__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _components_Product__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Product */ "./resources/js/components/Product.tsx");
-/* harmony import */ var _components_Product__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_components_Product__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Home */ "./resources/js/components/Home.tsx");
-/* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_components_Home__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/Testing */ "./resources/js/pages/Testing.tsx");
+/* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _pages_Products__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/Products */ "./resources/js/pages/Products.tsx");
+/* harmony import */ var _pages_Products__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_pages_Products__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _pages_Product__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/Product */ "./resources/js/pages/Product.tsx");
+/* harmony import */ var _pages_Product__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_pages_Product__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _pages_Home__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/Home */ "./resources/js/pages/Home.tsx");
+/* harmony import */ var _pages_Home__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_pages_Home__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
@@ -2486,31 +2576,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
   path: "/",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Home__WEBPACK_IMPORTED_MODULE_8__.Home, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Home__WEBPACK_IMPORTED_MODULE_5__.Home, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
   path: "products",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Products__WEBPACK_IMPORTED_MODULE_6__.Products, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Products__WEBPACK_IMPORTED_MODULE_3__.Products, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
   path: "products/:productId",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Product__WEBPACK_IMPORTED_MODULE_7__.Product, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-  path: "nesto",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Nesto__WEBPACK_IMPORTED_MODULE_2__.Nesto, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Product__WEBPACK_IMPORTED_MODULE_4__.Product, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
   path: "testing",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Testing__WEBPACK_IMPORTED_MODULE_5__.Testing, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-  path: "/miguel",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Miguel__WEBPACK_IMPORTED_MODULE_3__.Miguel, null)
-}, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-  path: "drugi",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Drugi__WEBPACK_IMPORTED_MODULE_4__.Drugi, null)
-})), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__.Testing, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
   path: "",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("main", {
     style: {
@@ -2521,65 +2599,27 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Drugi.js":
-/*!******************************************!*\
-  !*** ./resources/js/components/Drugi.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/react-medium-image-zoom/dist/styles.css":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/react-medium-image-zoom/dist/styles.css ***!
+  \************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Drugi": () => (/* binding */ Drugi)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
 
-var Drugi = function Drugi() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "drugi");
-};
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "[data-rmiz-wrap=\"visible\"],\n[data-rmiz-wrap=\"hidden\"] {\n  position: relative;\n  display: inline-flex;\n  align-items: flex-start;\n}\n[data-rmiz-wrap=\"hidden\"] {\n  visibility: hidden;\n}\n[data-rmiz-overlay] {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  transition-property: background-color;\n}\n[data-rmiz-btn-open],\n[data-rmiz-btn-close] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n\n  /* reset styles */\n  margin: 0;\n  padding: 0;\n  border: none;\n  border-radius: 0;\n  font: inherit;\n  color: inherit;\n  background: none;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n}\n[data-rmiz-btn-open] {\n  cursor: zoom-in;\n}\n[data-rmiz-btn-close] {\n  cursor: zoom-out;\n}\n[data-rmiz-modal-content] {\n  position: absolute;\n  transition-property: transform;\n  transform-origin: center center;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
-/***/ }),
-
-/***/ "./resources/js/components/Miguel.js":
-/*!*******************************************!*\
-  !*** ./resources/js/components/Miguel.js ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Miguel": () => (/* binding */ Miguel)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-
-
-var Miguel = function Miguel() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Miguel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
-    to: "drugi"
-  }, "go to drugi"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Outlet, null));
-};
-
-/***/ }),
-
-/***/ "./resources/js/components/Nesto.js":
-/*!******************************************!*\
-  !*** ./resources/js/components/Nesto.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Nesto": () => (/* binding */ Nesto)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var Nesto = function Nesto() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "nesto");
-};
 
 /***/ }),
 
@@ -2601,7 +2641,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Lato&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n    font-family: \"Lato\", sans-serif;\r\n}\r\n\r\n.main_container {\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: #16a085;\r\n    display: flex;\r\n}\r\n.product_container {\r\n    width: 75%;\r\n    height: 90%;\r\n    background-color: whitesmoke;\r\n    border-bottom-left-radius: 20px;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n.product_image {\r\n    height: 600px;\r\n    width: 450px;\r\n}\r\n.product_infos {\r\n    width: 500px;\r\n    height: 600px;\r\n    display: flex;\r\n    justify-content: space-evenly;\r\n    flex-direction: column;\r\n    margin-left: 120px;\r\n}\r\n.related_products_container {\r\n    width: 25%;\r\n    height: 90%;\r\n    background-color: red;\r\n    border-bottom-right-radius: 20px;\r\n}\r\n.related_products {\r\n    height: 90%;\r\n    overflow-y: scroll;\r\n}\r\n.product_img_container {\r\n    position: relative;\r\n    border: 1px solid black;\r\n}\r\n.on_sale {\r\n    width: 220px;\r\n    height: 60px;\r\n    position: absolute;\r\n    background-color: #ff6969;\r\n    top: 7%;\r\n    left: -9%;\r\n    transform: rotateZ(-45deg);\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.zoom_in_icon {\r\n    width: 40px;\r\n    height: 40px;\r\n    position: absolute;\r\n    right: 1.5%;\r\n    top: 1%;\r\n    border-radius: 50%;\r\n    background-color: lightgrey;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n\r\n.product_buttons {\r\n    width: 70%;\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n.on_sale h1 {\r\n    color: white;\r\n    margin: 0;\r\n    margin-top: 4px;\r\n    font-weight: bold;\r\n    letter-spacing: 3px;\r\n}\r\n.product_info {\r\n    margin: 20px;\r\n    margin-left: 0;\r\n}\r\n.product_info span {\r\n    font-weight: bold;\r\n    font-size: 20px;\r\n}\r\n.first_span {\r\n    background-color: #a6f4e1;\r\n    color: #0b654f;\r\n    letter-spacing: 2px;\r\n    padding: 3px;\r\n    border-radius: 10px;\r\n    margin-right: 10px;\r\n    margin-bottom: 20px;\r\n}\r\n.main_title {\r\n    font-size: 40px;\r\n    color: #0b654f;\r\n    font-weight: bold;\r\n}\r\n.hide {\r\n    display: none;\r\n}\r\n.product_price {\r\n    position: relative;\r\n}\r\n.crossed {\r\n    position: relative;\r\n    margin: 10px;\r\n    letter-spacing: 1px;\r\n}\r\n.crossed::after {\r\n    content: \" \";\r\n    position: absolute;\r\n    left: 0;\r\n    top: 43%;\r\n    width: 70px;\r\n    height: 3px;\r\n    transform: rotateZ(-25deg);\r\n    background-color: black;\r\n}\r\n.current_price_span {\r\n    background-color: #a6f4e1;\r\n    color: #0b654f;\r\n    border-radius: 10px;\r\n    padding: 7px;\r\n    font-weight: bold;\r\n    letter-spacing: 3px;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n    font-family: \"Lato\", sans-serif;\r\n}\r\n\r\n.main_container {\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: #16a085;\r\n    display: flex;\r\n}\r\n.product_container {\r\n    width: 75%;\r\n    height: 90%;\r\n    background-color: whitesmoke;\r\n    border-bottom-left-radius: 20px;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n.product_image {\r\n    height: 600px;\r\n    width: 450px;\r\n}\r\n.product_infos {\r\n    width: 500px;\r\n    height: 600px;\r\n    display: flex;\r\n    justify-content: space-evenly;\r\n    flex-direction: column;\r\n    margin-left: 120px;\r\n}\r\n.related_products_container {\r\n    width: 25%;\r\n    height: 90%;\r\n    background-color: red;\r\n    border-bottom-right-radius: 20px;\r\n}\r\n.related_products {\r\n    height: 90%;\r\n    overflow-y: scroll;\r\n}\r\n.product_img_container {\r\n    position: relative;\r\n    border: 1px solid black;\r\n}\r\n.on_sale {\r\n    width: 220px;\r\n    height: 60px;\r\n    position: absolute;\r\n    background-color: #ff6969;\r\n    top: 7%;\r\n    left: -9%;\r\n    transform: rotateZ(-45deg);\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.zoom_in_icon {\r\n    width: 40px;\r\n    height: 40px;\r\n    position: absolute;\r\n    right: 1.5%;\r\n    top: 1%;\r\n    border-radius: 50%;\r\n    background-color: lightgrey;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n\r\n.product_buttons {\r\n    width: 70%;\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n.on_sale h1 {\r\n    color: white;\r\n    margin: 0;\r\n    margin-top: 4px;\r\n    font-weight: bold;\r\n    letter-spacing: 3px;\r\n}\r\n.product_info {\r\n    margin: 20px;\r\n    margin-left: 0;\r\n}\r\n.product_info span {\r\n    font-weight: bold;\r\n    font-size: 20px;\r\n}\r\n.first_span {\r\n    background-color: #a6f4e1;\r\n    color: #0b654f;\r\n    letter-spacing: 2px;\r\n    padding: 3px;\r\n    border-radius: 10px;\r\n    margin-right: 10px;\r\n    margin-bottom: 20px;\r\n}\r\n.main_title {\r\n    font-size: 40px;\r\n    color: #0b654f;\r\n    font-weight: bold;\r\n}\r\n.hide {\r\n    display: none;\r\n}\r\n.product_price {\r\n    position: relative;\r\n}\r\n.crossed {\r\n    position: relative;\r\n    margin: 10px;\r\n    letter-spacing: 1px;\r\n}\r\n.crossed::after {\r\n    content: \" \";\r\n    position: absolute;\r\n    left: 0;\r\n    top: 43%;\r\n    width: 70px;\r\n    height: 3px;\r\n    transform: rotateZ(-25deg);\r\n    background-color: black;\r\n}\r\n.current_price_span {\r\n    background-color: #a6f4e1;\r\n    color: #0b654f;\r\n    border-radius: 10px;\r\n    padding: 7px;\r\n    font-weight: bold;\r\n    letter-spacing: 3px;\r\n}\r\n\r\n.active {\r\n    opacity: 0.3;\r\n}\r\n.product_slider_image {\r\n    margin: 10px;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2696,6 +2736,67 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/search_icon.png?28ff825664c22508a25626d2eeee79ff");
+
+/***/ }),
+
+/***/ "./node_modules/focus-options-polyfill/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/focus-options-polyfill/index.js ***!
+  \******************************************************/
+/***/ (() => {
+
+// focus - focusOptions - preventScroll polyfill
+(function() {
+  if (
+    typeof window === "undefined" ||
+    typeof document === "undefined" ||
+    typeof HTMLElement === "undefined"
+  ) {
+    return;
+  }
+
+  var supportsPreventScrollOption = false;
+  try {
+    var focusElem = document.createElement("div");
+    focusElem.addEventListener(
+      "focus",
+      function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      true
+    );
+    focusElem.focus(
+      Object.defineProperty({}, "preventScroll", {
+        get: function() {
+          supportsPreventScrollOption = true;
+        }
+      })
+    );
+  } catch (e) {}
+
+  if (
+    HTMLElement.prototype.nativeFocus === undefined &&
+    !supportsPreventScrollOption
+  ) {
+    HTMLElement.prototype.nativeFocus = HTMLElement.prototype.focus;
+
+    var patchedFocus = function(args) {
+      var actualPosition = window.scrollY || window.pageYOffset;
+      this.nativeFocus();
+      if (args && args.preventScroll) {
+        // Hijacking the event loop order, since the focus() will trigger
+        // internally an scroll that goes to the event loop
+        setTimeout(function() {
+          window.scroll(window.scrollX || window.pageXOffset, actualPosition);
+        }, 0);
+      }
+    };
+
+    HTMLElement.prototype.focus = patchedFocus;
+  }
+})();
+
 
 /***/ }),
 
@@ -29357,6 +29458,430 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-medium-image-zoom/dist/esm/Controlled.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/react-medium-image-zoom/dist/esm/Controlled.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var focus_options_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! focus-options-polyfill */ "./node_modules/focus-options-polyfill/index.js");
+/* harmony import */ var focus_options_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(focus_options_polyfill__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_use_lib_useEvent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-use/lib/useEvent */ "./node_modules/react-use/lib/useEvent.js");
+/* harmony import */ var react_use_lib_useWindowSize__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-use/lib/useWindowSize */ "./node_modules/react-use/lib/useWindowSize.js");
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./helpers.js */ "./node_modules/react-medium-image-zoom/dist/esm/helpers.js");
+/* harmony import */ var react_use_lib_usePrevious__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-use/lib/usePrevious */ "./node_modules/react-use/lib/usePrevious.js");
+
+
+
+
+
+
+
+
+
+var ControlledActivated = function (_a) {
+    var children = _a.children, _b = _a.closeText, closeText = _b === void 0 ? 'Unzoom Image' : _b, isActiveFromParent = _a.isActive, onLoad = _a.onLoad, onUnload = _a.onUnload, onZoomChange = _a.onZoomChange, _c = _a.overlayBgColorEnd, overlayBgColorEnd = _c === void 0 ? 'rgba(255, 255, 255, 0.95)' : _c, _d = _a.overlayBgColorStart, overlayBgColorStart = _d === void 0 ? 'rgba(255, 255, 255, 0)' : _d, parentRef = _a.parentRef, _e = _a.portalEl, portalEl = _e === void 0 ? document.body : _e, _f = _a.scrollableEl, scrollableEl = _f === void 0 ? window : _f, _g = _a.transitionDuration, transitionDuration = _g === void 0 ? 300 : _g, _h = _a.zoomMargin, zoomMargin = _h === void 0 ? 0 : _h, _j = _a.zoomZindex, zoomZindex = _j === void 0 ? 2147483647 : _j;
+    var btnRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+    var _k = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0), forceUpdate = _k[1];
+    var _l = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(isActiveFromParent), isActive = _l[0], setIsActive = _l[1];
+    var _m = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false), isLoaded = _m[0], setIsLoaded = _m[1];
+    var _o = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false), isUnloading = _o[0], setIsUnloading = _o[1];
+    var prevIsActive = (0,react_use_lib_usePrevious__WEBPACK_IMPORTED_MODULE_3__["default"])(isActive);
+    var prevIsActiveFromParent = (0,react_use_lib_usePrevious__WEBPACK_IMPORTED_MODULE_3__["default"])(isActiveFromParent);
+    var prevIsLoaded = (0,react_use_lib_usePrevious__WEBPACK_IMPORTED_MODULE_3__["default"])(isLoaded);
+    var _p = (0,react_use_lib_useWindowSize__WEBPACK_IMPORTED_MODULE_4__["default"])(), innerWidth = _p.width, innerHeight = _p.height;
+    // on click, tell caller it should zoom
+    var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (e) {
+        e.preventDefault();
+        if (onZoomChange) {
+            onZoomChange(false);
+        }
+    }, [onZoomChange]);
+    // on escape, tell caller it should unzoom
+    var handleKeyDown = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (e) {
+        if (isActive && (e.key === 'Escape' || e.keyCode === 27)) {
+            e.stopPropagation();
+            if (onZoomChange) {
+                onZoomChange(false);
+            }
+        }
+    }, [isActive, onZoomChange]);
+    var handleScroll = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function () {
+        forceUpdate(function (n) { return n + 1; });
+        if (!isUnloading && onZoomChange) {
+            onZoomChange(false);
+        }
+    }, [isUnloading, onZoomChange]);
+    // listen for keydown on the document
+    (0,react_use_lib_useEvent__WEBPACK_IMPORTED_MODULE_5__["default"])('keydown', handleKeyDown, document);
+    // listen for scroll and close
+    (0,react_use_lib_useEvent__WEBPACK_IMPORTED_MODULE_5__["default"])('scroll', handleScroll, scrollableEl);
+    // set loaded on mount and focus
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+        if (!prevIsActive && isActive) {
+            setIsLoaded(true);
+            if (btnRef.current) {
+                btnRef.current.focus({ preventScroll: true });
+            }
+        }
+    }, [isActive, prevIsActive]);
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+        // when parent says to deactivate, begin unloading process
+        if (prevIsActiveFromParent && !isActiveFromParent) {
+            setIsUnloading(true);
+        }
+        // when parent says to activate, begin active process
+        if (!prevIsActiveFromParent && isActiveFromParent) {
+            setIsActive(true);
+        }
+    }, [isActiveFromParent, prevIsActiveFromParent]);
+    // if unloading, tell parent that we're all done here after Nms
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+        var unloadTimeout;
+        if (isUnloading) {
+            unloadTimeout = setTimeout(function () {
+                setIsLoaded(false);
+                setIsActive(false);
+                setIsUnloading(false);
+            }, transitionDuration);
+        }
+        return function () {
+            clearTimeout(unloadTimeout);
+        };
+    }, [isUnloading, transitionDuration]);
+    // let parent know of changes to load status
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+        if (!prevIsLoaded && isLoaded) {
+            onLoad();
+        }
+        if (prevIsLoaded && !isLoaded) {
+            onUnload();
+        }
+    }, [isLoaded, onLoad, onUnload, prevIsLoaded]);
+    // use parent element or fake one if it's not yet loaded
+    var parentEl = parentRef.current || _helpers_js__WEBPACK_IMPORTED_MODULE_6__.pseudoParentEl;
+    // get parent element's dimensions
+    var _q = parentEl.getBoundingClientRect(), height = _q.height, left = _q.left, top = _q.top, width = _q.width;
+    var overlayStyle = (0,_helpers_js__WEBPACK_IMPORTED_MODULE_6__.getModalOverlayStyle)({
+        isLoaded: isLoaded,
+        isUnloading: isUnloading,
+        overlayBgColorEnd: overlayBgColorEnd,
+        overlayBgColorStart: overlayBgColorStart,
+        transitionDuration: transitionDuration,
+        zoomZindex: zoomZindex
+    });
+    var contentStyle = (0,_helpers_js__WEBPACK_IMPORTED_MODULE_6__.getModalContentStyle)({
+        height: height,
+        isLoaded: isLoaded,
+        innerHeight: innerHeight,
+        innerWidth: innerWidth,
+        isUnloading: isUnloading,
+        left: left,
+        originalTransform: parentEl.style.transform,
+        top: top,
+        transitionDuration: transitionDuration,
+        width: width,
+        zoomMargin: zoomMargin
+    });
+    return isActive
+        ? (0,react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal)(react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { "aria-modal": true, "data-rmiz-overlay": true, role: "dialog", style: overlayStyle },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { "data-rmiz-modal-content": true, style: contentStyle }, children),
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", { "aria-label": closeText, "data-rmiz-btn-close": true, onClick: handleClick, ref: btnRef, type: "button" })), portalEl)
+        : null;
+};
+var ControlledActivated$1 = (0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(ControlledActivated);
+
+var Controlled = function (_a) {
+    var children = _a.children, _b = _a.closeText, closeText = _b === void 0 ? 'Unzoom image' : _b, isActive = _a.isZoomed, _c = _a.overlayBgColorEnd, overlayBgColorEnd = _c === void 0 ? 'rgba(255, 255, 255, 0.95)' : _c, _d = _a.overlayBgColorStart, overlayBgColorStart = _d === void 0 ? 'rgba(255, 255, 255, 0)' : _d, portalEl = _a.portalEl, onZoomChange = _a.onZoomChange, _e = _a.openText, openText = _e === void 0 ? 'Zoom image' : _e, scrollableEl = _a.scrollableEl, _f = _a.transitionDuration, transitionDuration = _f === void 0 ? 300 : _f, _g = _a.wrapElement, WrapElement = _g === void 0 ? 'div' : _g, wrapStyle = _a.wrapStyle, _h = _a.zoomMargin, zoomMargin = _h === void 0 ? 0 : _h, _j = _a.zoomZindex, zoomZindex = _j === void 0 ? 2147483647 : _j;
+    var _k = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false), isChildLoaded = _k[0], setIsChildLoaded = _k[1];
+    var wrapRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+    var btnRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+    var handleClickTrigger = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (e) {
+        if (!isActive && onZoomChange) {
+            e.preventDefault();
+            onZoomChange(true);
+        }
+    }, [isActive, onZoomChange]);
+    var handleChildLoad = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function () {
+        setIsChildLoaded(true);
+    }, []);
+    var handleChildUnload = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function () {
+        setIsChildLoaded(false);
+        if (btnRef.current) {
+            btnRef.current.focus({ preventScroll: true });
+        }
+    }, []);
+    var wrapType = isChildLoaded ? 'hidden' : 'visible';
+    return (react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.StrictMode, null,
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement(WrapElement, { "data-rmiz-wrap": wrapType, ref: wrapRef, style: wrapStyle },
+            children,
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", { "aria-label": openText, "data-rmiz-btn-open": true, onClick: handleClickTrigger, ref: btnRef, type: "button" }),
+            typeof window !== 'undefined' && (react__WEBPACK_IMPORTED_MODULE_1__.createElement(ControlledActivated$1, { closeText: closeText, isActive: isActive, onLoad: handleChildLoad, onUnload: handleChildUnload, onZoomChange: onZoomChange, overlayBgColorEnd: overlayBgColorEnd, overlayBgColorStart: overlayBgColorStart, parentRef: wrapRef, portalEl: portalEl, scrollableEl: scrollableEl, transitionDuration: transitionDuration, zoomMargin: zoomMargin, zoomZindex: zoomZindex }, children)))));
+};
+var Controlled$1 = (0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(Controlled);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Controlled$1);
+
+
+/***/ }),
+
+/***/ "./node_modules/react-medium-image-zoom/dist/esm/helpers.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/react-medium-image-zoom/dist/esm/helpers.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getModalContentStyle": () => (/* binding */ getModalContentStyle),
+/* harmony export */   "getModalOverlayStyle": () => (/* binding */ getModalOverlayStyle),
+/* harmony export */   "getScale": () => (/* binding */ getScale),
+/* harmony export */   "pseudoParentEl": () => (/* binding */ pseudoParentEl)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+
+
+var toDurationString = function (duration) { return duration + "ms"; };
+var getScale = function (_a) {
+    var height = _a.height, innerHeight = _a.innerHeight, innerWidth = _a.innerWidth, width = _a.width, zoomMargin = _a.zoomMargin;
+    var scaleX = innerWidth / (width + zoomMargin);
+    var scaleY = innerHeight / (height + zoomMargin);
+    var scale = Math.min(scaleX, scaleY);
+    return scale;
+};
+var getModalContentStyle = function (_a) {
+    var height = _a.height, innerHeight = _a.innerHeight, innerWidth = _a.innerWidth, isLoaded = _a.isLoaded, isUnloading = _a.isUnloading, left = _a.left, originalTransform = _a.originalTransform, top = _a.top, transitionDuration = _a.transitionDuration, width = _a.width, zoomMargin = _a.zoomMargin;
+    var transitionDurationString = toDurationString(transitionDuration);
+    if (!isLoaded || isUnloading) {
+        var initTransform = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__spreadArrays)([
+            "scale(1)",
+            "translate(0, 0)"
+        ], (originalTransform ? [originalTransform] : [])).join(' ');
+        return {
+            height: height,
+            left: left,
+            top: top,
+            transform: initTransform,
+            WebkitTransform: initTransform,
+            transitionDuration: transitionDurationString,
+            width: width
+        };
+    }
+    // Get amount to scale item
+    var scale = getScale({
+        height: height,
+        innerWidth: innerWidth,
+        innerHeight: innerHeight,
+        width: width,
+        zoomMargin: zoomMargin
+    });
+    // Get the the coords for center of the viewport
+    var viewportX = innerWidth / 2;
+    var viewportY = innerHeight / 2;
+    // Get the coords for center of the parent item
+    var childCenterX = left + width / 2;
+    var childCenterY = top + height / 2;
+    // Get offset amounts for item coords to be centered on screen
+    var translateX = (viewportX - childCenterX) / scale;
+    var translateY = (viewportY - childCenterY) / scale;
+    // Build transform style, including any original transform
+    var transform = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__spreadArrays)([
+        "scale(" + scale + ")",
+        "translate(" + translateX + "px, " + translateY + "px)"
+    ], (originalTransform ? [originalTransform] : [])).join(' ');
+    return {
+        height: height,
+        left: left,
+        top: top,
+        transform: transform,
+        WebkitTransform: transform,
+        transitionDuration: transitionDurationString,
+        width: width
+    };
+};
+var getModalOverlayStyle = function (_a) {
+    var isLoaded = _a.isLoaded, isUnloading = _a.isUnloading, overlayBgColorEnd = _a.overlayBgColorEnd, overlayBgColorStart = _a.overlayBgColorStart, transitionDuration = _a.transitionDuration, zoomZindex = _a.zoomZindex;
+    var style = {
+        backgroundColor: overlayBgColorStart,
+        transitionDuration: toDurationString(transitionDuration),
+        zIndex: zoomZindex
+    };
+    if (isLoaded && !isUnloading) {
+        style.backgroundColor = overlayBgColorEnd;
+    }
+    return style;
+};
+var pseudoParentEl = {
+    getBoundingClientRect: function () { return ({
+        height: 0,
+        left: 0,
+        top: 0,
+        width: 0
+    }); },
+    style: {
+        transform: null
+    }
+};
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-medium-image-zoom/dist/esm/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/react-medium-image-zoom/dist/esm/index.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Controlled": () => (/* reexport safe */ _Controlled_js__WEBPACK_IMPORTED_MODULE_3__["default"]),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var focus_options_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! focus-options-polyfill */ "./node_modules/focus-options-polyfill/index.js");
+/* harmony import */ var focus_options_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(focus_options_polyfill__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_use_lib_useEvent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-use/lib/useEvent */ "./node_modules/react-use/lib/useEvent.js");
+/* harmony import */ var react_use_lib_useWindowSize__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-use/lib/useWindowSize */ "./node_modules/react-use/lib/useWindowSize.js");
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./helpers.js */ "./node_modules/react-medium-image-zoom/dist/esm/helpers.js");
+/* harmony import */ var _Controlled_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Controlled.js */ "./node_modules/react-medium-image-zoom/dist/esm/Controlled.js");
+
+
+
+
+
+
+
+
+
+
+var UncontrolledActivated = function (_a) {
+    var children = _a.children, _b = _a.closeText, closeText = _b === void 0 ? 'Unzoom Image' : _b, onUnload = _a.onUnload, onLoad = _a.onLoad, _c = _a.overlayBgColorEnd, overlayBgColorEnd = _c === void 0 ? 'rgba(255, 255, 255, 0.95)' : _c, _d = _a.overlayBgColorStart, overlayBgColorStart = _d === void 0 ? 'rgba(255, 255, 255, 0)' : _d, parentRef = _a.parentRef, _e = _a.portalEl, portalEl = _e === void 0 ? document.body : _e, _f = _a.scrollableEl, scrollableEl = _f === void 0 ? window : _f, _g = _a.transitionDuration, transitionDuration = _g === void 0 ? 300 : _g, _h = _a.zoomMargin, zoomMargin = _h === void 0 ? 0 : _h, _j = _a.zoomZindex, zoomZindex = _j === void 0 ? 2147483647 : _j;
+    var btnRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+    var _k = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0), forceUpdate = _k[1];
+    var _l = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false), isLoaded = _l[0], setIsLoaded = _l[1];
+    var _m = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false), isUnloading = _m[0], setIsUnloading = _m[1];
+    var _o = (0,react_use_lib_useWindowSize__WEBPACK_IMPORTED_MODULE_4__["default"])(), innerWidth = _o.width, innerHeight = _o.height;
+    // on click, begin unloading
+    var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (e) {
+        e.preventDefault();
+        setIsUnloading(true);
+    }, []);
+    // on escape, begin unloading
+    var handleKeyDown = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            e.stopPropagation();
+            setIsUnloading(true);
+        }
+    }, []);
+    var handleScroll = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function () {
+        forceUpdate(function (n) { return n + 1; });
+        if (!isUnloading) {
+            setIsUnloading(true);
+        }
+    }, [isUnloading]);
+    // listen for keydown on the document
+    (0,react_use_lib_useEvent__WEBPACK_IMPORTED_MODULE_5__["default"])('keydown', handleKeyDown, document);
+    // listen for scroll and close
+    (0,react_use_lib_useEvent__WEBPACK_IMPORTED_MODULE_5__["default"])('scroll', handleScroll, scrollableEl);
+    // set loaded on mount and focus
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+        setIsLoaded(true);
+        onLoad();
+        if (btnRef.current) {
+            btnRef.current.focus({ preventScroll: true });
+        }
+    }, [onLoad]);
+    // if unloading, tell parent that we're all done here after Nms
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+        var unloadTimeout = isUnloading
+            ? setTimeout(onUnload, transitionDuration)
+            : null;
+        return function () {
+            if (unloadTimeout) {
+                clearTimeout(unloadTimeout);
+            }
+        };
+    }, [isUnloading, onUnload, transitionDuration]);
+    // use parent element or fake one if it's not yet loaded
+    var parentEl = parentRef.current || _helpers_js__WEBPACK_IMPORTED_MODULE_6__.pseudoParentEl;
+    // get parent item's dimensions
+    var _p = parentEl.getBoundingClientRect(), height = _p.height, left = _p.left, top = _p.top, width = _p.width;
+    var overlayStyle = (0,_helpers_js__WEBPACK_IMPORTED_MODULE_6__.getModalOverlayStyle)({
+        isLoaded: isLoaded,
+        isUnloading: isUnloading,
+        overlayBgColorEnd: overlayBgColorEnd,
+        overlayBgColorStart: overlayBgColorStart,
+        transitionDuration: transitionDuration,
+        zoomZindex: zoomZindex
+    });
+    var contentStyle = (0,_helpers_js__WEBPACK_IMPORTED_MODULE_6__.getModalContentStyle)({
+        height: height,
+        isLoaded: isLoaded,
+        innerHeight: innerHeight,
+        innerWidth: innerWidth,
+        isUnloading: isUnloading,
+        left: left,
+        originalTransform: parentEl.style.transform,
+        top: top,
+        transitionDuration: transitionDuration,
+        width: width,
+        zoomMargin: zoomMargin
+    });
+    return (0,react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal)(react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { "aria-modal": true, "data-rmiz-overlay": true, role: "dialog", style: overlayStyle },
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { "data-rmiz-modal-content": true, style: contentStyle }, children),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", { "aria-label": closeText, "data-rmiz-btn-close": true, onClick: handleClick, ref: btnRef })), portalEl);
+};
+var UncontrolledActivated$1 = (0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(UncontrolledActivated);
+
+var Uncontrolled = function (_a) {
+    var children = _a.children, _b = _a.closeText, closeText = _b === void 0 ? 'Unzoom image' : _b, _c = _a.overlayBgColorEnd, overlayBgColorEnd = _c === void 0 ? 'rgba(255, 255, 255, 0.95)' : _c, _d = _a.overlayBgColorStart, overlayBgColorStart = _d === void 0 ? 'rgba(255, 255, 255, 0)' : _d, portalEl = _a.portalEl, _e = _a.openText, openText = _e === void 0 ? 'Zoom image' : _e, scrollableEl = _a.scrollableEl, _f = _a.transitionDuration, transitionDuration = _f === void 0 ? 300 : _f, _g = _a.wrapElement, WrapElement = _g === void 0 ? 'div' : _g, wrapStyle = _a.wrapStyle, _h = _a.zoomMargin, zoomMargin = _h === void 0 ? 0 : _h, _j = _a.zoomZindex, zoomZindex = _j === void 0 ? 2147483647 : _j;
+    var _k = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false), isActive = _k[0], setIsActive = _k[1];
+    var _l = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false), isChildLoaded = _l[0], setIsChildLoaded = _l[1];
+    var wrapRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+    var btnRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+    var handleClickTrigger = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (e) {
+        if (!isActive) {
+            e.preventDefault();
+            setIsActive(true);
+        }
+    }, [isActive]);
+    var handleChildLoad = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function () {
+        setIsChildLoaded(true);
+    }, []);
+    var handleChildUnload = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function () {
+        setIsActive(false);
+        setIsChildLoaded(false);
+        if (btnRef.current) {
+            btnRef.current.focus({ preventScroll: true });
+        }
+    }, []);
+    var isExpanded = isActive && isChildLoaded;
+    var wrapType = isExpanded ? 'hidden' : 'visible';
+    return (react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.StrictMode, null,
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement(WrapElement, { "data-rmiz-wrap": wrapType, ref: wrapRef, style: wrapStyle },
+            children,
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", { "aria-label": openText, "data-rmiz-btn-open": true, onClick: handleClickTrigger, ref: btnRef }),
+            typeof window !== 'undefined' && isActive && (react__WEBPACK_IMPORTED_MODULE_1__.createElement(UncontrolledActivated$1, { closeText: closeText, onLoad: handleChildLoad, onUnload: handleChildUnload, overlayBgColorEnd: overlayBgColorEnd, overlayBgColorStart: overlayBgColorStart, parentRef: wrapRef, portalEl: portalEl, scrollableEl: scrollableEl, transitionDuration: transitionDuration, zoomMargin: zoomMargin, zoomZindex: zoomZindex }, children)))));
+};
+var Uncontrolled$1 = (0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(Uncontrolled);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Uncontrolled$1);
+
+
+/***/ }),
+
 /***/ "./node_modules/react-router-dom/index.js":
 /*!************************************************!*\
   !*** ./node_modules/react-router-dom/index.js ***!
@@ -30729,6 +31254,227 @@ const normalizeHash = hash => !hash || hash === "#" ? "" : hash.startsWith("#") 
 
 
 //# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/react-use/lib/misc/util.js":
+/*!*************************************************!*\
+  !*** ./node_modules/react-use/lib/misc/util.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.isNavigator = exports.isBrowser = exports.off = exports.on = exports.noop = void 0;
+var noop = function () { };
+exports.noop = noop;
+function on(obj) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    if (obj && obj.addEventListener) {
+        obj.addEventListener.apply(obj, args);
+    }
+}
+exports.on = on;
+function off(obj) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    if (obj && obj.removeEventListener) {
+        obj.removeEventListener.apply(obj, args);
+    }
+}
+exports.off = off;
+exports.isBrowser = typeof window !== 'undefined';
+exports.isNavigator = typeof navigator !== 'undefined';
+
+
+/***/ }),
+
+/***/ "./node_modules/react-use/lib/useEffectOnce.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/react-use/lib/useEffectOnce.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var useEffectOnce = function (effect) {
+    react_1.useEffect(effect, []);
+};
+exports["default"] = useEffectOnce;
+
+
+/***/ }),
+
+/***/ "./node_modules/react-use/lib/useEvent.js":
+/*!************************************************!*\
+  !*** ./node_modules/react-use/lib/useEvent.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var util_1 = __webpack_require__(/*! ./misc/util */ "./node_modules/react-use/lib/misc/util.js");
+var defaultTarget = util_1.isBrowser ? window : null;
+var isListenerType1 = function (target) {
+    return !!target.addEventListener;
+};
+var isListenerType2 = function (target) {
+    return !!target.on;
+};
+var useEvent = function (name, handler, target, options) {
+    if (target === void 0) { target = defaultTarget; }
+    react_1.useEffect(function () {
+        if (!handler) {
+            return;
+        }
+        if (!target) {
+            return;
+        }
+        if (isListenerType1(target)) {
+            util_1.on(target, name, handler, options);
+        }
+        else if (isListenerType2(target)) {
+            target.on(name, handler, options);
+        }
+        return function () {
+            if (isListenerType1(target)) {
+                util_1.off(target, name, handler, options);
+            }
+            else if (isListenerType2(target)) {
+                target.off(name, handler, options);
+            }
+        };
+    }, [name, handler, target, JSON.stringify(options)]);
+};
+exports["default"] = useEvent;
+
+
+/***/ }),
+
+/***/ "./node_modules/react-use/lib/usePrevious.js":
+/*!***************************************************!*\
+  !*** ./node_modules/react-use/lib/usePrevious.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function usePrevious(state) {
+    var ref = react_1.useRef();
+    react_1.useEffect(function () {
+        ref.current = state;
+    });
+    return ref.current;
+}
+exports["default"] = usePrevious;
+
+
+/***/ }),
+
+/***/ "./node_modules/react-use/lib/useRafState.js":
+/*!***************************************************!*\
+  !*** ./node_modules/react-use/lib/useRafState.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var useUnmount_1 = tslib_1.__importDefault(__webpack_require__(/*! ./useUnmount */ "./node_modules/react-use/lib/useUnmount.js"));
+var useRafState = function (initialState) {
+    var frame = react_1.useRef(0);
+    var _a = react_1.useState(initialState), state = _a[0], setState = _a[1];
+    var setRafState = react_1.useCallback(function (value) {
+        cancelAnimationFrame(frame.current);
+        frame.current = requestAnimationFrame(function () {
+            setState(value);
+        });
+    }, []);
+    useUnmount_1.default(function () {
+        cancelAnimationFrame(frame.current);
+    });
+    return [state, setRafState];
+};
+exports["default"] = useRafState;
+
+
+/***/ }),
+
+/***/ "./node_modules/react-use/lib/useUnmount.js":
+/*!**************************************************!*\
+  !*** ./node_modules/react-use/lib/useUnmount.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var useEffectOnce_1 = tslib_1.__importDefault(__webpack_require__(/*! ./useEffectOnce */ "./node_modules/react-use/lib/useEffectOnce.js"));
+var useUnmount = function (fn) {
+    var fnRef = react_1.useRef(fn);
+    // update the ref each render so if it change the newest callback will be invoked
+    fnRef.current = fn;
+    useEffectOnce_1.default(function () { return function () { return fnRef.current(); }; });
+};
+exports["default"] = useUnmount;
+
+
+/***/ }),
+
+/***/ "./node_modules/react-use/lib/useWindowSize.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/react-use/lib/useWindowSize.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var useRafState_1 = tslib_1.__importDefault(__webpack_require__(/*! ./useRafState */ "./node_modules/react-use/lib/useRafState.js"));
+var util_1 = __webpack_require__(/*! ./misc/util */ "./node_modules/react-use/lib/misc/util.js");
+var useWindowSize = function (initialWidth, initialHeight) {
+    if (initialWidth === void 0) { initialWidth = Infinity; }
+    if (initialHeight === void 0) { initialHeight = Infinity; }
+    var _a = useRafState_1.default({
+        width: util_1.isBrowser ? window.innerWidth : initialWidth,
+        height: util_1.isBrowser ? window.innerHeight : initialHeight,
+    }), state = _a[0], setState = _a[1];
+    react_1.useEffect(function () {
+        if (util_1.isBrowser) {
+            var handler_1 = function () {
+                setState({
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                });
+            };
+            util_1.on(window, 'resize', handler_1);
+            return function () {
+                util_1.off(window, 'resize', handler_1);
+            };
+        }
+    }, []);
+    return state;
+};
+exports["default"] = useWindowSize;
 
 
 /***/ }),
@@ -34140,6 +34886,36 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-medium-image-zoom/dist/styles.css":
+/*!**************************************************************!*\
+  !*** ./node_modules/react-medium-image-zoom/dist/styles.css ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_styles_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./styles.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/react-medium-image-zoom/dist/styles.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_styles_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_styles_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./resources/css/ProductPage.css":
 /*!***************************************!*\
   !*** ./resources/css/ProductPage.css ***!
@@ -34449,6 +35225,283 @@ module.exports = function (list, options) {
 
 /***/ }),
 
+/***/ "./node_modules/tslib/tslib.es6.js":
+/*!*****************************************!*\
+  !*** ./node_modules/tslib/tslib.es6.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "__extends": () => (/* binding */ __extends),
+/* harmony export */   "__assign": () => (/* binding */ __assign),
+/* harmony export */   "__rest": () => (/* binding */ __rest),
+/* harmony export */   "__decorate": () => (/* binding */ __decorate),
+/* harmony export */   "__param": () => (/* binding */ __param),
+/* harmony export */   "__metadata": () => (/* binding */ __metadata),
+/* harmony export */   "__awaiter": () => (/* binding */ __awaiter),
+/* harmony export */   "__generator": () => (/* binding */ __generator),
+/* harmony export */   "__createBinding": () => (/* binding */ __createBinding),
+/* harmony export */   "__exportStar": () => (/* binding */ __exportStar),
+/* harmony export */   "__values": () => (/* binding */ __values),
+/* harmony export */   "__read": () => (/* binding */ __read),
+/* harmony export */   "__spread": () => (/* binding */ __spread),
+/* harmony export */   "__spreadArrays": () => (/* binding */ __spreadArrays),
+/* harmony export */   "__spreadArray": () => (/* binding */ __spreadArray),
+/* harmony export */   "__await": () => (/* binding */ __await),
+/* harmony export */   "__asyncGenerator": () => (/* binding */ __asyncGenerator),
+/* harmony export */   "__asyncDelegator": () => (/* binding */ __asyncDelegator),
+/* harmony export */   "__asyncValues": () => (/* binding */ __asyncValues),
+/* harmony export */   "__makeTemplateObject": () => (/* binding */ __makeTemplateObject),
+/* harmony export */   "__importStar": () => (/* binding */ __importStar),
+/* harmony export */   "__importDefault": () => (/* binding */ __importDefault),
+/* harmony export */   "__classPrivateFieldGet": () => (/* binding */ __classPrivateFieldGet),
+/* harmony export */   "__classPrivateFieldSet": () => (/* binding */ __classPrivateFieldSet)
+/* harmony export */ });
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return __assign.apply(this, arguments);
+}
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+var __createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+
+function __exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+/** @deprecated */
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+/** @deprecated */
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+var __setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+}
+
+function __importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function __classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/extends.js":
 /*!************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/extends.js ***!
@@ -34487,7 +35540,7 @@ function _extends() {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\Leon\\\\Desktop\\\\M-Store\\\\M-Store"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\Users\\\\Leon\\\\Desktop\\\\M-Store\\\\M-Store","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
 
 /***/ })
 
