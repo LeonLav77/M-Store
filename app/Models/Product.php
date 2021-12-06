@@ -31,26 +31,16 @@ class Product extends Model
             $query->where('isInStock', false);
         });
     }
-
-
     // returns all discounted products with discount applied
-    public function scopeDiscountedAll($query)
+    public function scopeDiscounted($query)
     {
-        $products = $query->where('discount_id', '!=', null)->get();
-        return CalculateCurrentPrice::run($products);
-    }
-    // returns all products and the discounted ones with discount applied
-    public function scopeAllProductsWithDiscounts($query)
-    {
-        $products = $query->get();
-        return CalculateCurrentPrice::run($products);
+        return $query->where('discount_id', '!=', null);
     }
     // returns a product with discount applied
     public function scopeDiscountedItem($query, $id)
     {
         $products = $query->findOrFail($id);
-
-        return CalculateCurrentPrice::run($products);
+        return CalculateCurrentPrice::run($products); 
     }
     // testing Function, to delete before production
     public function scopeNth($query, $id)

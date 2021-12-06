@@ -33,8 +33,11 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Fortify::verifyEmailView(function () {
-            return redirect('auth.verify-email');
+        Fortify::resetPasswordView(function ($request) {
+            return redirect()->route('/');
+        });
+        Fortify::requestPasswordResetLinkView(function () {
+            return redirect()->route('/');
         });
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);

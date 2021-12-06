@@ -10,9 +10,9 @@ use App\Actions\CalculateCurrentPrice;
 
 class APIController extends Controller
 {
-    public function getAllProducts()
+    public function getAllProducts($itemsPerPage = 10)
     {
-        $products = Product::all();
+        $products = Product::paginate($itemsPerPage);
         return response()->json($products);
     }
     public function getProductById($id)
@@ -20,18 +20,21 @@ class APIController extends Controller
         $product = Product::with('Images')->find($id);
         return response()->json($product);
     }
-    public function getProductsByCategory($categoryName)
+    public function getProductsByCategory($categoryName, request $request)
     {
-        $products = Category::where('name', $categoryName)->get()[0]->products;
+        $numberOfProducts = $request->numberOfProducts;
+        $numberOfSkipped = $request->numberOfSkipped;
+        $products = Category::where('name', $categoryName)->get()[0]->products->skip($numberOfSkipped)->take($numberOfProducts);
         return response()->json($products);
     }
 
     public function getProductsByCategoryWCP($categoryName, request $request)
     {
-        $products = Category::where('name', $categoryName)->get()[0]->products->take($request->numberOfProducts);
+        $numberOfProducts = $request->numberOfProducts;
+        $numberOfSkipped = $request->numberOfSkipped;
+        $products = Category::where('name', $categoryName)->get()[0]->products->skip($numberOfSkipped)->take($numberOfProducts);
         return CalculateCurrentPrice::run($products);
     }
-
     public function getCategories()
     {
         $categories = Category::all();
@@ -47,10 +50,9 @@ class APIController extends Controller
 
     public function getDiscountedProducts()
     {
-        $products = Product::DiscountedAll();
-        return response()->json($products);
+        $products = Product::Discounted()->get();
+        return response()->json(CalculateCurrentPrice::run($products));
     }
-
 
     public function getDiscProductWithPrice($id)
     {
@@ -60,8 +62,10 @@ class APIController extends Controller
 
     public function getAllProductsRealPrice()
     {
-        $products = Product::AllProductsWithDiscounts();
-        return response()->json($products);
+        // can't user paginate because it adds a new column to the collection 
+        // that messes with the calculations
+        $products = Product::paginate(1);
+        return response()->json(CalculateCurrentPrice::run($products));
     }
     // brutally slow cant ship to production before refactoring
     public function getInStockProducts()
@@ -124,7 +128,7 @@ class APIController extends Controller
             return $query->with('stock')->whereHas('stock', function ($query) {
                 return $query->where('isInStock', true);
             });
-        })->get();
+        })->paginate($request->productPerPage);
         if ($products->isEmpty()) {
             return response()->json(['message' => 'No products found']);
         }
@@ -137,8 +141,7 @@ class APIController extends Controller
     }
     public function checkIfLoggedIn()
     {
-        $message = (auth()->check()) ? ['message' => 'Logged In'] : ['message' =>
-              'Not Logged In'];
+        $message = (auth()->check()) ? ['message' => 'Logged In'] : ['message' => 'Not Logged In'];
         return response()->json($message);
     }
 }
