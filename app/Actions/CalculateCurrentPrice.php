@@ -4,8 +4,8 @@ namespace App\Actions;
 
 use App\Models\Product;
 
-use Lorisleiva\Actions\Concerns\AsAction;
 use function PHPSTORM_META\type;
+use Lorisleiva\Actions\Concerns\AsAction;
 
 class CalculateCurrentPrice
 {
@@ -13,8 +13,11 @@ class CalculateCurrentPrice
 
     public function handle($product)
     {
-        if ($product instanceof \Illuminate\Database\Eloquent\Collection) {
-            $product = collect($product);
+        if($product instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+            $product = collect($product->items());
+        }
+        if ($product instanceof \Illuminate\Database\Eloquent\Collection || $product instanceof \Illuminate\Support\Collection) {
+            // $product = collect($product);
             foreach ($product as $p) {
                 // return $p->discount->discount;
                 if (isset($p->discount)) {
