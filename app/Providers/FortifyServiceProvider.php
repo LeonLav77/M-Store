@@ -33,12 +33,6 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Fortify::resetPasswordView(function ($request) {
-            return redirect()->route('/');
-        });
-        Fortify::requestPasswordResetLinkView(function () {
-            return redirect()->route('/');
-        });
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);

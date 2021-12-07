@@ -33,7 +33,7 @@ Route::get('/login/github/callback', [LoginController::class, 'handleGithubCallb
 // All products, probably not going to be used because there is a better version
 // Route::get('/allProducts', [APIController::class,'getAllProducts']);
 // All products, with the current price
-Route::get('/allProductsWCP', [APIController::class,'getAllProductsWCO']);
+Route::get('/allProductsWCP', [APIController::class,'getAllProductsWCP']);
 
 // Specific product, probably not going to be used because there is a better function
 // Route::get('/productById/{id}', [APIController::class,'getProductById']);

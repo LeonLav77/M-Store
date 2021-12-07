@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +14,9 @@ use App\Http\Controllers\LoginController;
 |
 */
 Auth::routes();
-
+Route::get('/password_reset', function () {
+    return view('app');
+})->name('password-reset');
 Route::get('/{path?}', function () {
     return view('app');
 })->where('path', '.*');
-// Route::view('/register', 'register')->middleware(['guest']);
-// Route::view('/login', 'login')->middleware(['guest']);
-
-
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
