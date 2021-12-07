@@ -6,7 +6,7 @@ export const Products = () => {
     const [data, setData] = useState([]);
     const getData = () => {
         return axios
-            .get("http://127.0.0.1:8000/api/allProductsWCP")
+            .get("http://127.0.0.1:8000/api/allProductsWCP?")
             .then((res) => setData(res.data))
             .catch((err) => console.log(err));
     };

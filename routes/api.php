@@ -31,21 +31,21 @@ Route::get('/login/github/callback', [LoginController::class, 'handleGithubCallb
 
 
 // All products, probably not going to be used because there is a better version
-Route::get('/allProducts', [APIController::class,'getAllProducts']);
+// Route::get('/allProducts', [APIController::class,'getAllProducts']);
 // All products, with the current price
-Route::get('/allProductsWCP', [APIController::class,'getAllProductsRealPrice']);
+Route::get('/allProductsWCP', [APIController::class,'getAllProductsWCO']);
 
 // Specific product, probably not going to be used because there is a better function
-Route::get('/productById/{id}', [APIController::class,'getProductById']);
+// Route::get('/productById/{id}', [APIController::class,'getProductById']);
 // Specific product with its current price
-Route::get('/productWCP/{id}', [APIController::class,'getDiscProductWithPrice']);
+Route::get('/productWCP/{id}', [APIController::class,'getProductWCP']);
 
 // Get all categories with their info
 Route::get('/categories', [APIController::class,'getCategories']);
 // Get all category names
 Route::get('/categoryNames', [APIController::class,'getCategoryNames']);
 // All products of a category
-Route::get('/productsByCategory/{categoryName}', [APIController::class,'getProductsByCategory']);
+// Route::get('/productsByCategory/{categoryName}', [APIController::class,'getProductsByCategory']);
 // All products of a category with their current price
 Route::get('/productsByCategoryWCP/{categoryName}', [APIController::class,'getProductsByCategoryWCP']);
 
