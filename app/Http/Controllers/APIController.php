@@ -62,7 +62,16 @@ class APIController extends Controller
         $products = Product::find($id);
         return response()->json(CalculateCurrentPrice::run($products));
     }
-
+    public function getRelatedProducts($id){
+        $mainProduct = Product::find($id);
+        $products = Product::where('name','like', '%'.$mainProduct->name.'%')->paginate(15);
+        return response()->json(CalculateCurrentPrice::run($products));
+    }
+    public function getSameSellerProducts($id){
+        $mainProduct = Product::find($id);
+        $products = Product::where('seller_id',$mainProduct->seller_id)->paginate(1500);
+        return response()->json(CalculateCurrentPrice::run($products));
+    }
     public function getAllProductsWCP(request $request)
     {
 

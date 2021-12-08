@@ -40,6 +40,11 @@ Route::get('/allProductsWCP', [APIController::class,'getAllProductsWCP']);
 // Specific product with its current price
 Route::get('/productWCP/{id}', [APIController::class,'getProductWCP']);
 
+Route::get('/relatedProducts/{id}', [APIController::class,'getRelatedProducts']);
+
+Route::get('/sameSellerProducts/{id}', [APIController::class,'getSameSellerProducts']);
+
+
 // Get all categories with their info
 Route::get('/categories', [APIController::class,'getCategories']);
 // Get all category names
