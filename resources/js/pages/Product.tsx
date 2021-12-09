@@ -130,29 +130,28 @@ export const Product = () => {
                     </div>
                 </div>
             </div>
-            <div className={`main_arrow_container ${isZoomedIn ? "" : "hide"}`}>
-                <div className="prev_arrow"></div>
-                {/* <div className={`arrow_container`}>
-                    <div
-                        className={`prev_slide ${
-                            isZoomedIn && currentId != 0 ? "" : "hide"
-                        }`}
-                        onClick={() => {
-                            if (currentId == 0) return;
-                            else setCurrentId(currentId - 1);
-                        }}
-                    ></div>
-                </div> */}
+            <div
+                className={`main_arrow_container left_arrow ${
+                    isZoomedIn && currentId != 0 ? "" : "hide"
+                }`}
+                onClick={() => {
+                    if (currentId == 0) return;
+                    else setCurrentId(currentId - 1);
+                }}
+            >
+                <div className="prev_slide"></div>
             </div>
             <div
-                className={`next_slide ${
+                className={`main_arrow_container right_arrow ${
                     isZoomedIn && currentId < images.length - 1 ? "" : "hide"
                 }`}
                 onClick={() => {
                     if (currentId == images.length - 1) return;
                     else setCurrentId(currentId + 1);
                 }}
-            ></div>
+            >
+                <div className="next_slide"></div>
+            </div>
             <div className="related_products_container">
                 <h1 className="related_products_title">Related Items</h1>
                 <div className="related_products">
