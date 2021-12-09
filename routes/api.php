@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ExtraFortifyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,4 +79,7 @@ Route::middleware(['loggedIn'])->group(function () {
     Route::delete('/itemFromCart/{id}', [CartController::class,'removeItemFromCart']);
     // Remove all items from cart
     Route::delete('/emptyCart', [CartController::class,'emptyCart']);
+
+    Route::get('/hasTFAEnabled', [ExtraFortifyController::class,'getHasTFAEnabled']);
+
 });
