@@ -36,12 +36,7 @@ class Product extends Model
     {
         return $query->where('discount_id', '!=', null);
     }
-    // returns a product with discount applied
-    public function scopeDiscountedItem($query, $id)
-    {
-        $products = $query->findOrFail($id);
-        return CalculateCurrentPrice::run($products); 
-    }
+    
     // testing Function, to delete before production
     public function scopeNth($query, $id)
     {
@@ -57,7 +52,7 @@ class Product extends Model
     }
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class)->select(array('product_id', 'path'));
     }
     public function discount()
     {

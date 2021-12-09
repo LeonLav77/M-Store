@@ -10,30 +10,33 @@ use App\Actions\CalculateCurrentPrice;
 
 class APIController extends Controller
 {
-    public function getAllProducts($itemsPerPage = 10)
-    {
-        $products = Product::paginate($itemsPerPage);
-        return response()->json($products);
-    }
-    public function getProductById($id)
-    {
-        $product = Product::with('Images')->find($id);
-        return response()->json($product);
-    }
-    public function getProductsByCategory($categoryName, request $request)
-    {
-        $numberOfProducts = $request->numberOfProducts;
-        $numberOfSkipped = $request->numberOfSkipped;
-        $products = Category::where('name', $categoryName)->get()[0]->products->skip($numberOfSkipped)->take($numberOfProducts);
-        return response()->json($products);
-    }
+    // DEPRECATED because there is a better way
+    // public function getAllProducts($itemsPerPage = 10)
+    // {
+    //     $products = Product::paginate($itemsPerPage);
+    //     return response()->json($products);
+    // }
+
+    // DEPRECATED because there is a better way
+    // public function getProductById($id)
+    // {
+    //     $product = Product::with('images')->find($id);
+    //     return response()->json($product);
+    // }
+
+    // DEPRECATED because there is a better way
+    // public function getProductsByCategory($categoryName, request $request)
+    // {
+    //     $numberOfProducts = $request->numberOfProducts;
+    //     $numberOfSkipped = $request->numberOfSkipped;
+    //     $products = Category::where('name', $categoryName)->first()->products->skip($numberOfSkipped)->take($numberOfProducts);
+    //     return response()->json($products);
+    // }
 
     public function getProductsByCategoryWCP($categoryName, request $request)
     {
-        $numberOfProducts = $request->numberOfProducts;
-        $numberOfSkipped = $request->numberOfSkipped;
-        $products = Category::where('name', $categoryName)->get()[0]->products->skip($numberOfSkipped)->take($numberOfProducts);
-        return CalculateCurrentPrice::run($products);
+        $products = Product::where('category_id', Category::where('name', $categoryName)->first()->id)->paginate($request->productsPerPage);
+        return response()->json(CalculateCurrentPrice::run($products));
     }
     public function getCategories()
     {
@@ -54,17 +57,25 @@ class APIController extends Controller
         return response()->json(CalculateCurrentPrice::run($products));
     }
 
-    public function getDiscProductWithPrice($id)
+    public function getProductWCP($id)
     {
-        $products = Product::DiscountedItem($id);
-        return response()->json($products);
+        $products = Product::find($id);
+        return response()->json(CalculateCurrentPrice::run($products));
     }
-
-    public function getAllProductsRealPrice()
+    public function getRelatedProducts($id){
+        $mainProduct = Product::find($id);
+        $products = Product::where('name','like', '%'.$mainProduct->name.'%')->paginate(15);
+        return response()->json(CalculateCurrentPrice::run($products));
+    }
+    public function getSameSellerProducts($id){
+        $mainProduct = Product::find($id);
+        $products = Product::where('seller_id',$mainProduct->seller_id)->paginate(1500);
+        return response()->json(CalculateCurrentPrice::run($products));
+    }
+    public function getAllProductsWCP(request $request)
     {
-        // can't user paginate because it adds a new column to the collection 
-        // that messes with the calculations
-        $products = Product::paginate(1);
+
+        $products = Product::paginate($request->productsPerPage);
         return response()->json(CalculateCurrentPrice::run($products));
     }
     // brutally slow cant ship to production before refactoring
@@ -132,12 +143,12 @@ class APIController extends Controller
         if ($products->isEmpty()) {
             return response()->json(['message' => 'No products found']);
         }
-        return response()->json($products);
+        return response()->json(CalculateCurrentPrice::run($products));
     }
-    public function test()
+    public function test(request $request)
     {
-        $product = Product::take(5)->get();
-        return CalculateCurrentPrice::run($product);
+        $products = Product::where('category_id', Category::where('name', $request->category)->first()->id)->paginate(6);
+        return response()->json(CalculateCurrentPrice::run($products));
     }
     public function checkIfLoggedIn()
     {

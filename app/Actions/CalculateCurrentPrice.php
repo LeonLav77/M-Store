@@ -11,30 +11,36 @@ class CalculateCurrentPrice
 {
     use AsAction;
 
-    public function handle($product)
+    public function handle($products)
     {
-        if($product instanceof \Illuminate\Pagination\LengthAwarePaginator) {
-            $product = collect($product->items());
+        // $yes = $products->getCollection();
+        // $products->setCollection($yes);
+        // return $products;
+        if($products instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+            $updatedItems = $this->determinePlural($products->getCollection());
+            $products->setCollection($updatedItems);
+        }else{
+            $this->determinePlural($products);
         }
-        if ($product instanceof \Illuminate\Database\Eloquent\Collection || $product instanceof \Illuminate\Support\Collection) {
-            // $product = collect($product);
-            foreach ($product as $p) {
-                // return $p->discount->discount;
-                if (isset($p->discount)) {
-                    $p->current_price = $p->price - ($p->price * $p->discount->discount / 100);
-                } else {
-                    $p->current_price = $p->price;
-                }
+        return $products;
+    }
+    public function determinePlural($products){
+        if ($products instanceof \Illuminate\Database\Eloquent\Collection || $products instanceof \Illuminate\Support\Collection) {
+            foreach ($products as $product) {
+                $this->calculate($product);
             }
-            return $product;
         } else {
-            if (isset($product->discount)) {
-                $product->current_price = $product->price - ($product->price * $product->discount->discount / 100);
-            } else {
-                $product->current_price = $product->price;
-            }
-            return $product;
+            $this->calculate($products);
         }
-        return 'Error has occured';
+        return $products;
+
+    }
+
+    public function calculate($p){
+        if (isset($p->discount)) {
+            $p->current_price = $p->price - ($p->price * $p->discount->discount / 100);
+        } else {
+            $p->current_price = $p->price;
+        }
     }
 }

@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>{{htmlspecialchars($_GET[])}}</h1>
+    Hi {{ $name }}, Please reset your password here. Click on the below link to reset the password.
+    <a href="{{ $url }}">RESET</a>
 </body>
 </html>
