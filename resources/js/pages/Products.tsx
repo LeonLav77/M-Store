@@ -6,8 +6,8 @@ export const Products = () => {
     const [data, setData] = useState([]);
     const getData = () => {
         return axios
-            .get("http://127.0.0.1:8000/api/allProductsWCP?")
-            .then((res) => setData(res.data))
+            .get("http://127.0.0.1:8000/api/allProductsWCP?productsPerPage=10")
+            .then((res) => setData(res.data.data))
             .catch((err) => console.log(err));
     };
     useEffect(() => {
