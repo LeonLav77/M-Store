@@ -36,7 +36,72 @@ export const Home = () => {
             }
         });
     };
-
+    function register() {
+        $.ajax({
+            method: "POST",
+            url: "/auth/register",
+            data: {
+                email: "leonlav77@gmail.com",
+                name: "leonlav77",
+                password: "password",
+                password_confirmation: "password"
+                },
+            dataType: "json", 
+            contentType: "application/x-www-form-urlencoded",
+            success: (result) => {
+                console.log(result);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    }
+    function getChallenge() {
+        $.ajax({
+            method: "GET",
+            url: "/auth/two-factor-challenge",
+            dataType: "json", 
+            contentType: "application/x-www-form-urlencoded",
+            success: (result) => {
+                console.log(result);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    }
+    function sendChallenge() {
+        $.ajax({
+            method: "POST",
+            url: "/auth/two-factor-challenge",
+            dataType: "json", 
+            contentType: "application/x-www-form-urlencoded",
+            data: {
+                code: "123456",
+                recovery_code: "123456"
+            },
+            success: (result) => {
+                console.log(result);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    }
+    function logout() {
+        $.ajax({
+            method: "POST",
+            url: "/auth/logout",
+            dataType: "json", 
+            contentType: "application/x-www-form-urlencoded",
+            success: (result) => {
+                console.log(result);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    }
     function Login() {
         login();
     }
@@ -121,7 +186,9 @@ export const Home = () => {
                     <Link className="navbar-brand" to="products">
                         Products
                     </Link>
-                        
+                    <button onClick={() => {register()}}>
+                        Register
+                    </button>
                     <button onClick={() => {Login()}}>
                         Login
                     </button>
@@ -139,6 +206,15 @@ export const Home = () => {
                     </button>
                     <button onClick={() => {renderQRCode()}}>
                         QR Code
+                    </button>
+                    <button onClick={() => {logout()}}>
+                        logout
+                    </button>
+                    <button onClick={() => {getChallenge()}}>
+                        Get challenge
+                    </button>
+                    <button onClick={() => {sendChallenge()}}>
+                        Send challenge
                     </button>
                 </div>
             </nav>

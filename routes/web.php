@@ -17,9 +17,7 @@ use App\Http\Controllers\LoginController;
 Route::get('/auth/login', function () {
     return redirect('/login');
 });
-// Route::get('/password/confirm', function () {
-//     return redirect('/yes');
-// })->name('auth.passwords.confirm');
+
 Auth::routes();
 
 Route::get('/password_reset', function () {

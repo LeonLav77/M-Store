@@ -2188,6 +2188,76 @@ var Home = function Home() {
     });
   };
 
+  function register() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/register",
+      data: {
+        email: "leonlav77@gmail.com",
+        name: "leonlav77",
+        password: "password",
+        password_confirmation: "password"
+      },
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error2) {
+        console.log(_error2);
+      }
+    });
+  }
+
+  function getChallenge() {
+    jquery_1["default"].ajax({
+      method: "GET",
+      url: "/auth/two-factor-challenge",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error3) {
+        console.log(_error3);
+      }
+    });
+  }
+
+  function sendChallenge() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/two-factor-challenge",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      data: {
+        code: "123456",
+        recovery_code: "123456"
+      },
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error4) {
+        console.log(_error4);
+      }
+    });
+  }
+
+  function logout() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/logout",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error5) {
+        console.log(_error5);
+      }
+    });
+  }
+
   function Login() {
     login();
   }
@@ -2201,8 +2271,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error2) {
-        console.log(_error2);
+      error: function error(_error6) {
+        console.log(_error6);
       }
     });
   }
@@ -2216,8 +2286,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error3) {
-        console.log(_error3);
+      error: function error(_error7) {
+        console.log(_error7);
       }
     });
   }
@@ -2235,8 +2305,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error4) {
-        console.log(_error4);
+      error: function error(_error8) {
+        console.log(_error8);
       }
     });
   }
@@ -2250,8 +2320,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error5) {
-        console.log(_error5);
+      error: function error(_error9) {
+        console.log(_error9);
       }
     });
   }
@@ -2265,8 +2335,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error6) {
-        console.log(_error6);
+      error: function error(_error10) {
+        console.log(_error10);
       }
     });
   }
@@ -2279,6 +2349,10 @@ var Home = function Home() {
     className: "navbar-brand",
     to: "products"
   }, "Products"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      register();
+    }
+  }, "Register"), react_1["default"].createElement("button", {
     onClick: function onClick() {
       Login();
     }
@@ -2302,7 +2376,19 @@ var Home = function Home() {
     onClick: function onClick() {
       renderQRCode();
     }
-  }, "QR Code"))), react_1["default"].createElement("div", {
+  }, "QR Code"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      logout();
+    }
+  }, "logout"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      getChallenge();
+    }
+  }, "Get challenge"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      sendChallenge();
+    }
+  }, "Send challenge"))), react_1["default"].createElement("div", {
     key: "main_container"
   }, react_1["default"].createElement("div", null, " ", (0, react_html_parser_1["default"])(data.svg), " ")));
 };
