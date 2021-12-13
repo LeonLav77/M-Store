@@ -2224,6 +2224,21 @@ var Home = function Home() {
     });
   }
 
+  function getRecoveryCodes() {
+    jquery_1["default"].ajax({
+      method: "GET",
+      url: "/auth/user/two-factor-recovery-codes",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error4) {
+        console.log(_error4);
+      }
+    });
+  }
+
   function sendChallenge() {
     jquery_1["default"].ajax({
       method: "POST",
@@ -2231,14 +2246,13 @@ var Home = function Home() {
       dataType: "json",
       contentType: "application/x-www-form-urlencoded",
       data: {
-        code: "123456",
-        recovery_code: "123456"
+        recovery_code: "m7V3ssG4kq-NpCzqnFcoU"
       },
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error4) {
-        console.log(_error4);
+      error: function error(_error5) {
+        console.log(_error5);
       }
     });
   }
@@ -2252,8 +2266,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error5) {
-        console.log(_error5);
+      error: function error(_error6) {
+        console.log(_error6);
       }
     });
   }
@@ -2271,8 +2285,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error6) {
-        console.log(_error6);
+      error: function error(_error7) {
+        console.log(_error7);
       }
     });
   }
@@ -2286,8 +2300,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error7) {
-        console.log(_error7);
+      error: function error(_error8) {
+        console.log(_error8);
       }
     });
   }
@@ -2305,23 +2319,23 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error8) {
-        console.log(_error8);
+      error: function error(_error9) {
+        console.log(_error9);
       }
     });
   }
 
   function disableTFA() {
     jquery_1["default"].ajax({
-      method: "POST",
+      method: "DELETE",
       url: "/auth/user/two-factor-authentication",
       dataType: "json",
       contentType: "application/x-www-form-urlencoded",
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error9) {
-        console.log(_error9);
+      error: function error(_error10) {
+        console.log(_error10);
       }
     });
   }
@@ -2335,8 +2349,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error10) {
-        console.log(_error10);
+      error: function error(_error11) {
+        console.log(_error11);
       }
     });
   }
@@ -2388,7 +2402,11 @@ var Home = function Home() {
     onClick: function onClick() {
       sendChallenge();
     }
-  }, "Send challenge"))), react_1["default"].createElement("div", {
+  }, "Send challenge"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      getRecoveryCodes();
+    }
+  }, "Get recovery codes"))), react_1["default"].createElement("div", {
     key: "main_container"
   }, react_1["default"].createElement("div", null, " ", (0, react_html_parser_1["default"])(data.svg), " ")));
 };

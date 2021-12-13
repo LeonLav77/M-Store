@@ -70,6 +70,20 @@ export const Home = () => {
             }
         });
     }
+    function getRecoveryCodes() {
+        $.ajax({
+            method: "GET",
+            url: "/auth/user/two-factor-recovery-codes",
+            dataType: "json", 
+            contentType: "application/x-www-form-urlencoded",
+            success: (result) => {
+                console.log(result);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    }
     function sendChallenge() {
         $.ajax({
             method: "POST",
@@ -77,8 +91,7 @@ export const Home = () => {
             dataType: "json", 
             contentType: "application/x-www-form-urlencoded",
             data: {
-                code: "123456",
-                recovery_code: "123456"
+                recovery_code: "m7V3ssG4kq-NpCzqnFcoU"
             },
             success: (result) => {
                 console.log(result);
@@ -153,7 +166,7 @@ export const Home = () => {
     }
     function disableTFA() {
         $.ajax({
-            method: "POST",
+            method: "DELETE",
             url: "/auth/user/two-factor-authentication",
             dataType: "json", 
             contentType: "application/x-www-form-urlencoded",
@@ -215,6 +228,9 @@ export const Home = () => {
                     </button>
                     <button onClick={() => {sendChallenge()}}>
                         Send challenge
+                    </button>
+                    <button onClick={() => {getRecoveryCodes()}}>
+                        Get recovery codes
                     </button>
                 </div>
             </nav>
