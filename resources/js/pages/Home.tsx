@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link  } from "react-router-dom";
 import axios from "axios";
 import $ from 'jquery';
 import ReactHtmlParser from 'react-html-parser';
@@ -18,58 +18,6 @@ export const Home = () => {
     useEffect(() => {
         getData();
     }, []);
-    const login = () => {
-        $.ajax({
-            method: "POST",
-            url: "/auth/login",
-            data: {
-                email: "leonlav77@gmail.com",
-                password: "password"
-                },
-            dataType: "json", 
-            contentType: "application/x-www-form-urlencoded",
-            success: (result) => {
-                console.log(result);
-            },
-            error: (error) => {
-                console.log(error);
-            }
-        });
-    };
-    function register() {
-        $.ajax({
-            method: "POST",
-            url: "/auth/register",
-            data: {
-                email: "leonlav77@gmail.com",
-                name: "leonlav77",
-                password: "password",
-                password_confirmation: "password"
-                },
-            dataType: "json", 
-            contentType: "application/x-www-form-urlencoded",
-            success: (result) => {
-                console.log(result);
-            },
-            error: (error) => {
-                console.log(error);
-            }
-        });
-    }
-    function getChallenge() {
-        $.ajax({
-            method: "GET",
-            url: "/auth/two-factor-challenge",
-            dataType: "json", 
-            contentType: "application/x-www-form-urlencoded",
-            success: (result) => {
-                console.log(result);
-            },
-            error: (error) => {
-                console.log(error);
-            }
-        });
-    }
     function getRecoveryCodes() {
         $.ajax({
             method: "GET",
@@ -114,9 +62,6 @@ export const Home = () => {
                 console.log(error);
             }
         });
-    }
-    function Login() {
-        login();
     }
     function hasTFA() {
         $.ajax({
@@ -199,12 +144,12 @@ export const Home = () => {
                     <Link className="navbar-brand" to="products">
                         Products
                     </Link>
-                    <button onClick={() => {register()}}>
+                    <Link className="navbar-brand" to="register">
                         Register
-                    </button>
-                    <button onClick={() => {Login()}}>
+                    </Link>
+                    <Link className="navbar-brand" to="login">
                         Login
-                    </button>
+                    </Link>
                     <button onClick={() => {hasTFA()}}>
                         TFA
                     </button>
@@ -222,9 +167,6 @@ export const Home = () => {
                     </button>
                     <button onClick={() => {logout()}}>
                         logout
-                    </button>
-                    <button onClick={() => {getChallenge()}}>
-                        Get challenge
                     </button>
                     <button onClick={() => {sendChallenge()}}>
                         Send challenge

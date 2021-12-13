@@ -2169,61 +2169,6 @@ var Home = function Home() {
     getData();
   }, []);
 
-  var login = function login() {
-    jquery_1["default"].ajax({
-      method: "POST",
-      url: "/auth/login",
-      data: {
-        email: "leonlav77@gmail.com",
-        password: "password"
-      },
-      dataType: "json",
-      contentType: "application/x-www-form-urlencoded",
-      success: function success(result) {
-        console.log(result);
-      },
-      error: function error(_error) {
-        console.log(_error);
-      }
-    });
-  };
-
-  function register() {
-    jquery_1["default"].ajax({
-      method: "POST",
-      url: "/auth/register",
-      data: {
-        email: "leonlav77@gmail.com",
-        name: "leonlav77",
-        password: "password",
-        password_confirmation: "password"
-      },
-      dataType: "json",
-      contentType: "application/x-www-form-urlencoded",
-      success: function success(result) {
-        console.log(result);
-      },
-      error: function error(_error2) {
-        console.log(_error2);
-      }
-    });
-  }
-
-  function getChallenge() {
-    jquery_1["default"].ajax({
-      method: "GET",
-      url: "/auth/two-factor-challenge",
-      dataType: "json",
-      contentType: "application/x-www-form-urlencoded",
-      success: function success(result) {
-        console.log(result);
-      },
-      error: function error(_error3) {
-        console.log(_error3);
-      }
-    });
-  }
-
   function getRecoveryCodes() {
     jquery_1["default"].ajax({
       method: "GET",
@@ -2233,8 +2178,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error4) {
-        console.log(_error4);
+      error: function error(_error) {
+        console.log(_error);
       }
     });
   }
@@ -2251,8 +2196,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error5) {
-        console.log(_error5);
+      error: function error(_error2) {
+        console.log(_error2);
       }
     });
   }
@@ -2266,14 +2211,10 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error6) {
-        console.log(_error6);
+      error: function error(_error3) {
+        console.log(_error3);
       }
     });
-  }
-
-  function Login() {
-    login();
   }
 
   function hasTFA() {
@@ -2285,8 +2226,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error7) {
-        console.log(_error7);
+      error: function error(_error4) {
+        console.log(_error4);
       }
     });
   }
@@ -2300,8 +2241,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error8) {
-        console.log(_error8);
+      error: function error(_error5) {
+        console.log(_error5);
       }
     });
   }
@@ -2319,8 +2260,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error9) {
-        console.log(_error9);
+      error: function error(_error6) {
+        console.log(_error6);
       }
     });
   }
@@ -2334,8 +2275,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error10) {
-        console.log(_error10);
+      error: function error(_error7) {
+        console.log(_error7);
       }
     });
   }
@@ -2349,8 +2290,8 @@ var Home = function Home() {
       success: function success(result) {
         console.log(result);
       },
-      error: function error(_error11) {
-        console.log(_error11);
+      error: function error(_error8) {
+        console.log(_error8);
       }
     });
   }
@@ -2362,14 +2303,12 @@ var Home = function Home() {
   }, react_1["default"].createElement(react_router_dom_1.Link, {
     className: "navbar-brand",
     to: "products"
-  }, "Products"), react_1["default"].createElement("button", {
-    onClick: function onClick() {
-      register();
-    }
-  }, "Register"), react_1["default"].createElement("button", {
-    onClick: function onClick() {
-      Login();
-    }
+  }, "Products"), react_1["default"].createElement(react_router_dom_1.Link, {
+    className: "navbar-brand",
+    to: "register"
+  }, "Register"), react_1["default"].createElement(react_router_dom_1.Link, {
+    className: "navbar-brand",
+    to: "login"
   }, "Login"), react_1["default"].createElement("button", {
     onClick: function onClick() {
       hasTFA();
@@ -2396,10 +2335,6 @@ var Home = function Home() {
     }
   }, "logout"), react_1["default"].createElement("button", {
     onClick: function onClick() {
-      getChallenge();
-    }
-  }, "Get challenge"), react_1["default"].createElement("button", {
-    onClick: function onClick() {
       sendChallenge();
     }
   }, "Send challenge"), react_1["default"].createElement("button", {
@@ -2412,65 +2347,6 @@ var Home = function Home() {
 };
 
 exports.Home = Home;
-
-/***/ }),
-
-/***/ "./resources/js/pages/PasswordReset.tsx":
-/*!**********************************************!*\
-  !*** ./resources/js/pages/PasswordReset.tsx ***!
-  \**********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.PasswordReset = void 0;
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
-
-var PasswordReset = function PasswordReset() {
-  var queryParams = new URLSearchParams(window.location.search);
-  var token = queryParams.get('token');
-  var email = queryParams.get('email');
-  console.log(token);
-
-  function handleSubmit() {
-    console.log('submit');
-    axios_1["default"].post('/auth/reset-password', {
-      email: email,
-      token: token,
-      password: 'password1',
-      password_confirmation: 'password1'
-    }).then(function (response) {
-      console.log(response);
-    })["catch"](function (error) {
-      console.log(error);
-    });
-  }
-
-  return react_1["default"].createElement("div", null, react_1["default"].createElement("nav", {
-    className: "navbar navbar-expand-md navbar-light navbar-laravel"
-  }, react_1["default"].createElement("div", {
-    className: "container"
-  }, react_1["default"].createElement("button", {
-    onClick: function onClick() {
-      handleSubmit();
-    }
-  }, token))));
-};
-
-exports.PasswordReset = PasswordReset;
 
 /***/ }),
 
@@ -2904,6 +2780,254 @@ exports.Testing = Testing;
 
 /***/ }),
 
+/***/ "./resources/js/pages/auth/Login.tsx":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/auth/Login.tsx ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Login = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var Login = function Login() {
+  function login() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/login",
+      data: {
+        email: "leonlav77@gmail.com",
+        password: "password"
+      },
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+
+        if (result.two_factor === true) {
+          // $("#loginModal").modal("hide");  PRIMJER
+          // $("#twoFactorModal").modal("show");
+          // redirect to TFA login
+          // <Redirect to={"/"} />
+          window.location.href = "/TFALogin";
+        }
+      },
+      error: function error(_error) {
+        console.log(_error);
+      }
+    });
+  }
+
+  ;
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Login Page"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      login();
+    }
+  }, "Login"));
+};
+
+exports.Login = Login;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/PasswordReset.tsx":
+/*!***************************************************!*\
+  !*** ./resources/js/pages/auth/PasswordReset.tsx ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.PasswordReset = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var PasswordReset = function PasswordReset() {
+  var queryParams = new URLSearchParams(window.location.search);
+  var token = queryParams.get('token');
+  var email = queryParams.get('email');
+  console.log(token);
+
+  function handleSubmit() {
+    console.log('submit');
+    axios_1["default"].post('/auth/reset-password', {
+      email: email,
+      token: token,
+      password: 'password1',
+      password_confirmation: 'password1'
+    }).then(function (response) {
+      console.log(response);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("nav", {
+    className: "navbar navbar-expand-md navbar-light navbar-laravel"
+  }, react_1["default"].createElement("div", {
+    className: "container"
+  }, react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      handleSubmit();
+    }
+  }, token))));
+};
+
+exports.PasswordReset = PasswordReset;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/Register.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/pages/auth/Register.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Register = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var Register = function Register() {
+  function register() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/register",
+      data: {
+        email: "leonlav77@gmail.com",
+        name: "leonlav77",
+        password: "password",
+        password_confirmation: "password"
+      },
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+        window.location.href = "/";
+      },
+      error: function error(_error) {
+        console.log(_error);
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Register Page"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      register();
+    }
+  }, "Register"));
+};
+
+exports.Register = Register;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/TFALogin.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/pages/auth/TFALogin.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.TFALogin = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var TFALogin = function TFALogin() {
+  function sendChallenge() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/two-factor-challenge",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      data: {
+        recovery_code: "m7V3ssG4kq-NpCzqnFcoU"
+      },
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error) {
+        console.log(_error);
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Two Factor Authentication Login"), react_1["default"].createElement("input", {
+    type: "text",
+    placeholder: "Code"
+  }), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      sendChallenge();
+    }
+  }, "Send challenge"));
+};
+
+exports.TFALogin = TFALogin;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/UserInfo.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/pages/auth/UserInfo.tsx ***!
+  \**********************************************/
+/***/ (() => {
+
+
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -2914,8 +3038,8 @@ exports.Testing = Testing;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/Testing */ "./resources/js/pages/Testing.tsx");
 /* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _pages_Products__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/Products */ "./resources/js/pages/Products.tsx");
@@ -2924,8 +3048,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Product__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_pages_Product__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _pages_Home__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/Home */ "./resources/js/pages/Home.tsx");
 /* harmony import */ var _pages_Home__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_pages_Home__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _pages_PasswordReset__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/PasswordReset */ "./resources/js/pages/PasswordReset.tsx");
-/* harmony import */ var _pages_PasswordReset__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_pages_PasswordReset__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _pages_auth_Login__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/auth/Login */ "./resources/js/pages/auth/Login.tsx");
+/* harmony import */ var _pages_auth_Login__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_Login__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _pages_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/auth/TFALogin */ "./resources/js/pages/auth/TFALogin.tsx");
+/* harmony import */ var _pages_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _pages_auth_Register__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/auth/Register */ "./resources/js/pages/auth/Register.tsx");
+/* harmony import */ var _pages_auth_Register__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_Register__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/auth/UserInfo */ "./resources/js/pages/auth/UserInfo.tsx");
+/* harmony import */ var _pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/auth/PasswordReset */ "./resources/js/pages/auth/PasswordReset.tsx");
+/* harmony import */ var _pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_10__);
 
 
 
@@ -2934,22 +3066,38 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+
+
+
+
+(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
   path: "/",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Home__WEBPACK_IMPORTED_MODULE_5__.Home, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
   path: "products",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Products__WEBPACK_IMPORTED_MODULE_3__.Products, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
   path: "products/:productId",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Product__WEBPACK_IMPORTED_MODULE_4__.Product, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
   path: "password_reset",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_PasswordReset__WEBPACK_IMPORTED_MODULE_6__.PasswordReset, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_10__.PasswordReset, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
   path: "testing",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__.Testing, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+  path: "login",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_Login__WEBPACK_IMPORTED_MODULE_6__.Login, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+  path: "TFALogin",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7__.TFALogin, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+  path: "register",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_Register__WEBPACK_IMPORTED_MODULE_8__.Register, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+  path: "userInfo",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__.UserInfo, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
   path: "",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("main", {
     style: {
