@@ -14,6 +14,7 @@ export const PasswordConfirm = () => {
             },
             success: (result) => {
                 console.log(result);
+                window.history.back();
             },
             error: (error) => {
                 console.log(error);

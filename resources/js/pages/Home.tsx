@@ -153,9 +153,9 @@ export const Home = () => {
                     <button onClick={() => {hasTFA()}}>
                         TFA
                     </button>
-                    <button onClick={() => {enableTFA()}}>
-                        ENABLE
-                    </button>
+                    <Link className="navbar-brand" to="TFAEnable">
+                        Enable TFA
+                    </Link>
                     <button onClick={() => {disableTFA()}}>
                         DISABLE
                     </button>

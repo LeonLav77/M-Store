@@ -2313,11 +2313,10 @@ var Home = function Home() {
     onClick: function onClick() {
       hasTFA();
     }
-  }, "TFA"), react_1["default"].createElement("button", {
-    onClick: function onClick() {
-      enableTFA();
-    }
-  }, "ENABLE"), react_1["default"].createElement("button", {
+  }, "TFA"), react_1["default"].createElement(react_router_dom_1.Link, {
+    className: "navbar-brand",
+    to: "TFAEnable"
+  }, "Enable TFA"), react_1["default"].createElement("button", {
     onClick: function onClick() {
       disableTFA();
     }
@@ -2844,6 +2843,65 @@ exports.Login = Login;
 
 /***/ }),
 
+/***/ "./resources/js/pages/auth/PasswordConfirm.tsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/pages/auth/PasswordConfirm.tsx ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.PasswordConfirm = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var PasswordConfirm = function PasswordConfirm() {
+  function confirmPassword() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/user/confirm-password",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      data: {
+        password: "password",
+        password_confirmation: "password"
+      },
+      success: function success(result) {
+        console.log(result);
+        window.history.back();
+      },
+      error: function error(_error) {
+        console.log(_error);
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Confirm Password"), react_1["default"].createElement("input", {
+    type: "text",
+    placeholder: "Password"
+  }), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      confirmPassword();
+    }
+  }, "Confirm"));
+};
+
+exports.PasswordConfirm = PasswordConfirm;
+
+/***/ }),
+
 /***/ "./resources/js/pages/auth/PasswordReset.tsx":
 /*!***************************************************!*\
   !*** ./resources/js/pages/auth/PasswordReset.tsx ***!
@@ -2961,6 +3019,65 @@ exports.Register = Register;
 
 /***/ }),
 
+/***/ "./resources/js/pages/auth/TFAEnable.tsx":
+/*!***********************************************!*\
+  !*** ./resources/js/pages/auth/TFAEnable.tsx ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.TFAEnable = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var TFAEnable = function TFAEnable() {
+  function enableTFA() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/user/two-factor-authentication",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error) {
+        console.log(_error.responseJSON.message);
+        console.log(_error.status);
+
+        if (_error.responseJSON.message == "Password confirmation required." && _error.status == 423) {
+          // $("#password-confirmation-required").show(); IDEAS
+          // SADA IDE NA DRUGI SCREEN ALI MOZE I SA MODALOM
+          // BITNO DA SALJE POST REQUEST
+          window.location.href = "/confirmPassword";
+        }
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Enable two-factor authentication"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      enableTFA();
+    }
+  }, "Enable"));
+};
+
+exports.TFAEnable = TFAEnable;
+
+/***/ }),
+
 /***/ "./resources/js/pages/auth/TFALogin.tsx":
 /*!**********************************************!*\
   !*** ./resources/js/pages/auth/TFALogin.tsx ***!
@@ -3038,8 +3155,8 @@ exports.TFALogin = TFALogin;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/Testing */ "./resources/js/pages/Testing.tsx");
 /* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _pages_Products__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/Products */ "./resources/js/pages/Products.tsx");
@@ -3056,8 +3173,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_auth_Register__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_Register__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/auth/UserInfo */ "./resources/js/pages/auth/UserInfo.tsx");
 /* harmony import */ var _pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/auth/PasswordReset */ "./resources/js/pages/auth/PasswordReset.tsx");
-/* harmony import */ var _pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _pages_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/auth/TFAEnable */ "./resources/js/pages/auth/TFAEnable.tsx");
+/* harmony import */ var _pages_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _pages_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/auth/PasswordConfirm */ "./resources/js/pages/auth/PasswordConfirm.tsx");
+/* harmony import */ var _pages_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/auth/PasswordReset */ "./resources/js/pages/auth/PasswordReset.tsx");
+/* harmony import */ var _pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_12__);
 
 
 
@@ -3070,34 +3191,42 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+
+
+(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
   path: "/",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Home__WEBPACK_IMPORTED_MODULE_5__.Home, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
   path: "products",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Products__WEBPACK_IMPORTED_MODULE_3__.Products, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
   path: "products/:productId",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Product__WEBPACK_IMPORTED_MODULE_4__.Product, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
   path: "password_reset",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_10__.PasswordReset, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_12__.PasswordReset, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
   path: "testing",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__.Testing, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
   path: "login",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_Login__WEBPACK_IMPORTED_MODULE_6__.Login, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
   path: "TFALogin",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7__.TFALogin, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
   path: "register",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_Register__WEBPACK_IMPORTED_MODULE_8__.Register, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
   path: "userInfo",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__.UserInfo, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+  path: "TFAEnable",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10__.TFAEnable, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+  path: "confirmPassword",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_11__.PasswordConfirm, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
   path: "",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("main", {
     style: {

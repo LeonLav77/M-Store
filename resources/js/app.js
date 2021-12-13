@@ -9,6 +9,8 @@ import { Login } from "./pages/auth/Login";
 import { TFALogin } from "./pages/auth/TFALogin";
 import { Register } from "./pages/auth/Register";
 import { UserInfo } from "./pages/auth/UserInfo";
+import { TFAEnable } from "./pages/auth/TFAEnable";
+import { PasswordConfirm } from "./pages/auth/PasswordConfirm";
 import { PasswordReset } from "./pages/auth/PasswordReset";
 
 render(
@@ -23,6 +25,8 @@ render(
             <Route path="TFALogin" element={<TFALogin></TFALogin>} />
             <Route path="register" element={<Register></Register>} />
             <Route path="userInfo" element={<UserInfo></UserInfo>} />
+            <Route path="TFAEnable" element={<TFAEnable></TFAEnable>} />
+            <Route path="confirmPassword" element={<PasswordConfirm></PasswordConfirm>} />
             <Route
                 path=""
                 element={
