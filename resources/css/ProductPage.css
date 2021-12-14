@@ -194,17 +194,3 @@
 .main_arrow_container:hover {
     cursor: pointer;
 }
-
-@media (max-width: 1550px) {
-    .zoom_active {
-        height: 80%;
-        width: 60%;
-    }
-}
-
-@media (max-width: 1150px) {
-    .zoom_active {
-        height: 65%;
-        width: 55%;
-    }
-}
