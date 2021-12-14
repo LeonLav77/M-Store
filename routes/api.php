@@ -84,15 +84,17 @@ Route::middleware(['loggedIn'])->group(function () {
     Route::get('/hasTFAEnabled', [ExtraFortifyController::class,'getHasTFAEnabled']);
     Route::group(['middleware' =>'seller'],function () {
         Route::post('/becomeSeller', [SellerController::class,'becomeSeller']);
-        Route::middleware(['middleware' =>'sellerOperations', 'prefix' => 'seller'],function () {
+        Route::group(['prefix'=>'seller','as'=>'seller.','middleware' =>'sellerOperations'], function(){
             // Become a seller
             // another layer of middleware, isSeller
             Route::get('/info', [SellerController::class,'getSellerInfo']);
+            // this already exists at /sameSellerProducts/{id}
             Route::get('/products', [SellerController::class,'getSellerProducts']);
-            Route::post('/product', [SellerController::class,'addProduct']);
+            Route::post('/products', [SellerController::class,'addProduct']);
             Route::delete('/product/{id}', [SellerController::class,'deleteProduct']);
             Route::post('/product/{id}', [SellerController::class,'updateProduct']);
             Route::post('/product/{id}/addImage', [SellerController::class,'addImage']);
             });
         });
 });
+// {{base}}seller/productss

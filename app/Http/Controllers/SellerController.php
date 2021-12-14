@@ -34,10 +34,9 @@ class SellerController extends Controller
         // ]);
         $product = Product::create([
                 'name' => $request->name,
-                'uuid' => $request->uuid,
                 'description' => $request->description,
                 'price' => $request->price,
-                'category' => $request->category,
+                'category_id' => $request->category,
                 'seller_id' => $seller->id
             ]);
         return response()->json(['message' => $product->id]);

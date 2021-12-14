@@ -67,7 +67,6 @@ class ProductFactory extends Factory
         $this->category_id = Category::where('name', $this->category)->first()->id;
         return [
             'name' => $this->product,
-            'uuid' => $this->faker->uuid,
             'price' => $this->faker->randomFloat(2, 0, 100),
             'description' => $this->faker->text,
             'category_id' => $this->category_id,

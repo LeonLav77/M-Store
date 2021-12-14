@@ -9,7 +9,7 @@ export const TFALogin = () => {
             dataType: "json",
             contentType: "application/x-www-form-urlencoded",
             data: {
-                code: "077172",
+                code: $("#code").val(),
             },
             success: (result) => {
                 console.log(result);
@@ -22,7 +22,7 @@ export const TFALogin = () => {
     return (
         <div>
             <h1>Two Factor Authentication Login</h1>
-            <input type="text" placeholder="Code"></input>
+            <input type="text" placeholder="Code" id="code" name="code"></input>
             <button
                 onClick={() => {
                     sendChallenge();

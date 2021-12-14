@@ -10,6 +10,7 @@ class Product extends Model
 {
     use HasFactory;
     protected $with = ['images'];
+    protected $guarded = [];
     public function scopeItemInStock($query, $id)
     {
         $product = $query->where('id', $id)->first();
