@@ -1,5 +1,5 @@
 import React from "react";
-import $ from 'jquery';
+import $ from "jquery";
 
 export const Register = () => {
     function register() {
@@ -10,9 +10,9 @@ export const Register = () => {
                 email: "leonlav77@gmail.com",
                 name: "leonlav77",
                 password: "password",
-                password_confirmation: "password"
-                },
-            dataType: "json", 
+                password_confirmation: "password",
+            },
+            dataType: "json",
             contentType: "application/x-www-form-urlencoded",
             success: (result) => {
                 console.log(result);
@@ -20,15 +20,19 @@ export const Register = () => {
             },
             error: (error) => {
                 console.log(error);
-            }
+            },
         });
     }
     return (
         <div>
             <h1>Register Page</h1>
-        <button onClick={() => {register()}}>
-            Register
-        </button>
+            <button
+                onClick={() => {
+                    register();
+                }}
+            >
+                Register
+            </button>
         </div>
     );
 };

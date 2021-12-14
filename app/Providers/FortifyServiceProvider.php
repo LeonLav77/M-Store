@@ -12,6 +12,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -36,6 +37,9 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::confirmPasswordView(function(){
             return view('auth.passwords.confirm');
         });
+        // VerifyEmail::toMailUsing(function ($notifiable, $verificationUrl) {
+        //     return new \App\Mail\SendVerificationEmail($notifiable, $verificationUrl);
+        // });
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);

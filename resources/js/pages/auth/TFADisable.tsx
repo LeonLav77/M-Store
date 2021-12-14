@@ -1,10 +1,10 @@
 import React from "react";
 import $ from "jquery";
 
-export const TFAEnable = () => {
-    function enableTFA() {
+export const TFADisable = () => {
+    function disableTFA() {
         $.ajax({
-            method: "POST",
+            method: "DELETE",
             url: "/auth/user/two-factor-authentication",
             dataType: "json",
             contentType: "application/x-www-form-urlencoded",
@@ -29,13 +29,13 @@ export const TFAEnable = () => {
     }
     return (
         <div>
-            <h1>Enable two-factor authentication</h1>
+            <h1>Disable two-factor authentication</h1>
             <button
                 onClick={() => {
-                    enableTFA();
+                    disableTFA();
                 }}
             >
-                Enable
+                Disable
             </button>
         </div>
     );

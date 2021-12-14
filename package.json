@@ -9,7 +9,7 @@
         "prod": "npm run production",
         "production": "mix --production",
         "check-format": "npx prettier --check resources/assets/js/**/*.js",
-        "format": "npx prettier --write resources/assets/js/**/*.js"
+        "format": "npx prettier --write resources/js/**/*"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.13.13",
