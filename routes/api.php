@@ -68,7 +68,7 @@ Route::get('/inStockProduct/{id}', [APIController::class,'getInStockProduct']);
 Route::get('/complexFilterSearch', [APIController::class,'getComplexFilterSearch']);
 // route for testing
 Route::get('/test', [APIController::class,'test']);
-
+//
 Route::post('/checkIfLoggedIn', [APIController::class,'checkIfLoggedIn']);
 Route::middleware(['loggedIn'])->group(function () {
     // Contents of your cart
@@ -79,7 +79,12 @@ Route::middleware(['loggedIn'])->group(function () {
     Route::delete('/itemFromCart/{id}', [CartController::class,'removeItemFromCart']);
     // Remove all items from cart
     Route::delete('/emptyCart', [CartController::class,'emptyCart']);
-
+    
     Route::get('/hasTFAEnabled', [ExtraFortifyController::class,'getHasTFAEnabled']);
+    
+    // Become a seller
+    Route::post('/becomeSeller', [APIController::class,'becomeSeller'])->middleware([
+        'verified',
+    ]);
 
 });

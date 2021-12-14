@@ -2169,14 +2169,10 @@ var Home = function Home() {
     getData();
   }, []);
 
-  var login = function login() {
+  function logout() {
     jquery_1["default"].ajax({
       method: "POST",
-      url: "/auth/login",
-      data: {
-        email: "leonlav77@gmail.com",
-        password: "password"
-      },
+      url: "/auth/logout",
       dataType: "json",
       contentType: "application/x-www-form-urlencoded",
       success: function success(result) {
@@ -2186,10 +2182,6 @@ var Home = function Home() {
         console.log(_error);
       }
     });
-  };
-
-  function Login() {
-    login();
   }
 
   function hasTFA() {
@@ -2207,9 +2199,9 @@ var Home = function Home() {
     });
   }
 
-  function enableTFA() {
+  function disableTFA() {
     jquery_1["default"].ajax({
-      method: "POST",
+      method: "DELETE",
       url: "/auth/user/two-factor-authentication",
       dataType: "json",
       contentType: "application/x-www-form-urlencoded",
@@ -2222,55 +2214,6 @@ var Home = function Home() {
     });
   }
 
-  function confirmPassword() {
-    jquery_1["default"].ajax({
-      method: "POST",
-      url: "/auth/user/confirm-password",
-      dataType: "json",
-      contentType: "application/x-www-form-urlencoded",
-      data: {
-        password: "password",
-        password_confirmation: "password"
-      },
-      success: function success(result) {
-        console.log(result);
-      },
-      error: function error(_error4) {
-        console.log(_error4);
-      }
-    });
-  }
-
-  function disableTFA() {
-    jquery_1["default"].ajax({
-      method: "POST",
-      url: "/auth/user/two-factor-authentication",
-      dataType: "json",
-      contentType: "application/x-www-form-urlencoded",
-      success: function success(result) {
-        console.log(result);
-      },
-      error: function error(_error5) {
-        console.log(_error5);
-      }
-    });
-  }
-
-  function renderQRCode() {
-    jquery_1["default"].ajax({
-      method: "GET",
-      url: "/auth/user/two-factor-qr-code",
-      dataType: "json",
-      contentType: "application/x-www-form-urlencoded",
-      success: function success(result) {
-        console.log(result);
-      },
-      error: function error(_error6) {
-        console.log(_error6);
-      }
-    });
-  }
-
   return react_1["default"].createElement("div", null, react_1["default"].createElement("nav", {
     className: "navbar navbar-expand-md navbar-light navbar-laravel"
   }, react_1["default"].createElement("div", {
@@ -2278,95 +2221,32 @@ var Home = function Home() {
   }, react_1["default"].createElement(react_router_dom_1.Link, {
     className: "navbar-brand",
     to: "products"
-  }, "Products"), react_1["default"].createElement("button", {
-    onClick: function onClick() {
-      Login();
-    }
+  }, "Products"), react_1["default"].createElement(react_router_dom_1.Link, {
+    className: "navbar-brand",
+    to: "register"
+  }, "Register"), react_1["default"].createElement(react_router_dom_1.Link, {
+    className: "navbar-brand",
+    to: "login"
   }, "Login"), react_1["default"].createElement("button", {
     onClick: function onClick() {
       hasTFA();
     }
-  }, "TFA"), react_1["default"].createElement("button", {
+  }, "TFA"), react_1["default"].createElement(react_router_dom_1.Link, {
+    className: "navbar-brand",
+    to: "TFAEnable"
+  }, "Enable TFA"), react_1["default"].createElement(react_router_dom_1.Link, {
+    className: "navbar-brand",
+    to: "TFADisable"
+  }, "Disable TFA"), react_1["default"].createElement("button", {
     onClick: function onClick() {
-      enableTFA();
+      logout();
     }
-  }, "ENABLE"), react_1["default"].createElement("button", {
-    onClick: function onClick() {
-      disableTFA();
-    }
-  }, "DISABLE"), react_1["default"].createElement("button", {
-    onClick: function onClick() {
-      confirmPassword();
-    }
-  }, "Confirm"), react_1["default"].createElement("button", {
-    onClick: function onClick() {
-      renderQRCode();
-    }
-  }, "QR Code"))), react_1["default"].createElement("div", {
+  }, "logout"))), react_1["default"].createElement("div", {
     key: "main_container"
   }, react_1["default"].createElement("div", null, " ", (0, react_html_parser_1["default"])(data.svg), " ")));
 };
 
 exports.Home = Home;
-
-/***/ }),
-
-/***/ "./resources/js/pages/PasswordReset.tsx":
-/*!**********************************************!*\
-  !*** ./resources/js/pages/PasswordReset.tsx ***!
-  \**********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.PasswordReset = void 0;
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
-
-var PasswordReset = function PasswordReset() {
-  var queryParams = new URLSearchParams(window.location.search);
-  var token = queryParams.get('token');
-  var email = queryParams.get('email');
-  console.log(token);
-
-  function handleSubmit() {
-    console.log('submit');
-    axios_1["default"].post('/auth/reset-password', {
-      email: email,
-      token: token,
-      password: 'password1',
-      password_confirmation: 'password1'
-    }).then(function (response) {
-      console.log(response);
-    })["catch"](function (error) {
-      console.log(error);
-    });
-  }
-
-  return react_1["default"].createElement("div", null, react_1["default"].createElement("nav", {
-    className: "navbar navbar-expand-md navbar-light navbar-laravel"
-  }, react_1["default"].createElement("div", {
-    className: "container"
-  }, react_1["default"].createElement("button", {
-    onClick: function onClick() {
-      handleSubmit();
-    }
-  }, token))));
-};
-
-exports.PasswordReset = PasswordReset;
 
 /***/ }),
 
@@ -2710,11 +2590,11 @@ var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/a
 var Testing = function Testing() {
   var Login = function Login() {
     return (0, axios_1["default"])({
-      method: 'post',
-      url: '/auth/login',
+      method: "post",
+      url: "/auth/login",
       data: {
-        email: 'leonlav77@gmail.com',
-        password: 'password'
+        email: "leonlav77@gmail.com",
+        password: "password"
       }
     }).then(function (res) {
       return console.log(res);
@@ -2725,8 +2605,8 @@ var Testing = function Testing() {
 
   var Logout = function Logout() {
     return (0, axios_1["default"])({
-      method: 'post',
-      url: '/auth/logout'
+      method: "post",
+      url: "/auth/logout"
     }).then(function (res) {
       return console.log(res);
     })["catch"](function (err) {
@@ -2736,8 +2616,8 @@ var Testing = function Testing() {
 
   var Check = function Check() {
     return (0, axios_1["default"])({
-      method: 'post',
-      url: '/api/checkIfLoggedIn'
+      method: "post",
+      url: "/api/checkIfLoggedIn"
     }).then(function (res) {
       return console.log(res);
     })["catch"](function (err) {
@@ -2747,13 +2627,13 @@ var Testing = function Testing() {
 
   var Register = function Register() {
     return (0, axios_1["default"])({
-      method: 'post',
-      url: '/auth/register',
+      method: "post",
+      url: "/auth/register",
       data: {
-        name: 'Leon',
-        email: 'leonlav77@gmail.com',
-        password: 'password',
-        password_confirmation: 'password'
+        name: "Leon",
+        email: "leonlav77@gmail.com",
+        password: "password",
+        password_confirmation: "password"
       }
     }).then(function (res) {
       return console.log(res);
@@ -2764,8 +2644,8 @@ var Testing = function Testing() {
 
   var Cart = function Cart() {
     return (0, axios_1["default"])({
-      method: 'get',
-      url: '/api/cart'
+      method: "get",
+      url: "/api/cart"
     }).then(function (res) {
       return console.log(res);
     })["catch"](function (err) {
@@ -2800,6 +2680,527 @@ exports.Testing = Testing;
 
 /***/ }),
 
+/***/ "./resources/js/pages/auth/Login.tsx":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/auth/Login.tsx ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Login = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var Login = function Login() {
+  function login() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/login",
+      data: {
+        email: "leonlav77@gmail.com",
+        password: "password"
+      },
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+
+        if (result.two_factor === true) {
+          // $("#loginModal").modal("hide");  PRIMJER
+          // $("#twoFactorModal").modal("show");
+          // redirect to TFA login
+          // <Redirect to={"/"} />
+          window.location.href = "/TFALogin";
+        }
+      },
+      error: function error(_error) {
+        console.log(_error);
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Login Page"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      login();
+    }
+  }, "Login"));
+};
+
+exports.Login = Login;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/PasswordConfirm.tsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/pages/auth/PasswordConfirm.tsx ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.PasswordConfirm = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var PasswordConfirm = function PasswordConfirm() {
+  function confirmPassword() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/user/confirm-password",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      data: {
+        password: "password",
+        password_confirmation: "password"
+      },
+      success: function success(result) {
+        console.log(result);
+        window.history.back();
+      },
+      error: function error(_error) {
+        console.log(_error);
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Confirm Password"), react_1["default"].createElement("input", {
+    type: "text",
+    placeholder: "Password"
+  }), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      confirmPassword();
+    }
+  }, "Confirm"));
+};
+
+exports.PasswordConfirm = PasswordConfirm;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/PasswordReset.tsx":
+/*!***************************************************!*\
+  !*** ./resources/js/pages/auth/PasswordReset.tsx ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.PasswordReset = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var PasswordReset = function PasswordReset() {
+  var queryParams = new URLSearchParams(window.location.search);
+  var token = queryParams.get("token");
+  var email = queryParams.get("email");
+  console.log(token);
+
+  function handleSubmit() {
+    console.log("submit");
+    axios_1["default"].post("/auth/reset-password", {
+      email: email,
+      token: token,
+      password: "password1",
+      password_confirmation: "password1"
+    }).then(function (response) {
+      console.log(response);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("nav", {
+    className: "navbar navbar-expand-md navbar-light navbar-laravel"
+  }, react_1["default"].createElement("div", {
+    className: "container"
+  }, react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      handleSubmit();
+    }
+  }, token))));
+};
+
+exports.PasswordReset = PasswordReset;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/Register.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/pages/auth/Register.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Register = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var Register = function Register() {
+  function register() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/register",
+      data: {
+        email: "leonlav77@gmail.com",
+        name: "leonlav77",
+        password: "password",
+        password_confirmation: "password"
+      },
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+        window.location.href = "/";
+      },
+      error: function error(_error) {
+        console.log(_error);
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Register Page"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      register();
+    }
+  }, "Register"));
+};
+
+exports.Register = Register;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/TFADisable.tsx":
+/*!************************************************!*\
+  !*** ./resources/js/pages/auth/TFADisable.tsx ***!
+  \************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.TFADisable = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var TFADisable = function TFADisable() {
+  function disableTFA() {
+    jquery_1["default"].ajax({
+      method: "DELETE",
+      url: "/auth/user/two-factor-authentication",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error) {
+        console.log(_error.responseJSON.message);
+        console.log(_error.status);
+
+        if (_error.responseJSON.message == "Password confirmation required." && _error.status == 423) {
+          // $("#password-confirmation-required").show(); IDEAS
+          // SADA IDE NA DRUGI SCREEN ALI MOZE I SA MODALOM
+          // BITNO DA SALJE POST REQUEST
+          window.location.href = "/confirmPassword";
+        }
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Disable two-factor authentication"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      disableTFA();
+    }
+  }, "Disable"));
+};
+
+exports.TFADisable = TFADisable;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/TFAEnable.tsx":
+/*!***********************************************!*\
+  !*** ./resources/js/pages/auth/TFAEnable.tsx ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.TFAEnable = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var TFAEnable = function TFAEnable() {
+  function enableTFA() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/user/two-factor-authentication",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error) {
+        console.log(_error.responseJSON.message);
+        console.log(_error.status);
+
+        if (_error.responseJSON.message == "Password confirmation required." && _error.status == 423) {
+          // $("#password-confirmation-required").show(); IDEAS
+          // SADA IDE NA DRUGI SCREEN ALI MOZE I SA MODALOM
+          // BITNO DA SALJE POST REQUEST
+          window.location.href = "/confirmPassword";
+        }
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Enable two-factor authentication"), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      enableTFA();
+    }
+  }, "Enable"));
+};
+
+exports.TFAEnable = TFAEnable;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/TFALogin.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/pages/auth/TFALogin.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.TFALogin = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var TFALogin = function TFALogin() {
+  function sendChallenge() {
+    jquery_1["default"].ajax({
+      method: "POST",
+      url: "/auth/two-factor-challenge",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      data: {
+        code: "578009"
+      },
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error) {
+        console.log(_error);
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Two Factor Authentication Login"), react_1["default"].createElement("input", {
+    type: "text",
+    placeholder: "Code"
+  }), react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      sendChallenge();
+    }
+  }, "Send challenge"));
+};
+
+exports.TFALogin = TFALogin;
+
+/***/ }),
+
+/***/ "./resources/js/pages/auth/UserInfo.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/pages/auth/UserInfo.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Login = void 0;
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
+
+var react_html_parser_1 = __importDefault(__webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var Login = function Login() {
+  var _a = (0, react_1.useState)([]),
+      data = _a[0],
+      setData = _a[1];
+
+  var getData = function getData() {
+    return axios_1["default"].get("http://127.0.0.1:8000/auth/user/two-factor-qr-code").then(function (res) {
+      setData(res.data);
+    })["catch"](function (err) {
+      return console.log(err);
+    });
+  };
+
+  (0, react_1.useEffect)(function () {
+    getData();
+  }, []);
+
+  function getRecoveryCodes() {
+    jquery_1["default"].ajax({
+      method: "GET",
+      url: "/auth/user/two-factor-recovery-codes",
+      dataType: "json",
+      contentType: "application/x-www-form-urlencoded",
+      success: function success(result) {
+        console.log(result);
+      },
+      error: function error(_error) {
+        console.log(_error);
+      }
+    });
+  }
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      getRecoveryCodes();
+    }
+  }, "Get recovery codes"), react_1["default"].createElement("div", {
+    key: "main_container"
+  }, react_1["default"].createElement("div", null, " ", (0, react_html_parser_1["default"])(data.svg), " ")));
+};
+
+exports.Login = Login;
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -2810,8 +3211,8 @@ exports.Testing = Testing;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/Testing */ "./resources/js/pages/Testing.tsx");
 /* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _pages_Products__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/Products */ "./resources/js/pages/Products.tsx");
@@ -2820,8 +3221,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Product__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_pages_Product__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _pages_Home__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/Home */ "./resources/js/pages/Home.tsx");
 /* harmony import */ var _pages_Home__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_pages_Home__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _pages_PasswordReset__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/PasswordReset */ "./resources/js/pages/PasswordReset.tsx");
-/* harmony import */ var _pages_PasswordReset__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_pages_PasswordReset__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _pages_auth_Login__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/auth/Login */ "./resources/js/pages/auth/Login.tsx");
+/* harmony import */ var _pages_auth_Login__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_Login__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _pages_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/auth/TFALogin */ "./resources/js/pages/auth/TFALogin.tsx");
+/* harmony import */ var _pages_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _pages_auth_Register__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/auth/Register */ "./resources/js/pages/auth/Register.tsx");
+/* harmony import */ var _pages_auth_Register__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_Register__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/auth/UserInfo */ "./resources/js/pages/auth/UserInfo.tsx");
+/* harmony import */ var _pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _pages_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/auth/TFAEnable */ "./resources/js/pages/auth/TFAEnable.tsx");
+/* harmony import */ var _pages_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _pages_auth_TFADisable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/auth/TFADisable */ "./resources/js/pages/auth/TFADisable.tsx");
+/* harmony import */ var _pages_auth_TFADisable__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_TFADisable__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _pages_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/auth/PasswordConfirm */ "./resources/js/pages/auth/PasswordConfirm.tsx");
+/* harmony import */ var _pages_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/auth/PasswordReset */ "./resources/js/pages/auth/PasswordReset.tsx");
+/* harmony import */ var _pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_13__);
 
 
 
@@ -2830,22 +3245,50 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+
+
+
+
+
+
+
+(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
   path: "/",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Home__WEBPACK_IMPORTED_MODULE_5__.Home, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
   path: "products",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Products__WEBPACK_IMPORTED_MODULE_3__.Products, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
   path: "products/:productId",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Product__WEBPACK_IMPORTED_MODULE_4__.Product, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
   path: "password_reset",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_PasswordReset__WEBPACK_IMPORTED_MODULE_6__.PasswordReset, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_13__.PasswordReset, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
   path: "testing",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__.Testing, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+  path: "login",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_Login__WEBPACK_IMPORTED_MODULE_6__.Login, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+  path: "TFALogin",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7__.TFALogin, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+  path: "register",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_Register__WEBPACK_IMPORTED_MODULE_8__.Register, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+  path: "userInfo",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__.UserInfo, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+  path: "TFAEnable",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10__.TFAEnable, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+  path: "TFADisable",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_TFADisable__WEBPACK_IMPORTED_MODULE_11__.TFADisable, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+  path: "confirmPassword",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_12__.PasswordConfirm, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
   path: "",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("main", {
     style: {

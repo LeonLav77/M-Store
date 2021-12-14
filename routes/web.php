@@ -14,12 +14,35 @@ use App\Http\Controllers\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/auth/login', function () {
-    return redirect('/login');
-});
-// Route::get('/password/confirm', function () {
-//     return redirect('/yes');
-// })->name('auth.passwords.confirm');
+
+// Would like it to work like this but it doesnt :(
+// it works when a soft reload happens, but not when a hard reload happens
+// why is beyond this point
+// Route::get('/auth/login', function () {
+//     return redirect('/login');
+// })->name('auth.login');
+
+// Route::get('/auth/register', function () {
+//     return redirect('/register');
+// })->name('auth.register');
+
+// Route::get('/auth/TwoFactorLogin', function () {
+//     return redirect('/TFA');
+// })->name('two-factor.login');
+
+// this is ugly but i think it is the only way to do it
+Route::get('/{path?}', function () {
+    return view('app');
+})->name('auth.register');
+
+Route::get('/{path?}', function () {
+    return view('app');
+})->name('two-factor.login');
+
+Route::get('/{path?}', function () {
+    return view('app');
+})->name('auth.login');
+
 Auth::routes();
 
 Route::get('/password_reset', function () {

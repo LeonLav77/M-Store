@@ -155,4 +155,7 @@ class APIController extends Controller
         $message = (auth()->check()) ? ['message' => 'Logged In'] : ['message' => 'Not Logged In'];
         return response()->json($message);
     }
+    public function becomeSeller(){
+        return response()->json(['message' => 'You are now a seller']);
+    }
 }
