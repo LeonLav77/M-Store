@@ -14,7 +14,7 @@ class ProfileImageFactory extends Factory
     public function definition()
     {
         return [
-            'image_path' => $this->faker->imageUrl(),
+            'image_path' => "https://avatars.dicebear.com/api/initials/" . $this->faker->firstName . ".svg",
         ];
     }
 }

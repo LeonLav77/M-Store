@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Seller;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -147,15 +149,13 @@ class APIController extends Controller
     }
     public function test(request $request)
     {
-        $products = Product::where('category_id', Category::where('name', $request->category)->first()->id)->paginate(6);
-        return response()->json(CalculateCurrentPrice::run($products));
+        User::first()->delete();
+        return response()->json(['message' => 'deleted']);
     }
     public function checkIfLoggedIn()
     {
         $message = (auth()->check()) ? ['message' => 'Logged In'] : ['message' => 'Not Logged In'];
         return response()->json($message);
     }
-    public function becomeSeller(){
-        return response()->json(['message' => 'You are now a seller']);
-    }
+
 }

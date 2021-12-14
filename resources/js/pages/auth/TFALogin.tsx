@@ -9,7 +9,7 @@ export const TFALogin = () => {
             dataType: "json",
             contentType: "application/x-www-form-urlencoded",
             data: {
-                code: "578009",
+                code: "077172",
             },
             success: (result) => {
                 console.log(result);

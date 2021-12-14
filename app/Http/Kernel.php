@@ -51,6 +51,14 @@ class Kernel extends HttpKernel
         'auth' => [
             \App\Http\Middleware\Authenticate::class,
         ],
+        'seller' => [
+            'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+            'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+            'TFA' => \App\Http\Middleware\EnsureUserHasTFA::class,
+        ],
+        'sellerOperations' => [
+            'EnsureUserIsSeller' => \App\Http\Middleware\EnsureUserIsSeller::class,
+        ],
 
     ];
 
@@ -72,5 +80,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'TFA' => \App\Http\Middleware\EnsureUserHasTFA::class,
     ];
 }

@@ -15,10 +15,9 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('seller_id')->nullable();
-            $table->foreignId('cart_id')->nullable();
+            $table->foreignId('seller_id')->nullable()->onDelete('cascade');
+            $table->foreignId('cart_id')->nullable()->onDelete('cascade');
             $table->string('name');
-            $table->string('imagePath')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ExtraFortifyController;
 
 /*
@@ -81,10 +82,17 @@ Route::middleware(['loggedIn'])->group(function () {
     Route::delete('/emptyCart', [CartController::class,'emptyCart']);
     
     Route::get('/hasTFAEnabled', [ExtraFortifyController::class,'getHasTFAEnabled']);
-    
-    // Become a seller
-    Route::post('/becomeSeller', [APIController::class,'becomeSeller'])->middleware([
-        'verified',
-    ]);
-
+    Route::group(['middleware' =>'seller'],function () {
+        Route::post('/becomeSeller', [SellerController::class,'becomeSeller']);
+        Route::middleware(['middleware' =>'sellerOperations', 'prefix' => 'seller'],function () {
+            // Become a seller
+            // another layer of middleware, isSeller
+            Route::get('/info', [SellerController::class,'getSellerInfo']);
+            Route::get('/products', [SellerController::class,'getSellerProducts']);
+            Route::post('/product', [SellerController::class,'addProduct']);
+            Route::delete('/product/{id}', [SellerController::class,'deleteProduct']);
+            Route::post('/product/{id}', [SellerController::class,'updateProduct']);
+            Route::post('/product/{id}/addImage', [SellerController::class,'addImage']);
+            });
+        });
 });

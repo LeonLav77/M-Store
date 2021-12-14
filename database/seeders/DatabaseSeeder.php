@@ -57,12 +57,10 @@ class DatabaseSeeder extends Seeder
                 ->has(ProfileImage::factory())
                 ->state([
                     'seller_id' => $i+1,
-                    'imagePath' => $i+1,
                 ]))
             ->create();
             } else {
                 User::factory()
-            ->state(['imagePath' => $i+1])
             ->has(ProfileImage::factory())
             ->create();
             }

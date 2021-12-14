@@ -37,6 +37,10 @@ Route::get('/{path?}', function () {
 
 Route::get('/{path?}', function () {
     return view('app');
+})->name('verification.notice');
+
+Route::get('/{path?}', function () {
+    return view('app');
 })->name('two-factor.login');
 
 Route::get('/{path?}', function () {
