@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stock;
+use App\Models\Detail;
 use App\Models\Seller;
 use App\Models\Product;
 use App\Models\Discount;
@@ -37,8 +39,21 @@ class SellerController extends Controller
                 'description' => $request->description,
                 'price' => $request->price,
                 'category_id' => $request->category,
-                'seller_id' => $seller->id
+                'seller_id' => $seller->id,
             ]);
+        $details = Detail::create([
+            'product_id' => $product->id,
+            'color' => $request->color,
+            'size' => $request->size,
+            'condition' => $request->condition,
+            'brand' => $request->brand,
+            'countryOfManifacture' => $request->countryOfManifacture,
+            'extraDescription' => $request->extraDescription
+        ]);
+        $stock = Stock::create([
+            'product_id' => $product->id,
+            'quantity' => $request->quantity
+        ]);
         return response()->json(['message' => $product->id]);
         return response()->json(['message' => 'Product added']);
     }

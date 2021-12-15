@@ -11,27 +11,7 @@ class Product extends Model
     use HasFactory;
     protected $with = ['images'];
     protected $guarded = [];
-    public function scopeItemInStock($query, $id)
-    {
-        $product = $query->where('id', $id)->first();
-        return $product->stock->isInStock;
-    }
 
-    // awfully slow
-    // return all in stock products
-    public function scopeInStock($query)
-    {
-        return $query->whereHas('stock', function ($query) {
-            $query->where('isInStock', true);
-        });
-    }
-    // return all out of stock products
-    public function scopeOutOfStock($query)
-    {
-        return $query->whereHas('stock', function ($query) {
-            $query->where('isInStock', false);
-        });
-    }
     // returns all discounted products with discount applied
     public function scopeDiscounted($query)
     {
