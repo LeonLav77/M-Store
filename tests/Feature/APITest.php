@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-
+use App\Models\User;
 class APITest extends TestCase
 {
     /**
@@ -23,19 +23,27 @@ class APITest extends TestCase
     // public function testLogin(){
     //     $this->json('POST','api/login');
     // }
-    public function register_user(){
+    public function test_good_register_user(){
+        $this->email = "janKaracicex@gmail.com";
         $response = $this->postJson('/auth/register', [
-            'username' => 'Sally',
-            'email' => 'leo@gmail.com',
+            'name' => 'Sally',
+            'email' => $this->email,
             'password' => 'password',
             'password_confirmation' => 'password',
                 ]);
-
+        User::where('email',$this->email)->first()->delete();
         $response
-            ->assertStatus(201)
-            ->assertJson([
-                'created' => true,
-            ]);
+        ->assertStatus(201);
+    }
+    public function test_duplicate_register_user(){
+        $response = $this->postJson('/auth/register', [
+            'username' => 'Sally',
+            'email' => 'leon@gmail.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+                ]);
+        $response
+            ->assertStatus(422);
     }
     public function login_user(){
         $response = $this->postJson('/auth/login',[
