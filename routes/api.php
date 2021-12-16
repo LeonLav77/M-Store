@@ -92,8 +92,7 @@ Route::middleware(['loggedIn'])->group(function () {
             Route::get('/products', [SellerController::class,'getSellerProducts']);
             Route::post('/products', [SellerController::class,'addProduct']);
             Route::delete('/product/{id}', [SellerController::class,'deleteProduct']);
-            Route::post('/product/{id}', [SellerController::class,'updateProduct']);
-            Route::post('/product/{id}/addImage', [SellerController::class,'addImage']);
+            Route::put('/product/{id}', [SellerController::class,'updateProduct']);
             });
         });
 });

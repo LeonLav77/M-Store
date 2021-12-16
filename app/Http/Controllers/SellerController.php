@@ -54,7 +54,82 @@ class SellerController extends Controller
             'product_id' => $product->id,
             'quantity' => $request->quantity
         ]);
-        return response()->json(['message' => $product->id]);
+        if(isset($request->discount)){
+            $discount = Discount::create([
+                'product_id' => $product->id,
+                'discount' => $request->discount,
+                'expiryDate' => $request->expiry_date
+            ]);
+        }
+        // return response()->json(['message' => $product->id]);
         return response()->json(['message' => 'Product added']);
+    }
+    public function getSellerProducts(){
+        $user = auth()->user();
+        $seller = Seller::where('user_id', $user->id)->first();
+        $products = Product::where('seller_id', $seller->id)->get();
+        return response()->json(['products' => $products]);
+    }
+    public function deleteProduct($id){
+        $user = auth()->user();
+        $seller = Seller::where('user_id', $user->id)->first();
+        $product = Product::where('id', $id)->where('seller_id', $seller->id)->first();
+        $product->delete();
+        return response()->json(['message' => 'Product removed']);
+    }
+    public function updateProduct(request $request){
+        $user = auth()->user();
+        $seller = Seller::where('user_id', $user->id)->first();
+        $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
+        // $product->update($product);
+        return response()->json(['message' => 'Product updated']);
+    }
+    public function changeProductPrice(request $request){
+        $user = auth()->user();
+        $seller = Seller::where('user_id', $user->id)->first();
+        $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
+        $product->price = $request->price;
+        $product->save();
+        return response()->json(['message' => 'Product price changed']);
+    }
+    public function removeDiscount(request $request){
+        $user = auth()->user();
+        $seller = Seller::where('user_id', $user->id)->first();
+        $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
+        if($product->discount){
+            $discount = Discount::where('product_id', $product->id)->first();
+            $discount->delete();
+            return response()->json(['message' => 'Discount removed']);
+        }
+        return response()->json(['message' => 'No discount to remove']);
+    }
+    public function addUpdateDiscount(request $request){
+        $user = auth()->user();
+        $seller = Seller::where('user_id', $user->id)->first();
+        $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
+        if($product->discount){
+            $discount = Discount::where('product_id', $product->id)->first();
+            $discount->discount = $request->discount;
+            $discount->expiryDate = $request->expiry_date;
+            $discount->save();
+            return response()->json(['message' => 'Discount updated']); 
+        }
+        $discount = Discount::create([
+            'product_id' => $product->id,
+            'discount' => $request->discount,
+            'expiryDate' => $request->expiry_date
+        ]);
+        $product->discount_id = $discount->id;
+        $product->save();
+        return response()->json(['message' => 'Discount added']);
+    }
+    public function addStock(request $request){
+        $user = auth()->user();
+        $seller = Seller::where('user_id', $user->id)->first();
+        $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
+        $stock = Stock::where('product_id', $product->id)->first();
+        $stock->quantity += $request->quantity;
+        $stock->save();
+        return response()->json(['message' => 'Stock added']);
     }
 }

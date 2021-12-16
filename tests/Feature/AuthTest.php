@@ -85,7 +85,7 @@ class AuthTest extends TestCase
         $response
         ->assertStatus(200);
         $response = $this->putJson('/auth/user/profile-information', [
-            'email' => $this->email,
+            'email' => $this->email, 
             'name' => $this->name,
         ]);
         $response
