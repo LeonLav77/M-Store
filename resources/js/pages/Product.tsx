@@ -1,7 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 import { Button } from "../components/Button";
-import { Controlled as ControlledZoom } from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import "../../css/ProductPage.css";
 
@@ -12,17 +11,35 @@ export const Product = () => {
         item: { name, description, current_price, discount, images },
     } = location.state;
     const [currentId, setCurrentId] = useState(0);
-    const [isZoomedIn, setIsZoomedIn] = useState(true);
+    const [isZoomedIn, setIsZoomedIn] = useState(false);
 
     const hideSlider = (e) => {
         if (e.target.classList.contains("overlay")) setIsZoomedIn(false);
         else return;
     };
 
+    const getScreenDimensions = () => {
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        return { screenHeight, screenWidth };
+    };
+    const [screenDimensions, setScreenDimensions] = useState(
+        getScreenDimensions()
+    );
+    useEffect(() => {
+        function handleResize() {
+            setScreenDimensions(getScreenDimensions());
+        }
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [screenDimensions]);
+
     return (
         <div className="main_container">
             <div className="product_container">
                 <div className="product_img_container">
+                    {/* SALE / DISCOUNT */}
                     <div
                         className={discount && !isZoomedIn ? "on_sale" : "hide"}
                     >
@@ -40,48 +57,53 @@ export const Product = () => {
                             height="25"
                         />
                     </div>
-                    <div
-                        className={`${isZoomedIn ? "overlay" : ""}`}
-                        onClick={(e) => hideSlider(e)}
-                    >
-                        <div className="overlay_container">
-                            <div className="arrow_container">
-                                <div
-                                    className={
-                                        currentId == 0 ? "hide" : "left_arrow"
-                                    }
-                                    onClick={() => {
-                                        if (currentId == 0) return;
-                                        else setCurrentId(currentId - 1);
-                                    }}
-                                ></div>
-                            </div>
-                            <img
-                                className="zoomed_image"
-                                src={images[currentId].path}
-                            />
-                            <div className="arrow_container">
-                                <div
-                                    className={
-                                        currentId == images.length - 1
-                                            ? "hide"
-                                            : "right_arrow"
-                                    }
-                                    onClick={() => {
-                                        if (currentId == images.length - 1)
-                                            return;
-                                        else setCurrentId(currentId + 1);
-                                    }}
-                                ></div>
+                    {/* OVERLAY / IMAGE iN CAONTEINER*/}
+                    {isZoomedIn ? (
+                        <div
+                            className={`${isZoomedIn ? "overlay" : "hide"}`}
+                            onClick={(e) => hideSlider(e)}
+                        >
+                            <div className="overlay_container">
+                                <div className="arrow_container">
+                                    <div
+                                        className={
+                                            currentId == 0
+                                                ? "hide"
+                                                : "left_arrow"
+                                        }
+                                        onClick={() => {
+                                            if (currentId == 0) return;
+                                            else setCurrentId(currentId - 1);
+                                        }}
+                                    ></div>
+                                </div>
+                                <img
+                                    className="zoomed_image"
+                                    src={images[currentId].path}
+                                />
+                                <div className="arrow_container">
+                                    <div
+                                        className={
+                                            currentId == images.length - 1
+                                                ? "hide"
+                                                : "right_arrow"
+                                        }
+                                        onClick={() => {
+                                            if (currentId == images.length - 1)
+                                                return;
+                                            else setCurrentId(currentId + 1);
+                                        }}
+                                    ></div>
+                                </div>
                             </div>
                         </div>
-                        {/* <img
-                            className={`product_image ${
-                                isZoomedIn ? "zoom_active" : ""
-                            }`}
+                    ) : (
+                        <img
+                            className={`product_image`}
                             src={images[currentId].path}
-                        /> */}
-                    </div>
+                        />
+                    )}
+                    {/* SMOL IMAGES GALLERY */}
                     <div
                         style={
                             !isZoomedIn
@@ -91,7 +113,7 @@ export const Product = () => {
                     >
                         {images.map((image, id) => (
                             <img
-                                key={image.id}
+                                key={id}
                                 src={image.path}
                                 className={`product_slider_image ${
                                     currentId == id ? "active" : ""
@@ -106,6 +128,7 @@ export const Product = () => {
                         ))}
                     </div>
                 </div>
+                {/* PRODUCT INFOS */}
                 <div className="product_infos">
                     <h1 className="main_title">{name}</h1>
                     <div>
@@ -149,6 +172,7 @@ export const Product = () => {
                             </span>
                         )}
                     </h3>
+                    {/* BUTTONS */}
                     <div className="product_buttons">
                         <Button
                             title="Add To Cart"
@@ -160,33 +184,44 @@ export const Product = () => {
                         />
                     </div>
                 </div>
-            </div>
-            {/* <div
-                className={`main_arrow_container left_arrow ${
-                    isZoomedIn && currentId != 0 ? "" : "hide"
-                }`}
-                onClick={() => {
-                    if (currentId == 0) return;
-                    else setCurrentId(currentId - 1);
-                }}
-            >
-                <div className="prev_slide"></div>
+                {/* RELATED PRODUCTS FGALLEYRY */}
+                <div
+                    className={
+                        screenDimensions.screenWidth > 1660
+                            ? `related_products_container vertical_list`
+                            : "hide"
+                    }
+                >
+                    <h1 className="related_products_title">Related Items</h1>
+                    <div className="related_products">
+                        <div className="vertical">
+                            {relatedItems.map((item, id) => {
+                                return (
+                                    <div
+                                        key={id}
+                                        style={{
+                                            margin: 10,
+                                            width: "250px",
+                                            height: "150px",
+                                            backgroundColor: "grey",
+                                        }}
+                                    ></div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
             </div>
             <div
-                className={`main_arrow_container right_arrow ${
-                    isZoomedIn && currentId < images.length - 1 ? "" : "hide"
-                }`}
-                onClick={() => {
-                    if (currentId == images.length - 1) return;
-                    else setCurrentId(currentId + 1);
-                }}
+                className={
+                    screenDimensions.screenWidth < 1660
+                        ? `related_products_container horizontal_list`
+                        : "hide"
+                }
             >
-                <div className="next_slide"></div>
-            </div> */}
-            <div className="related_products_container">
                 <h1 className="related_products_title">Related Items</h1>
                 <div className="related_products">
-                    <div>
+                    <div className="horizontal">
                         {relatedItems.map((item, id) => {
                             return (
                                 <div
