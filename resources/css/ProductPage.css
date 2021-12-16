@@ -135,10 +135,11 @@
 
 .zoom_active {
     position: absolute;
-    width: 65%;
-    height: 85%;
     top: 7%;
     left: 17%;
+    border: 2px solid red;
+    padding: 10px;
+    min-width: 800px;
 }
 .product_slider_image {
     margin: 10px;
@@ -153,17 +154,20 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
     z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 .prev_slide,
 .next_slide {
     padding: 20px;
     width: 50px;
     height: 50px;
-    position: absolute;
+    /* position: absolute; */
     border-right: 7px solid rgb(224, 224, 224);
     border-top: 7px solid rgb(224, 224, 224);
 }
-.prev_slide {
+/* .prev_slide {
     top: 50%;
     left: 50%;
     transform: translate(-30%, -50%) rotateZ(-135deg);
@@ -174,14 +178,14 @@
     left: 50%;
     transform: translate(-70%, -50%) rotateZ(45deg);
     z-index: inherit;
-}
+} */
 .main_arrow_container {
     width: 100px;
     height: 100px;
     position: absolute;
     z-index: 2;
 }
-.left_arrow {
+/* .left_arrow {
     top: 42%;
     left: 10%;
 }
@@ -189,8 +193,63 @@
 .right_arrow {
     top: 42%;
     right: 12%;
-}
+} */
 
 .main_arrow_container:hover {
     cursor: pointer;
+}
+
+.overlay_container {
+    width: 70%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.zoomed_image {
+    width: 85%;
+    max-height: 650px;
+}
+
+.arrow_container {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.right_arrow,
+.left_arrow {
+    width: 50px;
+    height: 50px;
+    border-right: 7px solid rgb(224, 224, 224);
+    border-top: 7px solid rgb(224, 224, 224);
+}
+.right_arrow {
+    transform: rotateZ(45deg);
+}
+.left_arrow {
+    transform: rotateZ(-135deg);
+}
+.left_arrow,
+.right_arrow:hover {
+    cursor: pointer;
+}
+@media (max-width: 1200px) {
+    .overlay_container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        gap: 0px 0px;
+        border: 2px solid red;
+    }
+    .left_arrow {
+        grid-area: 5;
+    }
+    .right_arrow {
+        grid-area: right_arrow;
+    }
+    .zoomed_image {
+        grid-area: zoomed_iamge;
+    }
 }

@@ -12,7 +12,7 @@ export const Product = () => {
         item: { name, description, current_price, discount, images },
     } = location.state;
     const [currentId, setCurrentId] = useState(0);
-    const [isZoomedIn, setIsZoomedIn] = useState(false);
+    const [isZoomedIn, setIsZoomedIn] = useState(true);
 
     const hideSlider = (e) => {
         if (e.target.classList.contains("overlay")) setIsZoomedIn(false);
@@ -44,12 +44,43 @@ export const Product = () => {
                         className={`${isZoomedIn ? "overlay" : ""}`}
                         onClick={(e) => hideSlider(e)}
                     >
-                        <img
+                        <div className="overlay_container">
+                            <div className="arrow_container">
+                                <div
+                                    className={
+                                        currentId == 0 ? "hide" : "left_arrow"
+                                    }
+                                    onClick={() => {
+                                        if (currentId == 0) return;
+                                        else setCurrentId(currentId - 1);
+                                    }}
+                                ></div>
+                            </div>
+                            <img
+                                className="zoomed_image"
+                                src={images[currentId].path}
+                            />
+                            <div className="arrow_container">
+                                <div
+                                    className={
+                                        currentId == images.length - 1
+                                            ? "hide"
+                                            : "right_arrow"
+                                    }
+                                    onClick={() => {
+                                        if (currentId == images.length - 1)
+                                            return;
+                                        else setCurrentId(currentId + 1);
+                                    }}
+                                ></div>
+                            </div>
+                        </div>
+                        {/* <img
                             className={`product_image ${
                                 isZoomedIn ? "zoom_active" : ""
                             }`}
                             src={images[currentId].path}
-                        />
+                        /> */}
                     </div>
                     <div
                         style={
@@ -130,7 +161,7 @@ export const Product = () => {
                     </div>
                 </div>
             </div>
-            <div
+            {/* <div
                 className={`main_arrow_container left_arrow ${
                     isZoomedIn && currentId != 0 ? "" : "hide"
                 }`}
@@ -151,7 +182,7 @@ export const Product = () => {
                 }}
             >
                 <div className="next_slide"></div>
-            </div>
+            </div> */}
             <div className="related_products_container">
                 <h1 className="related_products_title">Related Items</h1>
                 <div className="related_products">
