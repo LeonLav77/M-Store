@@ -75,12 +75,6 @@ class DatabaseSeeder extends Seeder
                 ->has(Stock::factory())
                 ->for($arrayOfUsers[rand(0, ($numberOfUsers/2)-1)], 'seller')
                 ->has(Detail::factory())
-                ->state(
-                    [
-                    'details_id' => $i+1,
-                    'stock_id' => $i+1,
-                ]
-                )
 
                 ->create();
             if ($i % 2 == 0) {
@@ -89,8 +83,7 @@ class DatabaseSeeder extends Seeder
                     'product_id' => $i+1,
                     'expiryDate' => now()->addDays(rand(1, 30))]);
                 DB::table('products')
-                    ->where('id', $i+1)
-                    ->update(['discount_id' => $discount_id]);
+                    ->where('id', $i+1);
             }
         }
     }
