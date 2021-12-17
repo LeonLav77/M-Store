@@ -2153,6 +2153,8 @@ var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules
 var react_html_parser_1 = __importDefault(__webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js"));
 
 var Home = function Home() {
+  console.log("leonlav77@gmail.com");
+
   var _a = (0, react_1.useState)([]),
       data = _a[0],
       setData = _a[1];

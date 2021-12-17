@@ -5,6 +5,7 @@ import $ from "jquery";
 import ReactHtmlParser from "react-html-parser";
 
 export const Home = () => {
+    console.log(process.env.MIX_EMAIL)
     const [data, setData] = useState<any>([]);
     const getData = () => {
         return axios
