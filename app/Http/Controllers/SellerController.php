@@ -8,6 +8,7 @@ use App\Models\Seller;
 use App\Models\Product;
 use App\Models\Discount;
 use Illuminate\Http\Request;
+use App\Actions\CalculateCurrentPrice;
 
 class SellerController extends Controller
 {
@@ -64,11 +65,11 @@ class SellerController extends Controller
         // return response()->json(['message' => $product->id]);
         return response()->json(['message' => 'Product added']);
     }
-    public function getSellerProducts(){
+    public function getSellerProducts(request $request){
         $user = auth()->user();
         $seller = Seller::where('user_id', $user->id)->first();
-        $products = Product::where('seller_id', $seller->id)->get();
-        return response()->json(['products' => $products]);
+        $products = Product::where('seller_id', $seller->id)->paginate($request->productsPerPage);
+        return response()->json(['products' => CalculateCurrentPrice::run($products)]);
     }
     public function deleteProduct($id){
         $user = auth()->user();
@@ -77,25 +78,20 @@ class SellerController extends Controller
         $product->delete();
         return response()->json(['message' => 'Product removed']);
     }
-    public function updateProduct(request $request){
+
+    public function updateProductPrice(request $request){
         $user = auth()->user();
-        $seller = Seller::where('user_id', $user->id)->first();
-        $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
-        // $product->update($product);
-        return response()->json(['message' => 'Product updated']);
-    }
-    public function changeProductPrice(request $request){
-        $user = auth()->user();
+        // refactor to eloquent
         $seller = Seller::where('user_id', $user->id)->first();
         $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
         $product->price = $request->price;
         $product->save();
         return response()->json(['message' => 'Product price changed']);
     }
-    public function removeDiscount(request $request){
+    public function removeDiscount($id){
         $user = auth()->user();
         $seller = Seller::where('user_id', $user->id)->first();
-        $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
+        $product = Product::where('id', $id)->where('seller_id', $seller->id)->first();
         if($product->discount){
             $discount = Discount::where('product_id', $product->id)->first();
             $discount->delete();
@@ -119,17 +115,33 @@ class SellerController extends Controller
             'discount' => $request->discount,
             'expiryDate' => $request->expiry_date
         ]);
-        $product->discount_id = $discount->id;
-        $product->save();
         return response()->json(['message' => 'Discount added']);
     }
-    public function addStock(request $request){
+
+    public function updateProductDetails(request $request){
+        $user = auth()->user();
+        // refactor to use eloquent
+        $seller = Seller::where('user_id', $user->id)->first();
+        $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
+        $details = Detail::where('product_id', $product->id)->first();
+        $details->color = $request->color;
+        $details->size = $request->size;
+        $details->condition = $request->condition;
+        $details->brand = $request->brand;
+        $details->countryOfManifacture = $request->countryOfManifacture;
+        $details->extraDescription = $request->extraDescription;
+        $details->save();
+        return response()->json(['message' => 'Product details updated']);
+    }
+    public function updateProduct(request $request){
         $user = auth()->user();
         $seller = Seller::where('user_id', $user->id)->first();
         $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
-        $stock = Stock::where('product_id', $product->id)->first();
-        $stock->quantity += $request->quantity;
-        $stock->save();
-        return response()->json(['message' => 'Stock added']);
+        if($request->quantity){
+            $product->stock->quantity += $request->quantity;
+        }
+
+        $product->stock->save();
+        return response()->json(['message' => 'Product updated']);
     }
 }

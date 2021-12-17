@@ -90,9 +90,27 @@ Route::middleware(['loggedIn'])->group(function () {
             Route::get('/info', [SellerController::class,'getSellerInfo']);
             // this already exists at /sameSellerProducts/{id}
             Route::get('/products', [SellerController::class,'getSellerProducts']);
+            // Add a product to seller
             Route::post('/products', [SellerController::class,'addProduct']);
+            // Remove a product from seller
             Route::delete('/product/{id}', [SellerController::class,'deleteProduct']);
+
+            // Could be refactored into a single method
             Route::put('/product/{id}', [SellerController::class,'updateProduct']);
+            // Update a products Price
+            Route::put('/updateProductPrice', [SellerController::class,'updateProductPrice']);
+            // Update a products Details
+            Route::put('/updateProductDetails', [SellerController::class,'updateProductDetails']);
+            // Update a products Stock
+            Route::put('/addStock', [SellerController::class,'addStock']);
+            // Remove a products Stock(ex: when a product is sold)
+            Route::put('/removeStock', [SellerController::class,'removeStock']);
+
+
+            // Update or Add to a products Discount
+            Route::post('/addUpdateDiscount', [SellerController::class,'addUpdateDiscount']);
+            // Remove a products Discount
+            Route::delete('/removeDiscount/{id}', [SellerController::class,'removeDiscount']);
             });
         });
 });
