@@ -7,7 +7,7 @@ export const Testing = () => {
             method: "post",
             url: "/auth/login",
             data: {
-                email: "leonlav77@gmail.com",
+                email: process.env.MIX_EMAIL,
                 password: "password",
             },
         })
@@ -35,7 +35,7 @@ export const Testing = () => {
             url: "/auth/register",
             data: {
                 name: "Leon",
-                email: "leonlav77@gmail.com",
+                email: process.env.MIX_EMAIL,
                 password: "password",
                 password_confirmation: "password",
             },

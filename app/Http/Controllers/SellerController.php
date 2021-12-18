@@ -135,12 +135,22 @@ class SellerController extends Controller
     }
     public function updateProduct(request $request){
         $user = auth()->user();
-        $seller = Seller::where('user_id', $user->id)->first();
+        $seller = $user->sellerInfo;
         $product = Product::where('id', $request->id)->where('seller_id', $seller->id)->first();
-        if($request->quantity){
+        if($request->setQuantity){
+            $product->stock->quantity = $request->setQuantity;
+        }
+        else if($request->quantity){
             $product->stock->quantity += $request->quantity;
         }
-
+        $product->price = $request->price ?? $product->price;
+        $product->details->color = $request->color ?? $product->color;
+        $product->details->size = $request->size ?? $product->size;
+        $product->details->condition = $request->condition ?? $product->condition;
+        $product->details->brand = $request->brand ?? $product->brand;
+        $product->details->countryOfManifacture = $request->countryOfManifacture ?? $product->countryOfManifacture;
+        $product->details->extraDescription = $request->extraDescription ?? $product->extraDescription;
+        $product->save();
         $product->stock->save();
         return response()->json(['message' => 'Product updated']);
     }

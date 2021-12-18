@@ -11,7 +11,7 @@ export const Login = () => {
                     url: "/api/auth/resend-email",
                     method: "POST",
                     data: {
-                        email: "leonlav77@gmail.com",
+                        email: process.env.MIX_EMAIL,
                     },
                     success: (data) => {
                         console.log(data);

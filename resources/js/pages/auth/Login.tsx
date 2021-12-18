@@ -7,7 +7,7 @@ export const Login = () => {
             method: "POST",
             url: "/auth/login",
             data: {
-                email: "leonlav77@gmail.com",
+                email: process.env.MIX_EMAIL,
                 password: "password",
             },
             dataType: "json",

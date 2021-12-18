@@ -7,7 +7,7 @@ export const Register = () => {
             method: "POST",
             url: "/auth/register",
             data: {
-                email: "leonlav77@gmail.com",
+                email: process.env.MIX_EMAIL,
                 name: "leonlav77",
                 password: "password",
                 password_confirmation: "password",
