@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import $ from "jquery";
 import ReactHtmlParser from "react-html-parser";
+import { useSelector } from "react-redux";
 
 export const Home = () => {
-    console.log(process.env.MIX_EMAIL)
+    const value = useSelector((state: any) => state.counter.value);
+
+    console.log(value);
     const [data, setData] = useState<any>([]);
     const getData = () => {
         return axios

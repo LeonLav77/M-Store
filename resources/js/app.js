@@ -12,35 +12,39 @@ import { UserInfo } from "./pages/auth/UserInfo";
 import { TFAEnable } from "./pages/auth/TFAEnable";
 import { TFADisable } from "./pages/auth/TFADisable";
 import { PasswordConfirm } from "./pages/auth/PasswordConfirm";
+import { Provider } from "react-redux";
 import { PasswordReset } from "./pages/auth/PasswordReset";
+import { store } from "./store/store";
 
 render(
     <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="products" element={<Products />} />
-            <Route path="products/:productId" element={<Product />} />
-            <Route path="password_reset" element={<PasswordReset />} />
-            <Route path="testing" element={<Testing></Testing>} />
-            <Route path="login" element={<Login></Login>} />
-            <Route path="TFALogin" element={<TFALogin></TFALogin>} />
-            <Route path="register" element={<Register></Register>} />
-            <Route path="userInfo" element={<UserInfo></UserInfo>} />
-            <Route path="TFAEnable" element={<TFAEnable></TFAEnable>} />
-            <Route path="TFADisable" element={<TFADisable></TFADisable>} />
-            <Route
-                path="confirmPassword"
-                element={<PasswordConfirm></PasswordConfirm>}
-            />
-            <Route
-                path=""
-                element={
-                    <main style={{ padding: "1rem" }}>
-                        <p>Page not found...</p>
-                    </main>
-                }
-            />
-        </Routes>
+        <Provider store={store}>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="products" element={<Products />} />
+                <Route path="products/:productId" element={<Product />} />
+                <Route path="password_reset" element={<PasswordReset />} />
+                <Route path="testing" element={<Testing></Testing>} />
+                <Route path="login" element={<Login></Login>} />
+                <Route path="TFALogin" element={<TFALogin></TFALogin>} />
+                <Route path="register" element={<Register></Register>} />
+                <Route path="userInfo" element={<UserInfo></UserInfo>} />
+                <Route path="TFAEnable" element={<TFAEnable></TFAEnable>} />
+                <Route path="TFADisable" element={<TFADisable></TFADisable>} />
+                <Route
+                    path="confirmPassword"
+                    element={<PasswordConfirm></PasswordConfirm>}
+                />
+                <Route
+                    path=""
+                    element={
+                        <main style={{ padding: "1rem" }}>
+                            <p>Page not found...</p>
+                        </main>
+                    }
+                />
+            </Routes>
+        </Provider>
     </BrowserRouter>,
     document.getElementById("app")
 );
