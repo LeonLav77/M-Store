@@ -1,0 +1,18 @@
+.main_top_products_slider_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 700px;
+}
+.top_products_slider_container {
+    overflow-y: scroll;
+    cursor: grab;
+    width: 500px;
+    aspect-ratio: 1;
+    background-color: yellowgreen;
+    scroll-snap-type: y mandatory;
+}
+.slide {
+    height: 50%;
+    scroll-snap-align: end;
+}

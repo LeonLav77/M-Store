@@ -1,51 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { useFetchProductsPerPageQuery } from "../counter/productsDataSlice";
 
 export const Products = () => {
-    const [data, setData] = useState([]);
-    const getData = () => {
-        return axios
-            .get("http://127.0.0.1:8000/api/allProductsWCP?productsPerPage=10")
-            .then((res) => setData(res.data.data))
-            .catch((err) => console.log(err));
-    };
-    useEffect(() => {
-        getData();
-    }, []);
-
+    const { data, error, isLoading } = useFetchProductsPerPageQuery(
+        "allProductsWCP?productsPerPage=10"
+    );
     return (
         <div>
             <div>
-                {data.map((item) => {
-                    return (
-                        <div
-                            key={item.id}
-                            style={{
-                                border: "2px solid black",
-                                margin: 20,
-                                width: "80%",
-                                padding: 20,
-                            }}
-                        >
-                            <Link
-                                to={`/products/${item.id}`}
-                                style={{ fontSize: 32 }}
-                                state={{ item }}
+                {isLoading ? (
+                    <div>Loading...</div>
+                ) : error ? (
+                    <div>Error...</div>
+                ) : (
+                    data.data.map((item) => {
+                        return (
+                            <div
+                                key={item.id}
+                                style={{
+                                    border: "2px solid black",
+                                    margin: 20,
+                                    width: "80%",
+                                    padding: 20,
+                                }}
                             >
-                                {item.name}
-                            </Link>
-                            <p>{item.description}</p>
-                            <h3>
-                                {item.discount?.discount
-                                    ? "Discout: "
-                                    : "Current Price: "}
-                                {item.discount?.discount ?? item.current_price}
-                                Kn
-                            </h3>
-                        </div>
-                    );
-                })}
+                                <Link
+                                    to={`/products/${item.id}`}
+                                    style={{ fontSize: 32 }}
+                                    state={{ item }}
+                                >
+                                    {item.name}
+                                </Link>
+                                <p>{item.description}</p>
+                                <h3>
+                                    {item.discount?.discount
+                                        ? "Discout: "
+                                        : "Current Price: "}
+                                    {item.discount?.discount ??
+                                        item.current_price}
+                                    Kn
+                                </h3>
+                            </div>
+                        );
+                    })
+                )}
             </div>
         </div>
     );
