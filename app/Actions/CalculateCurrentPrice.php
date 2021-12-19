@@ -13,16 +13,16 @@ class CalculateCurrentPrice
 
     public function handle($products)
     {
-        // $yes = $products->getCollection();
-        // $products->setCollection($yes);
-        // return $products;
-        if($products instanceof \Illuminate\Pagination\LengthAwarePaginator) {
-            $updatedItems = $this->determinePlural($products->getCollection());
-            $products->setCollection($updatedItems);
-        }else{
-            $this->determinePlural($products);
+        if($products){
+            if($products instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+                $updatedItems = $this->determinePlural($products->getCollection());
+                $products->setCollection($updatedItems);
+            }else{
+                $this->determinePlural($products);
+            }
+            return $products;
         }
-        return $products;
+        return null;
     }
     public function determinePlural($products){
         if ($products instanceof \Illuminate\Database\Eloquent\Collection || $products instanceof \Illuminate\Support\Collection) {

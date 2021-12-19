@@ -61,8 +61,11 @@ class APIController extends Controller
 
     public function getProductWCP($id)
     {
-        $products = Product::find($id);
-        return response()->json(CalculateCurrentPrice::run($products));
+        $product = Product::find($id);
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+        return response()->json(CalculateCurrentPrice::run($product));
     }
     public function getRelatedProducts($id){
         $mainProduct = Product::find($id);

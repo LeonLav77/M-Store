@@ -71,6 +71,7 @@ Route::get('/complexFilterSearch', [APIController::class,'getComplexFilterSearch
 Route::get('/test', [APIController::class,'test']);
 //
 Route::post('/checkIfLoggedIn', [APIController::class,'checkIfLoggedIn']);
+
 Route::middleware(['loggedIn'])->group(function () {
     // Contents of your cart
     Route::get('/cart', [CartController::class,'getCart']);
