@@ -2095,6 +2095,7 @@ exports.Button = Button;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
@@ -2153,7 +2154,7 @@ var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules
 var react_html_parser_1 = __importDefault(__webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js"));
 
 var Home = function Home() {
-  console.log("leonlav77@gmail.com");
+  console.log(process.env.MIX_EMAIL);
 
   var _a = (0, react_1.useState)([]),
       data = _a[0],
@@ -2295,6 +2296,12 @@ var __importStar = this && this.__importStar || function (mod) {
   return result;
 };
 
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
@@ -2310,26 +2317,43 @@ __webpack_require__(/*! react-medium-image-zoom/dist/styles.css */ "./node_modul
 
 __webpack_require__(/*! ../../css/ProductPage.css */ "./resources/css/ProductPage.css");
 
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
 var Product = function Product() {
-  var _a = (0, react_1.useState)(Array(9).fill(" ")),
-      relatedItems = _a[0],
-      setRelatedItems = _a[1];
+  var _a;
+
+  var _b = (0, react_1.useState)(Array(9).fill(" ")),
+      relatedItems = _b[0],
+      setRelatedItems = _b[1];
+
+  var _c = (0, react_1.useState)([]),
+      relatedCategories = _c[0],
+      setRelatedCategories = _c[1];
 
   var location = (0, react_router_1.useLocation)();
-  var _b = location.state.item,
-      name = _b.name,
-      description = _b.description,
-      current_price = _b.current_price,
-      discount = _b.discount,
-      images = _b.images;
+  var _d = location.state.item,
+      name = _d.name,
+      description = _d.description,
+      current_price = _d.current_price,
+      discount = _d.discount,
+      images = _d.images,
+      category_id = _d.category_id;
 
-  var _c = (0, react_1.useState)(0),
-      currentId = _c[0],
-      setCurrentId = _c[1];
+  var _e = (0, react_1.useState)(0),
+      currentId = _e[0],
+      setCurrentId = _e[1];
 
-  var _d = (0, react_1.useState)(false),
-      isZoomedIn = _d[0],
-      setIsZoomedIn = _d[1];
+  var _f = (0, react_1.useState)(false),
+      isZoomedIn = _f[0],
+      setIsZoomedIn = _f[1];
+
+  var getCategories = function getCategories() {
+    return axios_1["default"].get("http://127.0.0.1:8000/api/categories").then(function (res) {
+      return setRelatedCategories(res.data);
+    })["catch"](function (err) {
+      return console.log(err);
+    });
+  };
 
   var hideSlider = function hideSlider(e) {
     if (e.target.classList.contains("overlay")) setIsZoomedIn(false);else return;
@@ -2344,15 +2368,16 @@ var Product = function Product() {
     };
   };
 
-  var _e = (0, react_1.useState)(getScreenDimensions()),
-      screenDimensions = _e[0],
-      setScreenDimensions = _e[1];
+  var _g = (0, react_1.useState)(getScreenDimensions()),
+      screenDimensions = _g[0],
+      setScreenDimensions = _g[1];
 
   (0, react_1.useEffect)(function () {
     function handleResize() {
       setScreenDimensions(getScreenDimensions());
     }
 
+    getCategories();
     window.addEventListener("resize", handleResize);
     return function () {
       return window.removeEventListener("resize", handleResize);
@@ -2365,7 +2390,7 @@ var Product = function Product() {
   }, react_1["default"].createElement("div", {
     className: "product_img_container"
   }, react_1["default"].createElement("div", {
-    className: discount && !isZoomedIn ? "on_sale" : "hide"
+    className: discount && !isZoomedIn && screenDimensions.screenWidth > 1132 ? "on_sale on_sale_main" : "hide"
   }, react_1["default"].createElement("h1", null, "ON SALE")), react_1["default"].createElement("div", {
     className: "zoom_in_icon ".concat(isZoomedIn ? "hide" : ""),
     onClick: function onClick() {
@@ -2423,9 +2448,15 @@ var Product = function Product() {
     });
   }))), react_1["default"].createElement("div", {
     className: "product_infos"
+  }, react_1["default"].createElement("span", {
+    style: {
+      display: "flex"
+    }
   }, react_1["default"].createElement("h1", {
     className: "main_title"
-  }, name), react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
+  }, name), screenDimensions.screenWidth < 1132 && react_1["default"].createElement("h3", {
+    className: "on_sale on_sale_secondary"
+  }, "ON SALE")), react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
     className: "product_info"
   }, react_1["default"].createElement("span", {
     className: "first_span"
@@ -2433,7 +2464,7 @@ var Product = function Product() {
     className: "product_info"
   }, react_1["default"].createElement("span", {
     className: "first_span"
-  }, "Category: "), react_1["default"].createElement("span", null, "category")), react_1["default"].createElement("div", {
+  }, "Category: "), react_1["default"].createElement("span", null, (_a = relatedCategories[category_id - 1]) === null || _a === void 0 ? void 0 : _a.name)), react_1["default"].createElement("div", {
     className: "product_info"
   }, react_1["default"].createElement("span", {
     className: "first_span"
@@ -2480,7 +2511,7 @@ var Product = function Product() {
       key: id,
       style: {
         margin: 10,
-        width: "250px",
+        width: "350px",
         height: "150px",
         backgroundColor: "grey"
       }
@@ -2490,7 +2521,7 @@ var Product = function Product() {
   }, react_1["default"].createElement("h1", {
     className: "related_products_title"
   }, "Related Items"), react_1["default"].createElement("div", {
-    className: "related_products"
+    className: "related_products_horizontal"
   }, react_1["default"].createElement("div", {
     className: "horizontal"
   }, relatedItems.map(function (item, id) {
@@ -2503,6 +2534,22 @@ var Product = function Product() {
         backgroundColor: "grey"
       }
     });
+  })))), react_1["default"].createElement("div", {
+    className: "related_categories_container"
+  }, react_1["default"].createElement("h1", null, "Related Categories"), react_1["default"].createElement("div", {
+    className: "related_categories"
+  }, react_1["default"].createElement("div", {
+    className: "related_categories_items"
+  }, relatedCategories.map(function (item, id) {
+    return react_1["default"].createElement("div", {
+      key: id,
+      style: {
+        margin: 10,
+        width: "250px",
+        height: "150px",
+        backgroundColor: "grey"
+      }
+    }, item.name);
   })))));
 };
 
@@ -2620,6 +2667,7 @@ exports.Products = Products;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -2643,7 +2691,7 @@ var Testing = function Testing() {
       method: "post",
       url: "/auth/login",
       data: {
-        email: "leonlav77@gmail.com",
+        email: process.env.MIX_EMAIL,
         password: "password"
       }
     }).then(function (res) {
@@ -2681,7 +2729,7 @@ var Testing = function Testing() {
       url: "/auth/register",
       data: {
         name: "Leon",
-        email: "leonlav77@gmail.com",
+        email: process.env.MIX_EMAIL,
         password: "password",
         password_confirmation: "password"
       }
@@ -2737,6 +2785,7 @@ exports.Testing = Testing;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -2760,7 +2809,7 @@ var Login = function Login() {
       method: "POST",
       url: "/auth/login",
       data: {
-        email: "leonlav77@gmail.com",
+        email: process.env.MIX_EMAIL,
         password: "password"
       },
       dataType: "json",
@@ -2918,6 +2967,7 @@ exports.PasswordReset = PasswordReset;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -2941,7 +2991,7 @@ var Register = function Register() {
       method: "POST",
       url: "/auth/register",
       data: {
-        email: "leonlav77@gmail.com",
+        email: process.env.MIX_EMAIL,
         name: "leonlav77",
         password: "password",
         password_confirmation: "password"
@@ -5354,7 +5404,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Lato&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n    font-family: \"Lato\", sans-serif;\r\n}\r\n\r\n.main_container {\r\n    width: 100%;\r\n    background-color: #16a085;\r\n    padding-bottom: 150px;\r\n}\r\n.product_container {\r\n    width: 100%;\r\n    background-color: whitesmoke;\r\n    border-bottom-left-radius: 20px;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: space-around;\r\n    min-width: 1000px;\r\n    border-bottom-right-radius: 20px;\r\n    overflow: hidden;\r\n    padding: 35px;\r\n}\r\n.product_image {\r\n    height: 600px;\r\n    width: 500px;\r\n}\r\n.product_infos {\r\n    width: 500px;\r\n    height: 600px;\r\n    display: flex;\r\n    justify-content: space-evenly;\r\n    flex-direction: column;\r\n    margin-left: 120px;\r\n}\r\n.related_products_container.vertical_list {\r\n    width: 25%;\r\n    height: 800px;\r\n    border-left: 3px solid black;\r\n}\r\n.related_products_container.horizontal_list {\r\n    background-color: red;\r\n}\r\n.related_products {\r\n    height: 90%;\r\n    overflow-y: scroll;\r\n}\r\n.product_img_container {\r\n    position: relative;\r\n    border: 1px solid black;\r\n}\r\n.on_sale {\r\n    width: 220px;\r\n    height: 60px;\r\n    position: absolute;\r\n    background-color: #ff6969;\r\n    top: 7%;\r\n    left: -9%;\r\n    transform: rotateZ(-45deg);\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.zoom_in_icon {\r\n    width: 40px;\r\n    height: 40px;\r\n    position: absolute;\r\n    right: 1.5%;\r\n    top: 1%;\r\n    border-radius: 50%;\r\n    background-color: lightgrey;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n\r\n.product_buttons {\r\n    width: 70%;\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n.on_sale h1 {\r\n    color: white;\r\n    margin: 0;\r\n    margin-top: 4px;\r\n    font-weight: bold;\r\n    letter-spacing: 3px;\r\n}\r\n.product_info {\r\n    margin: 20px;\r\n    margin-left: 0;\r\n}\r\n.product_info span {\r\n    font-weight: bold;\r\n    font-size: 20px;\r\n}\r\n.first_span {\r\n    background-color: #a6f4e1;\r\n    color: #0b654f;\r\n    letter-spacing: 2px;\r\n    padding: 3px;\r\n    border-radius: 10px;\r\n    margin-right: 10px;\r\n    margin-bottom: 20px;\r\n}\r\n.main_title {\r\n    font-size: 40px;\r\n    color: #0b654f;\r\n    font-weight: bold;\r\n}\r\n.hide {\r\n    display: none;\r\n}\r\n.product_price {\r\n    position: relative;\r\n}\r\n.crossed {\r\n    position: relative;\r\n    margin: 10px;\r\n    letter-spacing: 1px;\r\n}\r\n.crossed::after {\r\n    content: \" \";\r\n    position: absolute;\r\n    left: 0;\r\n    top: 43%;\r\n    width: 70px;\r\n    height: 3px;\r\n    transform: rotateZ(-25deg);\r\n    background-color: black;\r\n}\r\n.current_price_span {\r\n    background-color: #a6f4e1;\r\n    color: #0b654f;\r\n    border-radius: 10px;\r\n    padding: 7px;\r\n    font-weight: bold;\r\n    letter-spacing: 3px;\r\n}\r\n.product_slider_image {\r\n    margin: 10px;\r\n}\r\n.overlay {\r\n    position: fixed;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n    z-index: 2;\r\n    display: flex;\r\n    justify-content: space-around;\r\n    align-items: center;\r\n}\r\n.overlay_container {\r\n    width: 80%;\r\n    height: 70%;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.zoomed_image {\r\n    max-width: 1000px;\r\n    width: 120%;\r\n    max-height: 650px;\r\n}\r\n\r\n.arrow_container {\r\n    width: 100px;\r\n    height: 100px;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n.right_arrow,\r\n.left_arrow {\r\n    width: 50px;\r\n    height: 50px;\r\n    border-right: 7px solid rgb(224, 224, 224);\r\n    border-top: 7px solid rgb(224, 224, 224);\r\n}\r\n.right_arrow {\r\n    transform: rotateZ(45deg);\r\n}\r\n.left_arrow {\r\n    transform: rotateZ(-135deg);\r\n}\r\n.left_arrow,\r\n.right_arrow:hover {\r\n    cursor: pointer;\r\n}\r\n.horizontal {\r\n    display: flex;\r\n    flex-direction: row;\r\n}\r\n.vertical {\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n@media (max-width: 800px) {\r\n    .overlay_container {\r\n        display: grid;\r\n        grid-template-columns: 1fr 1fr;\r\n        grid-template-rows: 2fr 1fr;\r\n        place-items: center;\r\n        width: 100%;\r\n    }\r\n    .zoomed_image {\r\n        width: 90%;\r\n        margin: 0 auto;\r\n        grid-column: 1/3;\r\n        grid-row: 1 / 2;\r\n        min-width: 450px;\r\n        min-height: 400px;\r\n    }\r\n    .left_arrow {\r\n        grid-column: 1/2;\r\n        grid-row: 3/4;\r\n    }\r\n    .right_arrow {\r\n        grid-column: 2/4;\r\n        grid-row: 3/4;\r\n    }\r\n    .arrow_container {\r\n        background-color: grey;\r\n    }\r\n}\r\n\r\n@media (max-width: 500px) {\r\n    .main_container {\r\n        display: none;\r\n    }\r\n}\r\n@media (max-width: 1132px) {\r\n    .product_container {\r\n        flex-direction: column;\r\n        min-width: 400px;\r\n    }\r\n    .product_infos {\r\n        margin: 0 auto;\r\n        width: 80%;\r\n    }\r\n    .product_img_container {\r\n        width: 80%;\r\n        margin: 0 auto;\r\n        align-self: center;\r\n        height: auto;\r\n    }\r\n    .product_image {\r\n        width: 100%;\r\n        height: -webkit-fit-content;\r\n        height: -moz-fit-content;\r\n        height: fit-content;\r\n    }\r\n}\r\n@media (max-width: 650px) {\r\n    .product_price,\r\n    .current_price_span {\r\n        font-size: 18px;\r\n    }\r\n}\r\n/* @media (max-width: 1500px) {\r\n    .main_container {\r\n        flex-direction: column;\r\n    }\r\n} */\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n    font-family: \"Lato\", sans-serif;\r\n}\r\n\r\n.main_container {\r\n    width: 100%;\r\n    background-color: #16a085;\r\n    padding-bottom: 150px;\r\n}\r\n.product_container {\r\n    width: 100%;\r\n    background-color: whitesmoke;\r\n    border-bottom-left-radius: 20px;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: space-around;\r\n    min-width: 1000px;\r\n    border-bottom-right-radius: 20px;\r\n    overflow: hidden;\r\n    padding: 35px;\r\n}\r\n.product_image {\r\n    height: 600px;\r\n    width: 500px;\r\n}\r\n.product_infos {\r\n    width: 500px;\r\n    height: 600px;\r\n    display: flex;\r\n    justify-content: space-evenly;\r\n    flex-direction: column;\r\n    margin-left: 120px;\r\n}\r\n.related_products_container.vertical_list {\r\n    width: 25%;\r\n    height: 800px;\r\n    border-left: 3px solid black;\r\n}\r\n.related_products_container.horizontal_list,\r\n.related_categories_container {\r\n    height: 250px;\r\n    overflow-x: scroll;\r\n}\r\n.related_products {\r\n    height: 90%;\r\n    overflow-y: scroll;\r\n}\r\n.product_img_container {\r\n    position: relative;\r\n    border: 1px solid black;\r\n}\r\n.related_products_horizontal,\r\n.related_categories {\r\n    width: -webkit-fit-content;\r\n    width: -moz-fit-content;\r\n    width: fit-content;\r\n}\r\n\r\n.on_sale {\r\n    background-color: #ff6969;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.on_sale_main {\r\n    width: 220px;\r\n    height: 60px;\r\n    position: absolute;\r\n    top: 7%;\r\n    left: -9%;\r\n    transform: rotateZ(-45deg);\r\n}\r\n.on_sale_secondary {\r\n    padding: 0 10px;\r\n    border-radius: 15px;\r\n    margin-left: 25px;\r\n    font-size: 20px;\r\n    font-weight: bold;\r\n    color: white;\r\n    letter-spacing: 2px;\r\n}\r\n\r\n.zoom_in_icon {\r\n    width: 40px;\r\n    height: 40px;\r\n    position: absolute;\r\n    right: 1.5%;\r\n    top: 1%;\r\n    border-radius: 50%;\r\n    background-color: lightgrey;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n\r\n.product_buttons {\r\n    width: 70%;\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n.on_sale h1 {\r\n    color: white;\r\n    margin: 0;\r\n    margin-top: 4px;\r\n    font-weight: bold;\r\n    letter-spacing: 3px;\r\n}\r\n.product_info {\r\n    margin: 20px;\r\n    margin-left: 0;\r\n}\r\n.product_info span {\r\n    font-weight: bold;\r\n    font-size: 20px;\r\n}\r\n.first_span {\r\n    background-color: #a6f4e1;\r\n    color: #0b654f;\r\n    letter-spacing: 2px;\r\n    padding: 3px;\r\n    border-radius: 10px;\r\n    margin-right: 10px;\r\n    margin-bottom: 20px;\r\n}\r\n.main_title {\r\n    font-size: 40px;\r\n    color: #0b654f;\r\n    font-weight: bold;\r\n}\r\n.hide {\r\n    display: none;\r\n}\r\n.product_price {\r\n    position: relative;\r\n}\r\n.crossed {\r\n    position: relative;\r\n    margin: 10px;\r\n    letter-spacing: 1px;\r\n}\r\n.crossed::after {\r\n    content: \" \";\r\n    position: absolute;\r\n    left: 0;\r\n    top: 43%;\r\n    width: 70px;\r\n    height: 3px;\r\n    transform: rotateZ(-25deg);\r\n    background-color: black;\r\n}\r\n.current_price_span {\r\n    background-color: #a6f4e1;\r\n    color: #0b654f;\r\n    border-radius: 10px;\r\n    padding: 7px;\r\n    font-weight: bold;\r\n    letter-spacing: 3px;\r\n}\r\n.product_slider_image {\r\n    margin: 10px;\r\n}\r\n.overlay {\r\n    position: fixed;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    background-color: rgba(0, 0, 0, 0.85);\r\n    z-index: 2;\r\n    display: flex;\r\n    justify-content: space-around;\r\n    align-items: center;\r\n}\r\n.overlay_container {\r\n    width: 80%;\r\n    height: 70%;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.zoomed_image {\r\n    max-width: 1000px;\r\n    width: 120%;\r\n    max-height: 650px;\r\n}\r\n\r\n.arrow_container {\r\n    width: 100px;\r\n    height: 100px;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n.right_arrow,\r\n.left_arrow {\r\n    width: 50px;\r\n    height: 50px;\r\n    border-right: 7px solid rgb(224, 224, 224);\r\n    border-top: 7px solid rgb(224, 224, 224);\r\n}\r\n.right_arrow {\r\n    transform: rotateZ(45deg);\r\n}\r\n.left_arrow {\r\n    transform: rotateZ(-135deg);\r\n}\r\n.left_arrow,\r\n.right_arrow:hover {\r\n    cursor: pointer;\r\n}\r\n.horizontal,\r\n.vertical {\r\n    display: flex;\r\n}\r\n.vertical {\r\n    flex-direction: column;\r\n}\r\n.related_categories_items {\r\n    display: flex;\r\n}\r\n\r\n@media (max-width: 800px) {\r\n    .overlay_container {\r\n        display: grid;\r\n        grid-template-columns: 1fr 1fr;\r\n        grid-template-rows: 2fr 1fr;\r\n        place-items: center;\r\n        width: 100%;\r\n    }\r\n    .zoomed_image {\r\n        width: 90%;\r\n        margin: 0 auto;\r\n        grid-column: 1/3;\r\n        grid-row: 1 / 2;\r\n        min-width: 450px;\r\n        min-height: 400px;\r\n    }\r\n    .left_arrow {\r\n        grid-column: 1/2;\r\n        grid-row: 3/4;\r\n    }\r\n    .right_arrow {\r\n        grid-column: 2/4;\r\n        grid-row: 3/4;\r\n    }\r\n    .arrow_container {\r\n        background-color: grey;\r\n    }\r\n}\r\n\r\n@media (max-width: 500px) {\r\n    .main_container {\r\n        display: none;\r\n    }\r\n}\r\n@media (max-width: 1132px) {\r\n    .product_container {\r\n        flex-direction: column;\r\n        min-width: 400px;\r\n    }\r\n    .product_infos {\r\n        margin: 0 auto;\r\n        width: 80%;\r\n    }\r\n    .product_img_container {\r\n        width: 80%;\r\n        margin: 0 auto;\r\n        align-self: center;\r\n        height: auto;\r\n    }\r\n    .product_image {\r\n        width: 100%;\r\n        height: -webkit-fit-content;\r\n        height: -moz-fit-content;\r\n        height: fit-content;\r\n    }\r\n}\r\n@media (max-width: 650px) {\r\n    .product_price,\r\n    .current_price_span {\r\n        font-size: 18px;\r\n    }\r\n}\r\n/* @media (max-width: 1500px) {\r\n    .main_container {\r\n        flex-direction: column;\r\n    }\r\n} */\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -53323,7 +53373,7 @@ function _extends() {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\Leon\\\\Desktop\\\\M-Store\\\\M-Store"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\Users\\\\Leon\\\\Desktop\\\\M-Store\\\\M-Store","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
 
 /***/ }),
 
