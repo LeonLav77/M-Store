@@ -5970,6 +5970,8 @@ var react_html_parser_1 = __importDefault(__webpack_require__(/*! react-html-par
 
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
+__webpack_require__(/*! ../../css/HomePage.css */ "./resources/css/HomePage.css");
+
 var Home = function Home() {
   var value = (0, react_redux_1.useSelector)(function (state) {
     return state.counter.value;
@@ -5980,12 +5982,52 @@ var Home = function Home() {
       data = _a[0],
       setData = _a[1];
 
+  var sliderRef = (0, react_1.useRef)(null);
+
   var getData = function getData() {
     return axios_1["default"].get("http://127.0.0.1:8000/auth/user/two-factor-qr-code").then(function (res) {
       setData(res.data);
     })["catch"](function (err) {
       return console.log(err);
     });
+  };
+
+  var pos = {
+    top: 0,
+    left: 0,
+    x: 0,
+    y: 0
+  };
+
+  var mouseDownHandler = function mouseDownHandler(e) {
+    sliderRef.current.style.cursor = "grabbing";
+    sliderRef.current.style.userSelect = "none";
+    pos = {
+      // The current scroll
+      left: sliderRef.current.scrollLeft,
+      top: sliderRef.current.scrollTop,
+      // Get the current mouse position
+      x: e.clientX,
+      y: e.clientY
+    };
+    document.addEventListener("mousemove", mouseMoveHandler);
+    document.addEventListener("mouseup", mouseUpHandler);
+  };
+
+  var mouseMoveHandler = function mouseMoveHandler(e) {
+    // How far the mouse has been moved
+    var dx = e.clientX - pos.x;
+    var dy = e.clientY - pos.y; // Scroll the element
+
+    sliderRef.current.scrollTop = pos.top - dy;
+    sliderRef.current.scrollLeft = pos.left - dx;
+  };
+
+  var mouseUpHandler = function mouseUpHandler() {
+    document.removeEventListener("mousemove", mouseMoveHandler);
+    document.removeEventListener("mouseup", mouseUpHandler);
+    sliderRef.current.style.cursor = "grab";
+    sliderRef.current.style.removeProperty("user-select");
   };
 
   (0, react_1.useEffect)(function () {
@@ -6066,7 +6108,30 @@ var Home = function Home() {
     }
   }, "logout"))), react_1["default"].createElement("div", {
     key: "main_container"
-  }, react_1["default"].createElement("div", null, " ", (0, react_html_parser_1["default"])(data.svg), " ")));
+  }, react_1["default"].createElement("div", null, " ", (0, react_html_parser_1["default"])(data.svg), " ")), react_1["default"].createElement("div", {
+    className: "main_top_products_slider_container"
+  }, react_1["default"].createElement("div", {
+    className: "top_products_slider_container",
+    ref: sliderRef
+  }, react_1["default"].createElement("div", {
+    style: {
+      backgroundColor: "red",
+      color: "white"
+    },
+    className: "slide"
+  }, react_1["default"].createElement("h1", null, "slide 1"), react_1["default"].createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam officiis quasi dolorem, labore ratione itaque? Ad deserunt minus voluptate harum.")), react_1["default"].createElement("div", {
+    className: "slide",
+    style: {
+      backgroundColor: "blue",
+      color: "white"
+    }
+  }, react_1["default"].createElement("h1", null, "slide 2"), react_1["default"].createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam officiis quasi dolorem, labore ratione itaque? Ad deserunt minus voluptate harum.")), react_1["default"].createElement("div", {
+    className: "slide",
+    style: {
+      backgroundColor: "green",
+      color: "white"
+    }
+  }, react_1["default"].createElement("h1", null, "slide 3"), react_1["default"].createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam officiis quasi dolorem, labore ratione itaque? Ad deserunt minus voluptate harum.")))));
 };
 
 exports.Home = Home;
@@ -6142,7 +6207,7 @@ var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/a
 var Product = function Product() {
   var _a;
 
-  var _b = (0, react_1.useState)(Array(9).fill(" ")),
+  var _b = (0, react_1.useState)([]),
       relatedItems = _b[0],
       setRelatedItems = _b[1];
 
@@ -6157,7 +6222,8 @@ var Product = function Product() {
       current_price = _d.current_price,
       discount = _d.discount,
       images = _d.images,
-      category_id = _d.category_id;
+      category_id = _d.category_id,
+      id = _d.id;
 
   var _e = (0, react_1.useState)(0),
       currentId = _e[0],
@@ -6166,6 +6232,14 @@ var Product = function Product() {
   var _f = (0, react_1.useState)(false),
       isZoomedIn = _f[0],
       setIsZoomedIn = _f[1];
+
+  var getRelatedProducts = function getRelatedProducts() {
+    return axios_1["default"].get("http://127.0.0.1:8000/api/relatedProducts/".concat(id)).then(function (res) {
+      return setRelatedItems(res.data.data);
+    })["catch"](function (err) {
+      return console.log(err);
+    });
+  };
 
   var getCategories = function getCategories() {
     return axios_1["default"].get("http://127.0.0.1:8000/api/categories").then(function (res) {
@@ -6193,11 +6267,14 @@ var Product = function Product() {
       setScreenDimensions = _g[1];
 
   (0, react_1.useEffect)(function () {
+    getCategories();
+    getRelatedProducts();
+  }, []);
+  (0, react_1.useEffect)(function () {
     function handleResize() {
       setScreenDimensions(getScreenDimensions());
     }
 
-    getCategories();
     window.addEventListener("resize", handleResize);
     return function () {
       return window.removeEventListener("resize", handleResize);
@@ -6335,7 +6412,7 @@ var Product = function Product() {
         height: "150px",
         backgroundColor: "grey"
       }
-    });
+    }, react_1["default"].createElement("h1", null, item.name));
   }))))), react_1["default"].createElement("div", {
     className: screenDimensions.screenWidth < 1660 ? "related_products_container horizontal_list" : "hide"
   }, react_1["default"].createElement("h1", {
@@ -6353,7 +6430,7 @@ var Product = function Product() {
         height: "150px",
         backgroundColor: "grey"
       }
-    });
+    }, react_1["default"].createElement("h1", null, item.name));
   })))), react_1["default"].createElement("div", {
     className: "related_categories_container"
   }, react_1["default"].createElement("h1", null, "Related Categories"), react_1["default"].createElement("div", {
@@ -9193,6 +9270,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "[data-rmiz-wrap=\"visible\"],\n[data-rmiz-wrap=\"hidden\"] {\n  position: relative;\n  display: inline-flex;\n  align-items: flex-start;\n}\n[data-rmiz-wrap=\"hidden\"] {\n  visibility: hidden;\n}\n[data-rmiz-overlay] {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  transition-property: background-color;\n}\n[data-rmiz-btn-open],\n[data-rmiz-btn-close] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n\n  /* reset styles */\n  margin: 0;\n  padding: 0;\n  border: none;\n  border-radius: 0;\n  font: inherit;\n  color: inherit;\n  background: none;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n}\n[data-rmiz-btn-open] {\n  cursor: zoom-in;\n}\n[data-rmiz-btn-close] {\n  cursor: zoom-out;\n}\n[data-rmiz-modal-content] {\n  position: absolute;\n  transition-property: transform;\n  transform-origin: center center;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/css/HomePage.css":
+/*!**********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/css/HomePage.css ***!
+  \**********************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".main_top_products_slider_container {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    height: 700px;\r\n}\r\n.top_products_slider_container {\r\n    overflow-y: scroll;\r\n    cursor: -webkit-grab;\r\n    cursor: grab;\r\n    width: 500px;\r\n    aspect-ratio: 1;\r\n    background-color: yellowgreen;\r\n    -ms-scroll-snap-type: y mandatory;\r\n        scroll-snap-type: y mandatory;\r\n}\r\n.slide {\r\n    height: 50%;\r\n    scroll-snap-align: end;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -61226,6 +61327,36 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_styles_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./resources/css/HomePage.css":
+/*!************************************!*\
+  !*** ./resources/css/HomePage.css ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_HomePage_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./HomePage.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/css/HomePage.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_HomePage_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_HomePage_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 

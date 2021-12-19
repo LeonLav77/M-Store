@@ -6,7 +6,7 @@ import "../../css/ProductPage.css";
 import axios from "axios";
 
 export const Product = () => {
-    const [relatedItems, setRelatedItems] = useState(Array(9).fill(" "));
+    const [relatedItems, setRelatedItems] = useState([]);
     const [relatedCategories, setRelatedCategories] = useState([]);
     const location = useLocation();
     const {
@@ -17,10 +17,18 @@ export const Product = () => {
             discount,
             images,
             category_id,
+            id,
         },
     } = location.state;
     const [currentId, setCurrentId] = useState(0);
     const [isZoomedIn, setIsZoomedIn] = useState(false);
+
+    const getRelatedProducts = () => {
+        return axios
+            .get(`http://127.0.0.1:8000/api/relatedProducts/${id}`)
+            .then((res) => setRelatedItems(res.data.data))
+            .catch((err) => console.log(err));
+    };
 
     const getCategories = () => {
         return axios
@@ -43,10 +51,13 @@ export const Product = () => {
         getScreenDimensions()
     );
     useEffect(() => {
+        getCategories();
+        getRelatedProducts();
+    }, []);
+    useEffect(() => {
         function handleResize() {
             setScreenDimensions(getScreenDimensions());
         }
-        getCategories();
 
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
@@ -237,7 +248,9 @@ export const Product = () => {
                                             height: "150px",
                                             backgroundColor: "grey",
                                         }}
-                                    ></div>
+                                    >
+                                        <h1>{item.name}</h1>
+                                    </div>
                                 );
                             })}
                         </div>
@@ -264,7 +277,9 @@ export const Product = () => {
                                         height: "150px",
                                         backgroundColor: "grey",
                                     }}
-                                ></div>
+                                >
+                                    <h1>{item.name}</h1>
+                                </div>
                             );
                         })}
                     </div>
