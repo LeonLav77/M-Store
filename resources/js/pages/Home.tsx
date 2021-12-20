@@ -5,7 +5,6 @@ import $ from "jquery";
 import ReactHtmlParser from "react-html-parser";
 import { useSelector } from "react-redux";
 import { useIntersection, useSlider } from "react-use";
-import gsap from "gsap";
 import "../../css/HomePage.css";
 
 export const Home = () => {
