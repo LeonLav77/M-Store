@@ -45,14 +45,6 @@ class APIController extends Controller
         $categories = Category::all();
         return response()->json($categories);
     }
-    public function getCategoryNames()
-    {
-        // could also do this with select and get(), would be uglier
-        // but faster
-        $categoryNames = Category::all()->pluck('name');
-        return response()->json($categoryNames);
-    }
-
     public function getDiscountedProducts()
     {
         $products = Product::Discounted()->get();
@@ -61,7 +53,7 @@ class APIController extends Controller
 
     public function getProductWCP($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with(['discount','seller', 'category', 'details'])->findOrFail($id);
 
         return response()->json(CalculateCurrentPrice::run($product));
     }
@@ -80,24 +72,6 @@ class APIController extends Controller
 
         $products = Product::paginate($request->productsPerPage);
         return response()->json(CalculateCurrentPrice::run($products));
-    }
-    // brutally slow cant ship to production before refactoring
-    public function getInStockProducts()
-    {
-        $products = Product::InStock()->get();
-        return response()->json($products);
-    }
-    // brutally slow cant ship to production before refactoring
-    public function getOutOfStockProducts()
-    {
-        $products = Product::OutOfStock()->get();
-        return response()->json($products);
-    }
-    // doesnt work
-    public function getInStockProduct($id)
-    {
-        $product = Product::InStock()->findOrFail($id);
-        return response()->json($product);
     }
     public function getComplexFilterSearch(request $request)
     {

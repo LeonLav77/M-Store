@@ -49,22 +49,12 @@ Route::get('/sameSellerProducts/{id}', [APIController::class,'getSameSellerProdu
 
 // Get all categories with their info
 Route::get('/categories', [APIController::class,'getCategories']);
-// Get all category names
-Route::get('/categoryNames', [APIController::class,'getCategoryNames']);
-// All products of a category
-// Route::get('/productsByCategory/{categoryName}', [APIController::class,'getProductsByCategory']);
 // All products of a category with their current price
 Route::get('/productsByCategoryWCP/{categoryName}', [APIController::class,'getProductsByCategoryWCP']);
 
 // Return discounted products
 Route::get('/discountedProducts', [APIController::class,'getDiscountedProducts']);
 
-// Get all In stock products
-Route::get('/inStockProducts', [APIController::class,'getInStockProducts']);
-// Get all Out of stock products
-Route::get('/OutOfStockProducts', [APIController::class,'getOutOfStockProducts']);
-// See if a product is in stock
-Route::get('/inStockProduct/{id}', [APIController::class,'getInStockProduct']);
 // A search with a many options
 Route::get('/complexFilterSearch', [APIController::class,'getComplexFilterSearch']);
 // route for testing

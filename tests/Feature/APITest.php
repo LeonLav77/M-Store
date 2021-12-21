@@ -112,7 +112,7 @@ class APITest extends TestCase
     //     $response->assertStatus(404);
     // }
     public function test_categoryProducts(){
-        $response = $this->get('/api/categoryProducts/1');
+        $response = $this->get('/api/productsByCategoryWCP/1');
         $response->assertStatus(200)->assertJsonStructure(
             [
                 'data' => [
