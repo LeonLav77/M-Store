@@ -58,7 +58,7 @@ Route::get('/discountedProducts', [APIController::class,'getDiscountedProducts']
 // A search with a many options
 Route::get('/complexFilterSearch', [APIController::class,'getComplexFilterSearch']);
 // route for testing
-Route::get('/test', [APIController::class,'test']);
+Route::post('/test', [APIController::class,'test']);
 //
 Route::post('/checkIfLoggedIn', [APIController::class,'checkIfLoggedIn']);
 
