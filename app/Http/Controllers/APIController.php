@@ -61,19 +61,17 @@ class APIController extends Controller
 
     public function getProductWCP($id)
     {
-        $product = Product::find($id);
-        if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
-        }
+        $product = Product::findOrFail($id);
+
         return response()->json(CalculateCurrentPrice::run($product));
     }
     public function getRelatedProducts($id){
-        $mainProduct = Product::find($id);
+        $mainProduct = Product::findOrFail($id);
         $products = Product::where('name','like', '%'.$mainProduct->name.'%')->paginate(15);
         return response()->json(CalculateCurrentPrice::run($products));
     }
     public function getSameSellerProducts($id){
-        $mainProduct = Product::find($id);
+        $mainProduct = Product::findOrFail($id);
         $products = Product::where('seller_id',$mainProduct->seller_id)->paginate(1500);
         return response()->json(CalculateCurrentPrice::run($products));
     }
@@ -98,7 +96,7 @@ class APIController extends Controller
     // doesnt work
     public function getInStockProduct($id)
     {
-        $product = Product::InStock()->find($id);
+        $product = Product::InStock()->findOrFail($id);
         return response()->json($product);
     }
     public function getComplexFilterSearch(request $request)
