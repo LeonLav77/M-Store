@@ -5,15 +5,16 @@ import { Testing } from "./pages/Testing";
 import { Products } from "./pages/Products";
 import { Product } from "./pages/Product";
 import { Home } from "./pages/Home";
-import { Login } from "./pages/auth/Login";
-import { TFALogin } from "./pages/auth/TFALogin";
-import { Register } from "./pages/auth/Register";
-import { UserInfo } from "./pages/auth/UserInfo";
-import { TFAEnable } from "./pages/auth/TFAEnable";
-import { TFADisable } from "./pages/auth/TFADisable";
-import { PasswordConfirm } from "./pages/auth/PasswordConfirm";
+import { Login } from "./components/auth/Login";
+import { TFALogin } from "./components/auth/TFALogin";
+import { Register } from "./components/auth/Register";
+import { UserInfo } from "./components/auth/UserInfo";
+import { TFAEnable } from "./components/auth/TFAEnable";
+import { TFADisable } from "./components/auth/TFADisable";
+import { PasswordConfirm } from "./components/auth/PasswordConfirm";
 import { Provider } from "react-redux";
-import { PasswordReset } from "./pages/auth/PasswordReset";
+import { PasswordReset } from "./components/auth/PasswordReset";
+import { TestingUi } from "./pages/TestingUi";
 import { store } from "./store/store";
 
 render(
@@ -25,6 +26,7 @@ render(
                 <Route path="products/:productId" element={<Product />} />
                 <Route path="password_reset" element={<PasswordReset />} />
                 <Route path="testing" element={<Testing></Testing>} />
+                <Route path="testingUi" element={<TestingUi></TestingUi>} />
                 <Route path="login" element={<Login></Login>} />
                 <Route path="TFALogin" element={<TFALogin></TFALogin>} />
                 <Route path="register" element={<Register></Register>} />

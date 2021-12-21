@@ -137,6 +137,9 @@ export const Home = () => {
                     <Link className="navbar-brand" to="products">
                         Products
                     </Link>
+                    <Link className="navbar-brand" to="testingUi">
+                        TEstingUtr
+                    </Link>
                     <Link className="navbar-brand" to="register">
                         Register
                     </Link>
