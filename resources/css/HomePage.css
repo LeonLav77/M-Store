@@ -5,14 +5,14 @@
     height: 700px;
 }
 .top_products_slider_container {
-    overflow-y: scroll;
     cursor: grab;
     width: 500px;
     aspect-ratio: 1;
     background-color: yellowgreen;
-    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory !important;
 }
 .slide {
-    height: 50%;
-    scroll-snap-align: end;
+    height: 100%;
+    scroll-snap-align: center;
 }

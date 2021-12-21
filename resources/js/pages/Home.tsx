@@ -5,7 +5,7 @@ import $ from "jquery";
 import ReactHtmlParser from "react-html-parser";
 import { useSelector } from "react-redux";
 import { useIntersection, useSlider } from "react-use";
-import gsap from "gsap";
+import ScrollContainer from "react-indiana-drag-scroll";
 import "../../css/HomePage.css";
 
 export const Home = () => {
@@ -100,6 +100,36 @@ export const Home = () => {
             },
         });
     }
+
+    var stop = true;
+    $(".draggable").on("drag", function (e) {
+        stop = true;
+
+        if (e.originalEvent.clientY < 150) {
+            stop = false;
+            scroll(-1);
+        }
+
+        if (e.originalEvent.clientY > $(window).height() - 150) {
+            stop = false;
+            scroll(1);
+        }
+    });
+
+    $(".draggable").on("dragend", function (e) {
+        stop = true;
+    });
+
+    var scroll = function (step) {
+        var scrollY = $(window).scrollTop();
+        $(window).scrollTop(scrollY + step);
+        if (!stop) {
+            setTimeout(function () {
+                scroll(step);
+            }, 20);
+        }
+    };
+
     return (
         <div>
             <nav className="navbar navbar-expand-md navbar-light navbar-laravel">
@@ -139,7 +169,14 @@ export const Home = () => {
                 <div> {ReactHtmlParser(data.svg)} </div>
             </div>
             <div className="main_top_products_slider_container">
-                <div className="top_products_slider_container" ref={sliderRef}>
+                <ScrollContainer
+                    horizontal={false}
+                    className="top_products_slider_container"
+                >
+                    {/* <div
+                    className="top_products_slider_container draggable"
+                    ref={sliderRef}
+                > */}
                     <div
                         style={{ backgroundColor: "red", color: "white" }}
                         className="slide"
@@ -173,8 +210,9 @@ export const Home = () => {
                             itaque? Ad deserunt minus voluptate harum.
                         </p>
                     </div>
-                </div>
+                </ScrollContainer>
             </div>
+            {/* </div> */}
         </div>
     );
 };
