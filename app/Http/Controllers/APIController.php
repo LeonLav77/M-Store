@@ -124,6 +124,7 @@ class APIController extends Controller
     }
     public function test(request $request)
     {
+        dd($request->all());
         User::first()->delete();
         return response()->json(['message' => 'deleted']);
     }
