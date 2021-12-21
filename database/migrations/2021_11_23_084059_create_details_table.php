@@ -15,7 +15,7 @@ class CreateDetailsTable extends Migration
     {
         Schema::create('details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->onDelete('cascade');
+            $table->foreignId('product_id')->references('id')->on('products')->cascadeOnDelete();
             $table->string('size')->nullable();
             $table->string('condition')->nullable();
             $table->string('color')->nullable();

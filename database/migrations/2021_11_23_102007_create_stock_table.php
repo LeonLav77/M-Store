@@ -15,8 +15,7 @@ class CreateStockTable extends Migration
     {
         Schema::create('stock', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->onDelete('cascade');
-            // $table->boolean('isInStock');
+            $table->foreignId('product_id')->references('id')->on('products')->cascadeOnDelete();
             $table->integer('quantity');
             $table->timestamps();
         });

@@ -16,7 +16,7 @@ class CreateSellersTable extends Migration
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
             $table->string('companyName');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
