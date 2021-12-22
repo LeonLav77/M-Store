@@ -15,7 +15,7 @@ class Product extends Model
     // returns all discounted products with discount applied
     public function scopeDiscounted($query)
     {
-        return $query->where('discount_id', '!=', null);
+        return $query->has('discount');
     }
     
     // testing Function, to delete before production

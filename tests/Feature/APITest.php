@@ -132,4 +132,69 @@ class APITest extends TestCase
             ]
         );
     }
+    public function test_categoryProducts_notFound(){
+        $response = $this->get('/api/productsByCategoryWCP/Footwear0000000000000000000000');
+        $response->assertStatus(404);
+    }
+    public function test_sameSellerProduct(){
+        $response = $this->get('/api/sameSellerProducts/1');
+        $response->assertStatus(200)->assertJsonStructure(
+            [
+                'data' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'description',
+                        'price',
+                        'category_id',
+                        'seller_id',
+                        'created_at',
+                        'updated_at',
+                        'current_price',
+                        'images',
+                    ]
+                ]
+            ]
+        );
+    }
+    public function test_sameSellerProduct_notFound(){
+        $response = $this->get('/api/sameSellerProducts/10000000000000000000000');
+        $response->assertStatus(404);
+    }
+    public function test_categories(){
+        $response = $this->get('/api/categories');
+        $response->assertStatus(200)->assertJsonStructure(
+            [
+                '*' => [
+                    'id',
+                    'name',
+                    'description',
+                    'created_at',
+                    'updated_at',
+                ]
+            ]
+        );
+    }
+    public function test_discountedProducts(){
+        $response = $this->get('/api/discountedProducts');
+        $response->assertStatus(200)->assertJsonStructure(
+            [
+                'data' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'description',
+                        'price',
+                        'category_id',
+                        'seller_id',
+                        'created_at',
+                        'updated_at',
+                        'current_price',
+                        'images',
+                        'discount',
+                    ]
+                ]
+            ]
+        );
+    }
 }
