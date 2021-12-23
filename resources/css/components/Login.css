@@ -1,0 +1,9 @@
+.login_container {
+    width: 60%;
+    height: 700px;
+    background-color: whitesmoke;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

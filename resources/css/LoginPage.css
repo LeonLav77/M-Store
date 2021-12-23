@@ -1,0 +1,7 @@
+.main_login_container {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to top left, #419f83, #097895);
+    display: grid;
+    place-items: center;
+}

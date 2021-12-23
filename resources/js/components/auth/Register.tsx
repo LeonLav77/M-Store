@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import $ from "jquery";
 import axios from "axios";
+import "../../../css/components/Register.css";
 
 export const Register = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -52,60 +53,49 @@ export const Register = () => {
         });
     }
     return (
-        <div>
-            <div>
-                <h1>Name</h1>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="name"
-                />
-                <h1>Email</h1>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="email"
-                />
-                <h1>pass</h1>
-                <input
-                    type="password"
-                    value={password1}
-                    onChange={(e) => setPassword1(e.target.value)}
-                    placeholder="passowrd"
-                />
-                <h1>con pass</h1>
-                <input
-                    type="password"
-                    value={password2}
-                    onChange={(e) => setPassword2(e.target.value)}
-                    placeholder="passowr"
-                />
-            </div>
-            <h1>GeeksforGeeks</h1>
-            <h3>File Upload using React!</h3>
-            <div>
-                <input type="file" onChange={onFileChange} />
+        <div className="main_register_container">
+            <div className="register_form_container">
+                <h1>Create Account</h1>
+                <div className="regiseter_form">
+                    <h1>Name</h1>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="name"
+                    />
+                    <h1>Email</h1>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="email"
+                    />
+                    <h1>pass</h1>
+                    <input
+                        type="password"
+                        value={password1}
+                        onChange={(e) => setPassword1(e.target.value)}
+                        placeholder="passowrd"
+                    />
+                    <h1>con pass</h1>
+                    <input
+                        type="password"
+                        value={password2}
+                        onChange={(e) => setPassword2(e.target.value)}
+                        placeholder="passowr"
+                    />
+                    <input type="file" onChange={onFileChange} />
+                </div>
                 <button
-                    onClick={() =>
-                        onFileUpload(name, email, password1, password2)
-                    }
+                    onClick={() => {
+                        onFileUpload(name, email, password1, password2);
+                        register2();
+                    }}
                 >
-                    Upload!
+                    Register
                 </button>
             </div>
-        <div>
-            <h1>Register Page</h1>
-            <button
-                onClick={() => {
-                    register2();
-                }}
-            >
-                Register
-            </button>
-        </div>
         </div>
     );
-
 };
