@@ -7,11 +7,13 @@ import { useSelector } from "react-redux";
 import { useIntersection, useSlider } from "react-use";
 import ScrollContainer from "react-indiana-drag-scroll";
 import "../../css/HomePage.css";
+import { Navbar } from "../components/Navbar";
+import { useFetchCategoriesQuery } from "../counter/productsDataSlice";
+import { ItemsList } from "../components/ItemsList";
 
 export const Home = () => {
     const value = useSelector((state: any) => state.counter.value);
-
-    console.log(value);
+    const fetchCategories = useFetchCategoriesQuery("categories");
     const [data, setData] = useState<any>([]);
     const sliderRef = useRef(null);
     const getData = () => {
@@ -131,8 +133,9 @@ export const Home = () => {
     };
 
     return (
-        <div>
-            <nav className="navbar navbar-expand-md navbar-light navbar-laravel">
+        <div className="main_home_container">
+            <Navbar />
+            {/* <nav className="navbar navbar-expand-md navbar-light navbar-laravel">
                 <div className="container">
                     <Link className="navbar-brand" to="products">
                         Products
@@ -167,55 +170,89 @@ export const Home = () => {
                         logout
                     </button>
                 </div>
-            </nav>
+            </nav>*/}
             <div key="main_container">
                 <div> {ReactHtmlParser(data.svg)} </div>
             </div>
-            <div className="main_top_products_slider_container">
-                <ScrollContainer
-                    horizontal={false}
-                    className="top_products_slider_container"
-                >
-                    {/* <div
+            <div className="greetings_container">
+                <div className="greetings_text">
+                    <h1>Welcome to Yes</h1>
+                    <p>we have no. But pizza jes.</p>
+                    <p>Say no more, we have it all... BIČ</p>
+                </div>
+                <div className="main_top_products_slider_container">
+                    <ScrollContainer
+                        horizontal={false}
+                        className="top_products_slider_container"
+                    >
+                        {/* <div
                     className="top_products_slider_container draggable"
                     ref={sliderRef}
                 > */}
-                    <div
-                        style={{ backgroundColor: "red", color: "white" }}
-                        className="slide"
-                    >
-                        <h1>slide 1</h1>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Aliquam officiis quasi dolorem, labore ratione
-                            itaque? Ad deserunt minus voluptate harum.
-                        </p>
-                    </div>
-                    <div
-                        className="slide"
-                        style={{ backgroundColor: "blue", color: "white" }}
-                    >
-                        <h1>slide 2</h1>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Aliquam officiis quasi dolorem, labore ratione
-                            itaque? Ad deserunt minus voluptate harum.
-                        </p>
-                    </div>
-                    <div
-                        className="slide"
-                        style={{ backgroundColor: "green", color: "white" }}
-                    >
-                        <h1>slide 3</h1>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Aliquam officiis quasi dolorem, labore ratione
-                            itaque? Ad deserunt minus voluptate harum.
-                        </p>
-                    </div>
-                </ScrollContainer>
+                        <div
+                            style={{ backgroundColor: "red", color: "white" }}
+                            className="slide"
+                        >
+                            <h1>slide 1</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Aliquam officiis quasi
+                                dolorem, labore ratione itaque? Ad deserunt
+                                minus voluptate harum.
+                            </p>
+                        </div>
+                        <div
+                            className="slide"
+                            style={{ backgroundColor: "blue", color: "white" }}
+                        >
+                            <h1>slide 2</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Aliquam officiis quasi
+                                dolorem, labore ratione itaque? Ad deserunt
+                                minus voluptate harum.
+                            </p>
+                        </div>
+                        <div
+                            className="slide"
+                            style={{ backgroundColor: "green", color: "white" }}
+                        >
+                            <h1>slide 3</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Aliquam officiis quasi
+                                dolorem, labore ratione itaque? Ad deserunt
+                                minus voluptate harum.
+                            </p>
+                        </div>
+                    </ScrollContainer>
+                </div>
             </div>
             {/* </div> */}
+            {fetchCategories.isLoading ? (
+                <h1>Loading...</h1>
+            ) : fetchCategories.error ? (
+                <h1>Error...</h1>
+            ) : (
+                <div className="related_categories_container">
+                    <ItemsList
+                        data={fetchCategories.data}
+                        title="Popoular Cateogires"
+                    />
+                </div>
+            )}
+            {fetchCategories.isLoading ? (
+                <h1>Loading...</h1>
+            ) : fetchCategories.error ? (
+                <h1>Error...</h1>
+            ) : (
+                <div className="related_categories_container">
+                    <ItemsList
+                        data={fetchCategories.data}
+                        title="Popoular Cateogires"
+                    />
+                </div>
+            )}
         </div>
     );
 };

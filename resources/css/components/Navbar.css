@@ -1,0 +1,22 @@
+.navbar_container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    border-top: 30px solid #16a085;
+    padding: 20px;
+}
+.search_bar {
+    width: 60%;
+    display: flex;
+}
+.search_bar input {
+    min-width: 90%;
+    width: 400px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    padding: 10px;
+}
+.search_bar button {
+    width: 10%;
+}

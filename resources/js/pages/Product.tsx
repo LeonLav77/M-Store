@@ -4,6 +4,7 @@ import { Button } from "../components/Button";
 import "react-medium-image-zoom/dist/styles.css";
 import "../../css/ProductPage.css";
 import axios from "axios";
+import { ItemsList } from "../components/ItemsList";
 
 export const Product = () => {
     const [relatedItems, setRelatedItems] = useState([]);
@@ -220,10 +221,14 @@ export const Product = () => {
                         <Button
                             title="Add To Cart"
                             onClick={() => console.log("added to cart")}
+                            type="submit"
+                            style={{}}
                         />
                         <Button
                             title="Wishlist"
                             onClick={() => console.log("wishlist")}
+                            type="submit"
+                            style={{}}
                         />
                     </div>
                 </div>
@@ -264,48 +269,13 @@ export const Product = () => {
                         : "hide"
                 }
             >
-                <h1 className="related_products_title">Related Items</h1>
-                <div className="related_products_horizontal">
-                    <div className="horizontal">
-                        {relatedItems.map((item, id) => {
-                            return (
-                                <div
-                                    key={id}
-                                    style={{
-                                        margin: 10,
-                                        width: "250px",
-                                        height: "150px",
-                                        backgroundColor: "grey",
-                                    }}
-                                >
-                                    <h1>{item.name}</h1>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
+                <ItemsList data={relatedItems} title="Related Items" />
             </div>
             <div className="related_categories_container">
-                <h1>Related Categories</h1>
-                <div className="related_categories">
-                    <div className="related_categories_items">
-                        {relatedCategories.map((item, id) => {
-                            return (
-                                <div
-                                    key={id}
-                                    style={{
-                                        margin: 10,
-                                        width: "250px",
-                                        height: "150px",
-                                        backgroundColor: "grey",
-                                    }}
-                                >
-                                    {item.name}
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
+                <ItemsList
+                    data={relatedCategories}
+                    title="Related Categories"
+                />
             </div>
         </div>
     );

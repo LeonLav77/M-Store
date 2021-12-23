@@ -1,3 +1,8 @@
+.main_home_container {
+    width: 85%;
+    margin: 0 auto;
+    background-color: #16a085;
+}
 .main_top_products_slider_container {
     display: flex;
     justify-content: center;
@@ -6,7 +11,8 @@
 }
 .top_products_slider_container {
     cursor: grab;
-    width: 500px;
+    max-width: 500px;
+    min-width: 400px;
     aspect-ratio: 1;
     background-color: yellowgreen;
     overflow-y: scroll;
@@ -15,4 +21,14 @@
 .slide {
     height: 100%;
     scroll-snap-align: center;
+}
+.greetings_container {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+.greetings_text {
+    margin: auto 0;
 }
