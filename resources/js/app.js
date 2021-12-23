@@ -12,6 +12,7 @@ import { UserInfo } from "./components/auth/UserInfo";
 import { TFAEnable } from "./components/auth/TFAEnable";
 import { TFADisable } from "./components/auth/TFADisable";
 import { PasswordConfirm } from "./components/auth/PasswordConfirm";
+import { UserProfilePage } from "./pages/UserProfilePage";
 import { Provider } from "react-redux";
 import { PasswordReset } from "./components/auth/PasswordReset";
 import { TestingUi } from "./pages/TestingUi";
@@ -31,12 +32,14 @@ render(
                     element={<ProductDetailsPage />}
                 />
                 <Route path="password_reset" element={<PasswordReset />} />
+                <Route path="user_profile" element={<UserProfilePage />} />
                 <Route path="testing" element={<Testing></Testing>} />
                 <Route path="testingUi" element={<TestingUi></TestingUi>} />
                 <Route
                     path="register"
                     element={<RegisterPage></RegisterPage>}
                 />
+
                 {/* <Route path="login" element={<Login></Login>} />
                 <Route path="TFALogin" element={<TFALogin></TFALogin>} />
                 <Route path="userInfo" element={<UserInfo></UserInfo>} />

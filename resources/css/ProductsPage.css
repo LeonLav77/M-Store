@@ -1,0 +1,15 @@
+.main_all_products_container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 3.5fr 1fr;
+    column-gap: 10px;
+}
+.filters_container {
+    grid-column: 1/2;
+}
+.products_list {
+    grid-column: 2/3;
+}
+.recent_searches {
+    grid-column: 3/4;
+}
