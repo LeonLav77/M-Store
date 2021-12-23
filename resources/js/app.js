@@ -22,6 +22,8 @@ render(
         <Provider store={store}>
             <Routes>
                 <Route path="/" element={<LoginPage />} />
+                {/* ill add this just not today */}
+                {/* element={!store.isLoggedIn ? <Navigate to="/login" /> : <App />} */}
                 <Route path="mstore" element={<HomePage />} />
                 <Route path="products" element={<ProductsPage />} />
                 <Route
