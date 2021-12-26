@@ -37,6 +37,7 @@ export const Login = () => {
                 height={"100%"}
                 width={"55%"}
                 style={{ borderBottomLeftRadius: 15, borderTopLeftRadius: 15 }}
+                className="login_bg_img"
             />
             <div className="login_form">
                 <h1>User Login</h1>

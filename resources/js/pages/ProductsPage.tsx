@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useFetchProductsPerPageQuery } from "../counter/productsDataSlice";
+import { useFetchProductsPerPageQuery } from "../slices/productsDataSlice";
 import "../../css/ProductsPage.css";
 import { Navbar } from "../components/Navbar";
 

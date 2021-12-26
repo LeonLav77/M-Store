@@ -6219,7 +6219,8 @@ var Login = function Login() {
     style: {
       borderBottomLeftRadius: 15,
       borderTopLeftRadius: 15
-    }
+    },
+    className: "login_bg_img"
   }), react_1["default"].createElement("div", {
     className: "login_form"
   }, react_1["default"].createElement("h1", null, "User Login"), react_1["default"].createElement("h4", null, "Email"), react_1["default"].createElement("input", {
@@ -6828,82 +6829,6 @@ exports.Login = Login;
 
 /***/ }),
 
-/***/ "./resources/js/counter/counterSlice.tsx":
-/*!***********************************************!*\
-  !*** ./resources/js/counter/counterSlice.tsx ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.increment = exports.counterSlice = void 0;
-
-var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-
-var initialState = {
-  value: 0
-};
-exports.counterSlice = (0, toolkit_1.createSlice)({
-  name: "counter",
-  initialState: initialState,
-  reducers: {
-    increment: function increment(state) {
-      state.value++;
-    }
-  }
-});
-exports.increment = exports.counterSlice.actions.increment;
-exports["default"] = exports.counterSlice.reducer;
-
-/***/ }),
-
-/***/ "./resources/js/counter/productsDataSlice.tsx":
-/*!****************************************************!*\
-  !*** ./resources/js/counter/productsDataSlice.tsx ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.useFetchCategoriesQuery = exports.useFetchProductsPerPageQuery = exports.apiSlice = void 0;
-
-var react_1 = __webpack_require__(/*! @reduxjs/toolkit/query/react */ "./node_modules/@reduxjs/toolkit/dist/query/react/rtk-query-react.esm.js");
-
-exports.apiSlice = (0, react_1.createApi)({
-  reducerPath: "api",
-  baseQuery: (0, react_1.fetchBaseQuery)({
-    baseUrl: "http://127.0.0.1:8000/api/"
-  }),
-  endpoints: function endpoints(builder) {
-    return {
-      fetchProductsPerPage: builder.query({
-        query: function query() {
-          return "allProductsWCP?productsPerPage=10";
-        }
-      }),
-      fetchCategories: builder.query({
-        query: function query() {
-          return "categories";
-        }
-      }) // fetchOnlyOnePerson: builder.query({
-      //     query: (id) => `people/${id}`,
-      // }),
-
-    };
-  }
-});
-exports.useFetchProductsPerPageQuery = exports.apiSlice.useFetchProductsPerPageQuery, exports.useFetchCategoriesQuery = exports.apiSlice.useFetchCategoriesQuery;
-
-/***/ }),
-
 /***/ "./resources/js/pages/HomePage.tsx":
 /*!*****************************************!*\
   !*** ./resources/js/pages/HomePage.tsx ***!
@@ -6974,7 +6899,7 @@ __webpack_require__(/*! ../../css/HomePage.css */ "./resources/css/HomePage.css"
 
 var Navbar_1 = __webpack_require__(/*! ../components/Navbar */ "./resources/js/components/Navbar.tsx");
 
-var productsDataSlice_1 = __webpack_require__(/*! ../counter/productsDataSlice */ "./resources/js/counter/productsDataSlice.tsx");
+var productsDataSlice_1 = __webpack_require__(/*! ../slices/productsDataSlice */ "./resources/js/slices/productsDataSlice.tsx");
 
 var ItemsList_1 = __webpack_require__(/*! ../components/ItemsList */ "./resources/js/components/ItemsList.tsx");
 
@@ -7548,7 +7473,7 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 
-var productsDataSlice_1 = __webpack_require__(/*! ../counter/productsDataSlice */ "./resources/js/counter/productsDataSlice.tsx");
+var productsDataSlice_1 = __webpack_require__(/*! ../slices/productsDataSlice */ "./resources/js/slices/productsDataSlice.tsx");
 
 __webpack_require__(/*! ../../css/ProductsPage.css */ "./resources/css/ProductsPage.css");
 
@@ -7941,6 +7866,83 @@ exports.UserProfilePage = UserProfilePage;
 
 /***/ }),
 
+/***/ "./resources/js/slices/counterSlice.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/slices/counterSlice.tsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.increment = exports.counterSlice = void 0;
+
+var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+var initialState = {
+  value: 0,
+  categories: []
+};
+exports.counterSlice = (0, toolkit_1.createSlice)({
+  name: "counter",
+  initialState: initialState,
+  reducers: {
+    increment: function increment(state) {
+      state.value++;
+    }
+  }
+});
+exports.increment = exports.counterSlice.actions.increment;
+exports["default"] = exports.counterSlice.reducer;
+
+/***/ }),
+
+/***/ "./resources/js/slices/productsDataSlice.tsx":
+/*!***************************************************!*\
+  !*** ./resources/js/slices/productsDataSlice.tsx ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.useFetchCategoriesQuery = exports.useFetchProductsPerPageQuery = exports.apiSlice = void 0;
+
+var react_1 = __webpack_require__(/*! @reduxjs/toolkit/query/react */ "./node_modules/@reduxjs/toolkit/dist/query/react/rtk-query-react.esm.js");
+
+exports.apiSlice = (0, react_1.createApi)({
+  reducerPath: "api",
+  baseQuery: (0, react_1.fetchBaseQuery)({
+    baseUrl: "http://127.0.0.1:8000/api/"
+  }),
+  endpoints: function endpoints(builder) {
+    return {
+      fetchProductsPerPage: builder.query({
+        query: function query() {
+          return "allProductsWCP?productsPerPage=10";
+        }
+      }),
+      fetchCategories: builder.query({
+        query: function query() {
+          return "categories";
+        }
+      }) // fetchOnlyOnePerson: builder.query({
+      //     query: (id) => `people/${id}`,
+      // }),
+
+    };
+  }
+});
+exports.useFetchProductsPerPageQuery = exports.apiSlice.useFetchProductsPerPageQuery, exports.useFetchCategoriesQuery = exports.apiSlice.useFetchCategoriesQuery;
+
+/***/ }),
+
 /***/ "./resources/js/store/store.tsx":
 /*!**************************************!*\
   !*** ./resources/js/store/store.tsx ***!
@@ -7959,9 +7961,9 @@ exports.store = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
-var productsDataSlice_1 = __webpack_require__(/*! ../counter/productsDataSlice */ "./resources/js/counter/productsDataSlice.tsx");
+var productsDataSlice_1 = __webpack_require__(/*! ../slices/productsDataSlice */ "./resources/js/slices/productsDataSlice.tsx");
 
-var counterSlice_1 = __webpack_require__(/*! ../counter/counterSlice */ "./resources/js/counter/counterSlice.tsx");
+var counterSlice_1 = __webpack_require__(/*! ../slices/counterSlice */ "./resources/js/slices/counterSlice.tsx");
 
 exports.store = (0, toolkit_1.configureStore)({
   reducer: (_a = {}, _a[productsDataSlice_1.apiSlice.reducerPath] = productsDataSlice_1.apiSlice.reducer, _a.counter = counterSlice_1.counterSlice.reducer, _a),
@@ -10148,7 +10150,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".main_all_products_container {\r\n    width: 100%;\r\n    display: grid;\r\n    grid-template-columns: 2fr 3.5fr 1fr;\r\n    -moz-column-gap: 10px;\r\n         column-gap: 10px;\r\n}\r\n.filters_container {\r\n    grid-column: 1/2;\r\n}\r\n.products_list {\r\n    grid-column: 2/3;\r\n}\r\n.recent_searches {\r\n    grid-column: 3/4;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".main_all_products_container {\r\n    display: grid;\r\n    margin: 0 auto;\r\n    grid-gap: 20px;\r\n}\r\n.recent_searches {\r\n    display: none;\r\n}\r\n@media (min-width: 750px) {\r\n    .main_all_products_container {\r\n        grid-template-columns: 1fr, 3fr;\r\n    }\r\n    .products_list {\r\n        grid-column: 2/3;\r\n    }\r\n}\r\n@media (min-width: 1400px) {\r\n    .main_all_products_container {\r\n        grid-template-columns: 2fr 3.5fr 1fr;\r\n    }\r\n    .filters_container {\r\n        grid-column: 1/2;\r\n    }\r\n    .recent_searches {\r\n        display: block;\r\n        grid-column: 3/4;\r\n    }\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -10196,7 +10198,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".login_container {\r\n    width: 60%;\r\n    height: 700px;\r\n    background-color: whitesmoke;\r\n    border-radius: 20px;\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".login_container {\r\n    width: 60%;\r\n    min-width: 800px;\r\n    height: 700px;\r\n    background-color: whitesmoke;\r\n    border-radius: 20px;\r\n    display: flex;\r\n    align-items: center;\r\n}\r\n@media (max-width: 830px) {\r\n    .login_bg_img {\r\n        display: none;\r\n    }\r\n    .login_container {\r\n        width: 90%;\r\n        height: calc(90% / 1.5);\r\n        min-width: 200px;\r\n    }\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -10244,7 +10246,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".main_register_container {\r\n    width: 100%;\r\n    height: 100%;\r\n    background-image: linear-gradient(to top left, #419f83, #097895);\r\n    display: grid;\r\n    place-items: center;\r\n}\r\n.register_form_container {\r\n    background-color: whitesmoke;\r\n    width: 45%;\r\n    height: 750px;\r\n    display: grid;\r\n    place-items: center;\r\n    border-radius: 20px;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".main_register_container {\r\n    width: 100%;\r\n    height: 100%;\r\n    background-image: linear-gradient(to top left, #419f83, #097895);\r\n    display: grid;\r\n    place-items: center;\r\n}\r\n.register_form_container {\r\n    background-color: whitesmoke;\r\n    width: 45%;\r\n    min-width: 750px;\r\n    height: 750px;\r\n    display: grid;\r\n    place-items: center;\r\n    border-radius: 20px;\r\n}\r\n@media (max-width: 830px) {\r\n    .register_form_container {\r\n        width: 90%;\r\n        height: calc(90% / 1.5);\r\n        min-width: 200px;\r\n    }\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

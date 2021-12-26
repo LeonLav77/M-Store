@@ -8,7 +8,7 @@ import { useIntersection, useSlider } from "react-use";
 import ScrollContainer from "react-indiana-drag-scroll";
 import "../../css/HomePage.css";
 import { Navbar } from "../components/Navbar";
-import { useFetchCategoriesQuery } from "../counter/productsDataSlice";
+import { useFetchCategoriesQuery } from "../slices/productsDataSlice";
 import { ItemsList } from "../components/ItemsList";
 
 export const HomePage = () => {

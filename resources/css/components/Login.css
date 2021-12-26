@@ -1,9 +1,19 @@
 .login_container {
     width: 60%;
+    min-width: 800px;
     height: 700px;
     background-color: whitesmoke;
     border-radius: 20px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+}
+@media (max-width: 830px) {
+    .login_bg_img {
+        display: none;
+    }
+    .login_container {
+        width: 90%;
+        height: calc(90% / 1.5);
+        min-width: 200px;
+    }
 }
