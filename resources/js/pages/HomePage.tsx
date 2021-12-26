@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import $ from "jquery";
 import ReactHtmlParser from "react-html-parser";
 import { useSelector } from "react-redux";
-import { useIntersection, useSlider } from "react-use";
 import ScrollContainer from "react-indiana-drag-scroll";
 import "../../css/HomePage.css";
 import { Navbar } from "../components/Navbar";
@@ -12,7 +10,7 @@ import { useFetchCategoriesQuery } from "../slices/productsDataSlice";
 import { ItemsList } from "../components/ItemsList";
 
 export const HomePage = () => {
-    const value = useSelector((state: any) => state.counter.value);
+    // const value = useSelector((state: any) => state.user);
     const fetchCategories = useFetchCategoriesQuery("categories");
     const [data, setData] = useState<any>([]);
     const sliderRef = useRef(null);

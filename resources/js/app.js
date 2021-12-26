@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Testing } from "./pages/Testing";
 import { ProductsPage } from "./pages/ProductsPage";
 import { ProductDetailsPage } from "./pages/ProductDetailsPage";
@@ -24,10 +24,29 @@ render(
         <Provider store={store}>
             <AuthUserProvider>
                 <Routes>
-                    <Route path="/" element={<LoginPage />} />
+                    <Route
+                        path="/"
+                        element={
+                            !store.getState().userInfo.user ? (
+                                <Navigate to="/login" />
+                            ) : (
+                                <HomePage />
+                            )
+                        }
+                    />
                     {/* ill add this just not today */}
                     {/* element={!store.isLoggedIn ? <Navigate to="/login" /> : <App />} */}
                     <Route path="mstore" element={<HomePage />} />
+                    <Route
+                        path="login"
+                        element={
+                            store.getState().userInfo.user ? (
+                                <Navigate to="/" />
+                            ) : (
+                                <LoginPage />
+                            )
+                        }
+                    />
                     <Route path="products" element={<ProductsPage />} />
                     <Route
                         path="products/:productId"

@@ -3,12 +3,19 @@ import "../../../css/components/Login.css";
 import $ from "jquery";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { setDefaultResultOrder } from "dns";
+import { setUser } from "../../slices/userInfoSlice";
+import { useDispatch } from "react-redux";
+import { useTimeout } from "react-use";
 
 export const Login = () => {
     const [error, setError] = useState(false);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login, user, setUser } = useAuth();
+    const [isReady, cancel] = useTimeout(1000);
+    useEffect(() => {
+        setUser(true);
+    }, []);
     // function login() {
     //     $.ajax({
     //         method: "POST",
@@ -66,12 +73,20 @@ export const Login = () => {
                             placeholder="Enter Password..."
                         />
                         <button
-                            onClick={async () => {
-                                //if succ
-                                const res = await login();
-                                if (res) navigate("/products");
-                                else setError(true);
-                            }}
+                            // onClick={async () => {
+                            //     //if succ
+                            //     const res = await login();
+
+                            //     if (res) {
+                            //         if (isReady()) {
+                            //             setUser(true);
+                            //         }
+                            //         // dispatch(setUser(true));
+                            //         console.log(user);
+                            //         navigate("/");
+                            //     } else setError(true);
+                            // }}
+                            onClick={() => login()}
                         >
                             Login
                         </button>

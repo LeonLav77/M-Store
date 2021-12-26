@@ -9,43 +9,74 @@ export const AuthUserProvider = ({ children }) => {
     const [password, setPassword] = useState("password");
     const [email, setEmail] = useState("leonlav77@gmail.com");
 
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [user, setUser] = useState(false);
 
-    async function login() {
-        async function loginUser() {
-            try {
-                const response = await axios({
-                    method: "post",
-                    url: "http://127.0.0.1:8000/auth/login",
-                    data: {
-                        email: process.env.MIX_EMAIL,
-                        password: "password",
-                    },
-                })
-                    .then((res) => {
-                        if (res.config.data) return true;
-                        else return false;
+    // async function login() {
+    //     async function loginUser() {
+    //         // axios.defaults.headers.common["X-Requested-With"] =
+    //         //     "XMLHttpRequest";
+    //         try {
+    //             const response = await axios({
+    //                 method: "post",
+    //                 url: "http://127.0.0.1:8000/auth/login",
+    //                 data: {
+    //                     email: "ni9st",
+    //                     password: "password",
+    //                 },
+    //                 headers: {
+    //                     contentType: "application/x-www-form-urlencoded",
+    //                     "X-Requested-With": "XMLHttpRequest",
+    //                 },
+    //             })
+    //                 .then((res) => {
+    //                     console.log(res);
+    //                     if (res.config.data) {
+    //                         setUser(true);
+    //                         return true;
+    //                     } else {
+    //                         return false;
+    //                     }
 
-                        // if (result.two_factor === true) {
-                        // $("#loginModal").modal("hide");  PRIMJER
-                        // $("#twoFactorModal").modal("show");
-                        // redirect to TFA login
-                        // <Redirect to={"/"} />
-                        //     window.location.href = "/TFALogin";
-                        // }
-                        // console.log(res.config.data);
-                        // console.log("LOGIN SUCCESS");
-                    })
-                    .catch((err) => {
-                        console.log("LOIGN ERROR");
-                    });
-                return response;
-            } catch {
-                return false;
-            }
-        }
-        const results = await loginUser();
-        return results;
+    //                     // if (result.two_factor === true) {
+    //                     // $("#loginModal").modal("hide");  PRIMJER
+    //                     // $("#twoFactorModal").modal("show");
+    //                     // redirect to TFA login
+    //                     // <Redirect to={"/"} />
+    //                     //     window.location.href = "/TFALogin";
+    //                     // }
+    //                     // console.log(res.config.data);
+    //                     // console.log("LOGIN SUCCESS");
+    //                 })
+    //                 .catch((err) => {
+    //                     console.log("LOIGN ERROR");
+    //                 });
+    //             return response;
+    //         } catch {
+    //             return false;
+    //         }
+    //     }
+    //     const results = await loginUser();
+    //     return results;
+    // }
+
+    function login() {
+        axios({
+            method: "post",
+            url: "http://larareserve.ddns.net/auth/login",
+            data: {
+                email: "ni9st",
+                password: "password",
+            },
+            headers: {
+                contentType: "application/x-www-form-urlencoded",
+            },
+        })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     function register(formData) {
@@ -111,13 +142,14 @@ export const AuthUserProvider = ({ children }) => {
             // email,
             // setEmail,
             login,
-            loggedIn,
+            user,
+            setUser,
             // register,
             // userInfo,
             // logout,
             // isLoggedIn,
         }),
-        []
+        [user, setUser]
         // [password, setPassword, email, setEmail]
     );
     return (
@@ -129,7 +161,8 @@ export const AuthUserProvider = ({ children }) => {
 
 export interface AuthContextInterface {
     login?: () => any;
-    loggedIn?: boolean;
+    user?: boolean;
+    setUser?: (bool: boolean) => any;
 }
 
 export default function useAuth() {
