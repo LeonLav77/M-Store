@@ -6162,6 +6162,183 @@ exports.UserProfile = UserProfile;
 "use strict";
 
 
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -6173,45 +6350,53 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.Login = void 0;
 
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 __webpack_require__(/*! ../../../css/components/Login.css */ "./resources/css/components/Login.css");
 
-var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
-
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 
-var Login = function Login() {
-  function login() {
-    jquery_1["default"].ajax({
-      method: "POST",
-      url: "/auth/login",
-      data: {
-        email: "massimopersic1@gmail.com",
-        password: "password"
-      },
-      dataType: "json",
-      contentType: "application/x-www-form-urlencoded",
-      success: function success(result) {
-        console.log(result);
+var useAuth_1 = __importDefault(__webpack_require__(/*! ../../hooks/useAuth */ "./resources/js/hooks/useAuth.tsx"));
 
-        if (result.two_factor === true) {
-          // $("#loginModal").modal("hide");  PRIMJER
-          // $("#twoFactorModal").modal("show");
-          // redirect to TFA login
-          // <Redirect to={"/"} />
-          window.location.href = "/TFALogin";
-        }
-      },
-      error: function error(_error) {
-        console.log(_error);
-      }
-    });
-  }
+var Login = function Login() {
+  var _a = (0, react_1.useState)(false),
+      error = _a[0],
+      setError = _a[1];
+
+  var navigate = (0, react_router_dom_1.useNavigate)();
+  var login = (0, useAuth_1["default"])().login; // function login() {
+  //     $.ajax({
+  //         method: "POST",
+  //         url: "/auth/login",
+  //         data: {
+  //             email: process.env.MIX_EMAIL,
+  //             password: "password",
+  //         },
+  //         dataType: "json",
+  //         contentType: "application/x-www-form-urlencoded",
+  //         success: (result) => {
+  //             console.log(result);
+  //             if (result.two_factor === true) {
+  //                 // $("#loginModal").modal("hide");  PRIMJER
+  //                 // $("#twoFactorModal").modal("show");
+  //                 // redirect to TFA login
+  //                 // <Redirect to={"/"} />
+  //                 window.location.href = "/TFALogin";
+  //             }
+  //         },
+  //         error: (error) => {
+  //             console.log(error);
+  //         },
+  //     });
+  // }
 
   return react_1["default"].createElement("div", {
     className: "login_container"
-  }, react_1["default"].createElement("img", {
+  }, error ? react_1["default"].createElement("h1", {
+    onClick: function onClick() {
+      return setError(false);
+    }
+  }, "Error...") : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("img", {
     src: (__webpack_require__(/*! ../../../images/login_bg.jpg */ "./resources/images/login_bg.jpg")["default"]),
     alt: "",
     height: "100%",
@@ -6233,11 +6418,28 @@ var Login = function Login() {
     placeholder: "Enter Password..."
   }), react_1["default"].createElement("button", {
     onClick: function onClick() {
-      login();
+      return __awaiter(void 0, void 0, void 0, function () {
+        var res;
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4
+              /*yield*/
+              , login()];
+
+            case 1:
+              res = _a.sent();
+              if (res) navigate("/products");else setError(true);
+              return [2
+              /*return*/
+              ];
+          }
+        });
+      });
     }
   }, "Login"), react_1["default"].createElement("h6", null, react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/register"
-  }, "Create Account..."))));
+  }, "Create Account...")))));
 };
 
 exports.Login = Login;
@@ -6536,7 +6738,8 @@ var Register = function Register() {
   })), react_1["default"].createElement("button", {
     onClick: function onClick() {
       onFileUpload(name, email, password1, password2);
-      register2();
+      register2(); //if succ redirect na "MAIL HAS BEENM SENT"-> more bilo ca samo ni loginina
+      //kad verifya u mailu ga vratis na products
     }
   }, "Register")));
 };
@@ -6826,6 +7029,376 @@ var Login = function Login() {
 };
 
 exports.Login = Login;
+
+/***/ }),
+
+/***/ "./resources/js/hooks/useAuth.tsx":
+/*!****************************************!*\
+  !*** ./resources/js/hooks/useAuth.tsx ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.AuthUserProvider = void 0;
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js")); //login cu nap s context-on a, register cu samo tamo s useState-ovima
+
+
+var AuthUserContext = (0, react_1.createContext)({});
+
+var AuthUserProvider = function AuthUserProvider(_a) {
+  var children = _a.children;
+
+  var _b = (0, react_1.useState)("password"),
+      password = _b[0],
+      setPassword = _b[1];
+
+  var _c = (0, react_1.useState)("leonlav77@gmail.com"),
+      email = _c[0],
+      setEmail = _c[1];
+
+  var _d = (0, react_1.useState)(false),
+      loggedIn = _d[0],
+      setLoggedIn = _d[1];
+
+  function login() {
+    return __awaiter(this, void 0, void 0, function () {
+      function loginUser() {
+        return __awaiter(this, void 0, void 0, function () {
+          var response, _a;
+
+          return __generator(this, function (_b) {
+            switch (_b.label) {
+              case 0:
+                _b.trys.push([0, 2,, 3]);
+
+                return [4
+                /*yield*/
+                , (0, axios_1["default"])({
+                  method: "post",
+                  url: "http://127.0.0.1:8000/auth/login",
+                  data: {
+                    email: "massimopersic1@gmail.com",
+                    password: "password"
+                  }
+                }).then(function (res) {
+                  if (res.config.data) return true;else return false; // if (result.two_factor === true) {
+                  // $("#loginModal").modal("hide");  PRIMJER
+                  // $("#twoFactorModal").modal("show");
+                  // redirect to TFA login
+                  // <Redirect to={"/"} />
+                  //     window.location.href = "/TFALogin";
+                  // }
+                  // console.log(res.config.data);
+                  // console.log("LOGIN SUCCESS");
+                })["catch"](function (err) {
+                  console.log("LOIGN ERROR");
+                })];
+
+              case 1:
+                response = _b.sent();
+                return [2
+                /*return*/
+                , response];
+
+              case 2:
+                _a = _b.sent();
+                return [2
+                /*return*/
+                , false];
+
+              case 3:
+                return [2
+                /*return*/
+                ];
+            }
+          });
+        });
+      }
+
+      var results;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , loginUser()];
+
+          case 1:
+            results = _a.sent();
+            return [2
+            /*return*/
+            , results];
+        }
+      });
+    });
+  }
+
+  function register(formData) {
+    (0, axios_1["default"])({
+      method: "post",
+      url: "http://larareserve.ddns.net/register",
+      data: formData
+    }).then(function (res) {
+      console.log("REGISTER SUCCESS");
+    })["catch"](function (err) {
+      console.log("REGISTER ERROR");
+    });
+  }
+
+  function userInfo() {
+    (0, axios_1["default"])({
+      method: "get",
+      url: "http://larareserve.ddns.net/userInfo"
+    }).then(function (res) {
+      console.log(res); // console.log("USER INFO SUCCESS");
+    })["catch"](function (err) {
+      console.log("USERINFO ERROR");
+    });
+  }
+
+  function logout() {
+    (0, axios_1["default"])({
+      method: "post",
+      url: "http://larareserve.ddns.net/react/logout",
+      headers: {
+        "content-type": "application/json"
+      }
+    }).then(function (res) {
+      console.log("LOGOUT SUCCESS");
+    })["catch"](function (err) {
+      console.log("LOGOUT ERROR");
+    });
+  }
+
+  function isLoggedIn() {
+    (0, axios_1["default"])({
+      method: "get",
+      url: "http://larareserve.ddns.net/checkIfLoggedIn"
+    }).then(function (res) {
+      console.log(res);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  }
+
+  var userInfos = (0, react_1.useMemo)(function () {
+    return {
+      // password,
+      // setPassword,
+      // email,
+      // setEmail,
+      login: login,
+      loggedIn: loggedIn // register,
+      // userInfo,
+      // logout,
+      // isLoggedIn,
+
+    };
+  }, [] // [password, setPassword, email, setEmail]
+  );
+  return react_1["default"].createElement(AuthUserContext.Provider, {
+    value: userInfos
+  }, children);
+};
+
+exports.AuthUserProvider = AuthUserProvider;
+
+function useAuth() {
+  return (0, react_1.useContext)(AuthUserContext);
+}
+
+exports["default"] = useAuth;
 
 /***/ }),
 
@@ -7984,8 +8557,8 @@ exports.store = (0, toolkit_1.configureStore)({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/Testing */ "./resources/js/pages/Testing.tsx");
 /* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _pages_ProductsPage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/ProductsPage */ "./resources/js/pages/ProductsPage.tsx");
@@ -8016,6 +8589,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_TestingUi__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/TestingUi */ "./resources/js/pages/TestingUi.tsx");
 /* harmony import */ var _pages_TestingUi__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_pages_TestingUi__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.tsx");
+/* harmony import */ var _hooks_useAuth__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./hooks/useAuth */ "./resources/js/hooks/useAuth.tsx");
+/* harmony import */ var _hooks_useAuth__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_hooks_useAuth__WEBPACK_IMPORTED_MODULE_18__);
 
 
 
@@ -8035,43 +8610,44 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_18__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_redux__WEBPACK_IMPORTED_MODULE_14__.Provider, {
+
+(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_redux__WEBPACK_IMPORTED_MODULE_14__.Provider, {
   store: _store_store__WEBPACK_IMPORTED_MODULE_17__.store
-}, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
+}, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_hooks_useAuth__WEBPACK_IMPORTED_MODULE_18__.AuthUserProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "/",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_LoginPage__WEBPACK_IMPORTED_MODULE_6__.LoginPage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "mstore",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_HomePage__WEBPACK_IMPORTED_MODULE_5__.HomePage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "products",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_ProductsPage__WEBPACK_IMPORTED_MODULE_3__.ProductsPage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "products/:productId",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_ProductDetailsPage__WEBPACK_IMPORTED_MODULE_4__.ProductDetailsPage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "password_reset",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_15__.PasswordReset, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "user_profile",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_UserProfilePage__WEBPACK_IMPORTED_MODULE_13__.UserProfilePage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "testing",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__.Testing, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "testingUi",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_TestingUi__WEBPACK_IMPORTED_MODULE_16__.TestingUi, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "register",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_RegisterPage__WEBPACK_IMPORTED_MODULE_8__.RegisterPage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "*",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("main", {
     style: {
       padding: "1rem"
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Page not found..."))
-})))), document.getElementById("app"));
+}))))), document.getElementById("app"));
 
 /***/ }),
 

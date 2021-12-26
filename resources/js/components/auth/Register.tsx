@@ -91,6 +91,8 @@ export const Register = () => {
                     onClick={() => {
                         onFileUpload(name, email, password1, password2);
                         register2();
+                        //if succ redirect na "MAIL HAS BEENM SENT"-> more bilo ca samo ni loginina
+                        //kad verifya u mailu ga vratis na products
                     }}
                 >
                     Register
