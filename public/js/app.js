@@ -6298,15 +6298,22 @@ var Login = function Login() {
     className: "login_bg_img"
   }), react_1["default"].createElement("div", {
     className: "login_form"
-  }, react_1["default"].createElement("h1", null, "User Login"), react_1["default"].createElement("h4", null, "Email"), react_1["default"].createElement("input", {
+  }, react_1["default"].createElement("h1", null, "User Login"), react_1["default"].createElement("div", null, react_1["default"].createElement("h4", null, "Email"), react_1["default"].createElement("div", {
+    className: "wrap_input"
+  }, react_1["default"].createElement("input", {
+    className: "form_input",
     type: "email",
     id: "",
     placeholder: "Enter Email...."
-  }), react_1["default"].createElement("h4", null, "Password"), react_1["default"].createElement("input", {
+  }))), react_1["default"].createElement("div", null, react_1["default"].createElement("h4", null, "Password"), react_1["default"].createElement("div", {
+    className: "wrap_input"
+  }, react_1["default"].createElement("input", {
+    className: "form_input",
     type: "password",
     id: "",
     placeholder: "Enter Password..."
-  }), react_1["default"].createElement("button", {
+  }))), react_1["default"].createElement("button", {
+    className: "login_submit_button",
     // onClick={async () => {
     //     //if succ
     //     const res = await login();
@@ -6322,8 +6329,11 @@ var Login = function Login() {
     onClick: function onClick() {
       return login();
     }
-  }, "Login"), react_1["default"].createElement("h6", null, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/register"
+  }, "Login"), react_1["default"].createElement("h6", null, "First time here?", " ", react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/register",
+    style: {
+      color: "#2a765f"
+    }
   }, "Create Account...")))));
 };
 
@@ -10635,7 +10645,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".login_container {\r\n    width: 60%;\r\n    min-width: 800px;\r\n    height: 700px;\r\n    background-color: whitesmoke;\r\n    border-radius: 20px;\r\n    display: flex;\r\n    align-items: center;\r\n}\r\n@media (max-width: 830px) {\r\n    .login_bg_img {\r\n        display: none;\r\n    }\r\n    .login_container {\r\n        width: 90%;\r\n        height: calc(90% / 1.5);\r\n        min-width: 200px;\r\n    }\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".wrap_input {\r\n    background-color: #f3f3f3;\r\n    border: 1px solid #e6e6e6;\r\n    border-radius: 10px;\r\n}\r\n.form_input {\r\n    color: #333;\r\n    line-height: 1.2;\r\n    font-size: 16px;\r\n    display: block;\r\n    width: 100%;\r\n    background: 0 0;\r\n    height: 40px;\r\n    padding: 0 20px;\r\n    outline: none;\r\n    border: none;\r\n}\r\n.form_input:focus {\r\n    border: 1.5px solid #2a765f;\r\n    border-radius: 10px;\r\n    transform: scaleX(1);\r\n    transition: all 0.5s;\r\n}\r\n.login_form {\r\n    width: 25%;\r\n    height: 400px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-around;\r\n}\r\n.login_container {\r\n    font-family: \"Poppins\", sans-serif;\r\n    width: 60%;\r\n    min-width: 800px;\r\n    height: 700px;\r\n    background-color: whitesmoke;\r\n    border-radius: 20px;\r\n    display: flex;\r\n    align-items: center;\r\n    gap: 75px;\r\n}\r\n.login_submit_button {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    padding: 0 20px;\r\n    width: 100%;\r\n    height: 40px;\r\n    background-color: #333;\r\n    border-radius: 10px;\r\n    font-size: 16px;\r\n    color: #fff;\r\n    line-height: 1.2;\r\n    position: relative;\r\n    z-index: 1;\r\n}\r\n.login_submit_button::before {\r\n    position: absolute;\r\n    content: \"\";\r\n    display: block;\r\n    width: 100%;\r\n    height: 100%;\r\n    border-radius: 10px;\r\n    top: 0;\r\n    left: 0;\r\n    background: linear-gradient(45deg, #419f83, #097895);\r\n    opacity: 0;\r\n    transition: all 0.4s;\r\n    z-index: -1;\r\n}\r\n.login_submit_button:hover::before,\r\n.login_submit_button:hover {\r\n    opacity: 1;\r\n    border-color: #419f83;\r\n}\r\n@media (max-width: 830px) {\r\n    .login_bg_img {\r\n        display: none;\r\n    }\r\n    .login_container {\r\n        width: 90%;\r\n        height: calc(90% / 1.5);\r\n        min-width: 200px;\r\n    }\r\n    .login_form {\r\n        min-width: 220px;\r\n        width: 80%;\r\n        margin: 0 auto;\r\n    }\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

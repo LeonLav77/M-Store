@@ -60,19 +60,30 @@ export const Login = () => {
                     />
                     <div className="login_form">
                         <h1>User Login</h1>
-                        <h4>Email</h4>
-                        <input
-                            type="email"
-                            id=""
-                            placeholder="Enter Email...."
-                        />
-                        <h4>Password</h4>
-                        <input
-                            type="password"
-                            id=""
-                            placeholder="Enter Password..."
-                        />
+                        <div>
+                            <h4>Email</h4>
+                            <div className="wrap_input">
+                                <input
+                                    className="form_input"
+                                    type="email"
+                                    id=""
+                                    placeholder="Enter Email...."
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Password</h4>
+                            <div className="wrap_input">
+                                <input
+                                    className="form_input"
+                                    type="password"
+                                    id=""
+                                    placeholder="Enter Password..."
+                                />
+                            </div>
+                        </div>
                         <button
+                            className="login_submit_button"
                             // onClick={async () => {
                             //     //if succ
                             //     const res = await login();
@@ -91,7 +102,10 @@ export const Login = () => {
                             Login
                         </button>
                         <h6>
-                            <Link to="/register">Create Account...</Link>
+                            First time here?{" "}
+                            <Link to="/register" style={{ color: "#2a765f" }}>
+                                Create Account...
+                            </Link>
                         </h6>
                     </div>
                 </>
