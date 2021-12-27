@@ -58,36 +58,49 @@ export const Register = () => {
                 <h1>Create Account</h1>
                 <div className="regiseter_form">
                     <h1>Name</h1>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="name"
-                    />
+                    <div className="wrap_input">
+                        <input
+                            className="form_input"
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="name"
+                        />
+                    </div>
                     <h1>Email</h1>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="email"
-                    />
+                    <div className="wrap_input">
+                        <input
+                            className="form_input"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="email"
+                        />
+                    </div>
                     <h1>pass</h1>
-                    <input
-                        type="password"
-                        value={password1}
-                        onChange={(e) => setPassword1(e.target.value)}
-                        placeholder="passowrd"
-                    />
+                    <div className="wrap_input">
+                        <input
+                            className="form_input"
+                            type="password"
+                            value={password1}
+                            onChange={(e) => setPassword1(e.target.value)}
+                            placeholder="passowrd"
+                        />
+                    </div>
                     <h1>con pass</h1>
-                    <input
-                        type="password"
-                        value={password2}
-                        onChange={(e) => setPassword2(e.target.value)}
-                        placeholder="passowr"
-                    />
+                    <div className="wrap_input">
+                        <input
+                            className="form_input"
+                            type="password"
+                            value={password2}
+                            onChange={(e) => setPassword2(e.target.value)}
+                            placeholder="passowr"
+                        />
+                    </div>
                     <input type="file" onChange={onFileChange} />
                 </div>
                 <button
+                    className="register_submit_button"
                     onClick={() => {
                         onFileUpload(name, email, password1, password2);
                         register2();
