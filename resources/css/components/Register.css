@@ -7,8 +7,7 @@
 }
 .register_form_container {
     background-color: whitesmoke;
-    width: 45%;
-    min-width: 750px;
+    min-width: 500px;
     height: 750px;
     display: grid;
     place-items: center;

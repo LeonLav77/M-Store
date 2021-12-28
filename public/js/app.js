@@ -6229,11 +6229,11 @@ __webpack_require__(/*! ../../../css/components/Login.css */ "./resources/css/co
 
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 
-var useAuth_1 = __importDefault(__webpack_require__(/*! ../../hooks/useAuth */ "./resources/js/hooks/useAuth.tsx"));
-
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
 var react_use_1 = __webpack_require__(/*! react-use */ "./node_modules/react-use/esm/index.js");
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 
 var Login = function Login() {
   var _a = (0, react_1.useState)(false),
@@ -6241,20 +6241,44 @@ var Login = function Login() {
       setError = _a[1];
 
   var dispatch = (0, react_redux_1.useDispatch)();
-  var navigate = (0, react_router_dom_1.useNavigate)();
+  var navigate = (0, react_router_dom_1.useNavigate)(); // const { login, user, setUser } = useAuth();
 
-  var _b = (0, useAuth_1["default"])(),
-      login = _b.login,
-      user = _b.user,
-      setUser = _b.setUser;
-
-  var _c = (0, react_use_1.useTimeout)(1000),
-      isReady = _c[0],
-      cancel = _c[1];
+  var _b = (0, react_use_1.useTimeout)(1000),
+      isReady = _b[0],
+      cancel = _b[1];
 
   (0, react_1.useEffect)(function () {
-    setUser(true);
-  }, []); // function login() {
+    var Logout = function Logout() {
+      return (0, axios_1["default"])({
+        method: "post",
+        url: "/auth/logout"
+      }).then(function (res) {
+        return console.log(res);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    };
+
+    Logout();
+  }, []);
+
+  function login() {
+    return (0, axios_1["default"])({
+      method: "post",
+      url: "/auth/login",
+      data: {
+        email: "massimopersic1@gmail.com",
+        password: "password"
+      },
+      headers: {
+        contentType: "application/x-www-form-urlencoded"
+      }
+    }).then(function (res) {
+      console.log(res);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  } // function login() {
   //     $.ajax({
   //         method: "POST",
   //         url: "/auth/login",
@@ -6279,6 +6303,7 @@ var Login = function Login() {
   //         },
   //     });
   // }
+
 
   return react_1["default"].createElement("div", {
     className: "login_container"
@@ -8368,9 +8393,13 @@ __webpack_require__.r(__webpack_exports__);
   store: _store_store__WEBPACK_IMPORTED_MODULE_17__.store
 }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_hooks_useAuth__WEBPACK_IMPORTED_MODULE_18__.AuthUserProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "/",
-  element: !_store_store__WEBPACK_IMPORTED_MODULE_17__.store.getState().userInfo.user ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Navigate, {
-    to: "/login"
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_HomePage__WEBPACK_IMPORTED_MODULE_5__.HomePage, null)
+  element:
+  /*#__PURE__*/
+  // !store.getState().userInfo.user ? (
+  //     <Navigate to="/login" />
+  // ) : (
+  react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_HomePage__WEBPACK_IMPORTED_MODULE_5__.HomePage, null) // )
+
 }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
   path: "mstore",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_HomePage__WEBPACK_IMPORTED_MODULE_5__.HomePage, null)
@@ -10537,7 +10566,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".main_home_container {\r\n    width: 85%;\r\n    margin: 0 auto;\r\n    background-color: #16a085;\r\n}\r\n.main_top_products_slider_container {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    height: 700px;\r\n}\r\n.top_products_slider_container {\r\n    cursor: -webkit-grab;\r\n    cursor: grab;\r\n    max-width: 500px;\r\n    min-width: 400px;\r\n    aspect-ratio: 1;\r\n    background-color: yellowgreen;\r\n    overflow-y: scroll;\r\n    -ms-scroll-snap-type: y mandatory !important;\r\n        scroll-snap-type: y mandatory !important;\r\n}\r\n.slide {\r\n    height: 100%;\r\n    scroll-snap-align: center;\r\n}\r\n.greetings_container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n    width: 80%;\r\n    margin: 0 auto;\r\n    flex-wrap: wrap;\r\n}\r\n.greetings_text {\r\n    margin: auto 0;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".main_home_container {\r\n    width: 85%;\r\n    margin: 0 auto;\r\n    background-color: #16a085;\r\n}\r\n.main_top_products_slider_container {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    height: 700px;\r\n}\r\n.top_products_slider_container {\r\n    max-width: 500px;\r\n    min-width: 400px;\r\n    aspect-ratio: 1;\r\n    background-color: yellowgreen;\r\n    overflow-y: scroll;\r\n    -ms-scroll-snap-type: y mandatory !important;\r\n        scroll-snap-type: y mandatory !important;\r\n}\r\n.slide {\r\n    height: 100%;\r\n    scroll-snap-align: center;\r\n}\r\n.greetings_container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n    width: 80%;\r\n    margin: 0 auto;\r\n    flex-wrap: wrap;\r\n}\r\n.greetings_text {\r\n    margin: auto 0;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -10705,7 +10734,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".main_register_container {\r\n    width: 100%;\r\n    height: 100%;\r\n    background-image: linear-gradient(to top left, #419f83, #097895);\r\n    display: grid;\r\n    place-items: center;\r\n}\r\n.register_form_container {\r\n    background-color: whitesmoke;\r\n    width: 45%;\r\n    min-width: 750px;\r\n    height: 750px;\r\n    display: grid;\r\n    place-items: center;\r\n    border-radius: 20px;\r\n}\r\n.wrap_input {\r\n    background-color: #f3f3f3;\r\n    border: 1px solid #e6e6e6;\r\n    border-radius: 10px;\r\n}\r\n.form_input {\r\n    color: #333;\r\n    line-height: 1.2;\r\n    font-size: 16px;\r\n    display: block;\r\n    width: 100%;\r\n    background: 0 0;\r\n    height: 40px;\r\n    padding: 0 20px;\r\n    outline: none;\r\n    border: none;\r\n}\r\n.form_input:focus {\r\n    border: 1.5px solid #2a765f;\r\n    border-radius: 10px;\r\n    transform: scaleX(1);\r\n    transition: all 0.5s;\r\n}\r\n.register_submit_button {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    padding: 0 20px;\r\n    width: 45%;\r\n    min-width: 300px;\r\n    height: 40px;\r\n    background-color: #333;\r\n    border-radius: 10px;\r\n    font-size: 16px;\r\n    color: #fff;\r\n    line-height: 1.2;\r\n    position: relative;\r\n    z-index: 1;\r\n}\r\n.register_submit_button::before {\r\n    position: absolute;\r\n    content: \"\";\r\n    display: block;\r\n    width: 100%;\r\n    height: 100%;\r\n    border-radius: 10px;\r\n    top: 0;\r\n    left: 0;\r\n    background: linear-gradient(45deg, #419f83, #097895);\r\n    opacity: 0;\r\n    transition: all 0.4s;\r\n    z-index: -1;\r\n}\r\n.register_submit_button:hover::before,\r\n.register_submit_button:hover {\r\n    opacity: 1;\r\n    border-color: #419f83;\r\n}\r\n@media (max-width: 830px) {\r\n    .register_form_container {\r\n        width: 90%;\r\n        height: calc(90% / 1.5);\r\n        min-width: 200px;\r\n    }\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".main_register_container {\r\n    width: 100%;\r\n    height: 100%;\r\n    background-image: linear-gradient(to top left, #419f83, #097895);\r\n    display: grid;\r\n    place-items: center;\r\n}\r\n.register_form_container {\r\n    background-color: whitesmoke;\r\n    min-width: 500px;\r\n    height: 750px;\r\n    display: grid;\r\n    place-items: center;\r\n    border-radius: 20px;\r\n}\r\n.wrap_input {\r\n    background-color: #f3f3f3;\r\n    border: 1px solid #e6e6e6;\r\n    border-radius: 10px;\r\n}\r\n.form_input {\r\n    color: #333;\r\n    line-height: 1.2;\r\n    font-size: 16px;\r\n    display: block;\r\n    width: 100%;\r\n    background: 0 0;\r\n    height: 40px;\r\n    padding: 0 20px;\r\n    outline: none;\r\n    border: none;\r\n}\r\n.form_input:focus {\r\n    border: 1.5px solid #2a765f;\r\n    border-radius: 10px;\r\n    transform: scaleX(1);\r\n    transition: all 0.5s;\r\n}\r\n.register_submit_button {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    padding: 0 20px;\r\n    width: 45%;\r\n    min-width: 300px;\r\n    height: 40px;\r\n    background-color: #333;\r\n    border-radius: 10px;\r\n    font-size: 16px;\r\n    color: #fff;\r\n    line-height: 1.2;\r\n    position: relative;\r\n    z-index: 1;\r\n}\r\n.register_submit_button::before {\r\n    position: absolute;\r\n    content: \"\";\r\n    display: block;\r\n    width: 100%;\r\n    height: 100%;\r\n    border-radius: 10px;\r\n    top: 0;\r\n    left: 0;\r\n    background: linear-gradient(45deg, #419f83, #097895);\r\n    opacity: 0;\r\n    transition: all 0.4s;\r\n    z-index: -1;\r\n}\r\n.register_submit_button:hover::before,\r\n.register_submit_button:hover {\r\n    opacity: 1;\r\n    border-color: #419f83;\r\n}\r\n@media (max-width: 830px) {\r\n    .register_form_container {\r\n        width: 90%;\r\n        height: calc(90% / 1.5);\r\n        min-width: 200px;\r\n    }\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -6,16 +6,45 @@ import useAuth from "../../hooks/useAuth";
 import { setUser } from "../../slices/userInfoSlice";
 import { useDispatch } from "react-redux";
 import { useTimeout } from "react-use";
+import axios from "axios";
 
 export const Login = () => {
     const [error, setError] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { login, user, setUser } = useAuth();
+    // const { login, user, setUser } = useAuth();
     const [isReady, cancel] = useTimeout(1000);
     useEffect(() => {
-        setUser(true);
+        const Logout = () =>
+            axios({
+                method: "post",
+                url: "/auth/logout",
+            })
+                .then((res) => console.log(res))
+                .catch((err) => console.log(err));
+        Logout();
     }, []);
+
+    function login() {
+        return axios({
+            method: "post",
+            url: "/auth/login",
+            data: {
+                email: process.env.MIX_EMAIL,
+                password: "password",
+            },
+            headers: {
+                contentType: "application/x-www-form-urlencoded",
+            },
+        })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
     // function login() {
     //     $.ajax({
     //         method: "POST",

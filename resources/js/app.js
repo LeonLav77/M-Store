@@ -27,11 +27,11 @@ render(
                     <Route
                         path="/"
                         element={
-                            !store.getState().userInfo.user ? (
-                                <Navigate to="/login" />
-                            ) : (
-                                <HomePage />
-                            )
+                            // !store.getState().userInfo.user ? (
+                            //     <Navigate to="/login" />
+                            // ) : (
+                            <HomePage />
+                            // )
                         }
                     />
                     {/* ill add this just not today */}
