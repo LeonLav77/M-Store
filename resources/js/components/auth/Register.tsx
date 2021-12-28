@@ -12,25 +12,25 @@ export const Register = () => {
     const onFileChange = (event) => {
         setSelectedFile({ selectedFile: event.target.files[0] });
     };
-    const Register = (formData) =>
-        axios({
-            method: "post",
-            url: "/api/test",
-            data: formData,
-        })
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+    // const Register = (formData) =>
+    //     axios({
+    //         method: "post",
+    //         url: "/api/test",
+    //         data: formData,
+    //     })
+    //         .then((res) => console.log(res))
+    //         .catch((err) => console.log(err));
 
-    const onFileUpload = (name, email, password1, password2) => {
-        const formData = new FormData();
-        formData.append("myFile", selectedFile);
-        formData.append("email", email);
-        formData.append("password", password1);
-        formData.append("password_confirmation", password2);
-        formData.append("name", name);
-        console.log(formData);
-        Register(formData);
-    };
+    // const onFileUpload = (name, email, password1, password2) => {
+    //     const formData = new FormData();
+    //     formData.append("profileImage", selectedFile);
+    //     formData.append("email", email);
+    //     formData.append("password", password1);
+    //     formData.append("password_confirmation", password2);
+    //     formData.append("name", name);
+    //     console.log(formData);
+    //     Register(formData);
+    // };
     function register2() {
         $.ajax({
             method: "POST",
@@ -102,7 +102,7 @@ export const Register = () => {
                 <button
                     className="register_submit_button"
                     onClick={() => {
-                        onFileUpload(name, email, password1, password2);
+                        // onFileUpload(name, email, password1, password2);
                         register2();
                         //if succ redirect na "MAIL HAS BEENM SENT"-> more bilo ca samo ni loginina
                         //kad verifya u mailu ga vratis na products

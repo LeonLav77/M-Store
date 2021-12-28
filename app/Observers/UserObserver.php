@@ -5,6 +5,7 @@ namespace App\Observers;
 use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\Wishlist;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,7 +24,11 @@ class UserObserver
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        User::where('id', $user->id)->update(['cart_id' => $user->cart->id]);
+        Wishlist::create([
+            'user_id' => $user->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
     }
 
     /**

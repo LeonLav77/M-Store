@@ -8,17 +8,15 @@ use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProductRequest;
+use App\Actions\CalculateCurrentPrice;
 
 class CartController extends Controller
 {
     public function getCart()
     {
-        if (Auth::check()) {
             $user = Auth::user();
             $cartItems = $user->cart->productsInCart;
-            return response()->json($cartItems);
-        }
-        return response()->json(['message' => 'You are not logged in']);
+            return response()->json(CalculateCurrentPrice::run($cartItems));
     }
 
     public function addItemToCart(request $request)

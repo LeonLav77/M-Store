@@ -6542,8 +6542,6 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 
 var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
 
-var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
-
 __webpack_require__(/*! ../../../css/components/Register.css */ "./resources/css/components/Register.css");
 
 var Register = function Register() {
@@ -6571,30 +6569,25 @@ var Register = function Register() {
     setSelectedFile({
       selectedFile: event.target.files[0]
     });
-  };
+  }; // const Register = (formData) =>
+  //     axios({
+  //         method: "post",
+  //         url: "/api/test",
+  //         data: formData,
+  //     })
+  //         .then((res) => console.log(res))
+  //         .catch((err) => console.log(err));
+  // const onFileUpload = (name, email, password1, password2) => {
+  //     const formData = new FormData();
+  //     formData.append("profileImage", selectedFile);
+  //     formData.append("email", email);
+  //     formData.append("password", password1);
+  //     formData.append("password_confirmation", password2);
+  //     formData.append("name", name);
+  //     console.log(formData);
+  //     Register(formData);
+  // };
 
-  var Register = function Register(formData) {
-    return (0, axios_1["default"])({
-      method: "post",
-      url: "/api/test",
-      data: formData
-    }).then(function (res) {
-      return console.log(res);
-    })["catch"](function (err) {
-      return console.log(err);
-    });
-  };
-
-  var onFileUpload = function onFileUpload(name, email, password1, password2) {
-    var formData = new FormData();
-    formData.append("myFile", selectedFile);
-    formData.append("email", email);
-    formData.append("password", password1);
-    formData.append("password_confirmation", password2);
-    formData.append("name", name);
-    console.log(formData);
-    Register(formData);
-  };
 
   function register2() {
     jquery_1["default"].ajax({
@@ -6670,7 +6663,7 @@ var Register = function Register() {
   })), react_1["default"].createElement("button", {
     className: "register_submit_button",
     onClick: function onClick() {
-      onFileUpload(name, email, password1, password2);
+      // onFileUpload(name, email, password1, password2);
       register2(); //if succ redirect na "MAIL HAS BEENM SENT"-> more bilo ca samo ni loginina
       //kad verifya u mailu ga vratis na products
     }

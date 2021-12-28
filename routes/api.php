@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ExtraFortifyController;
 
 /*
@@ -73,6 +74,13 @@ Route::middleware(['loggedIn'])->group(function () {
     Route::delete('/emptyCart', [CartController::class,'emptyCart']);
     
     Route::get('/hasTFAEnabled', [ExtraFortifyController::class,'getHasTFAEnabled']);
+
+    Route::post('/addToWishlist', [WishlistController::class,'addToWishlist']);
+
+    Route::delete('/removeFromWishlist/{id}', [WishlistController::class,'removeFromWishlist']);
+
+    Route::get('/wishlist', [WishlistController::class,'getWishlist']);
+
     Route::group(['middleware' =>'seller'],function () {
         Route::post('/becomeSeller', [SellerController::class,'becomeSeller']);
         Route::group(['prefix'=>'seller','as'=>'seller.','middleware' =>'sellerOperations'], function(){
