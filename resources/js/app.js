@@ -61,7 +61,6 @@ render(
                         element={<RegisterPage></RegisterPage>}
                     />
 
-                    {/* <Route path="login" element={<Login></Login>} />
                 <Route path="TFALogin" element={<TFALogin></TFALogin>} />
                 <Route path="userInfo" element={<UserInfo></UserInfo>} />
                 <Route path="TFAEnable" element={<TFAEnable></TFAEnable>} />
@@ -69,7 +68,7 @@ render(
                 <Route
                     path="confirmPassword"
                     element={<PasswordConfirm></PasswordConfirm>}
-                /> */}
+                />
                     <Route
                         path="*"
                         element={

@@ -3,9 +3,10 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
@@ -29,24 +30,24 @@ class CreateNewUser implements CreatesNewUsers
                 'max:255',
                 Rule::unique(User::class),
             ],
-            'profileImage'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+            'profileImage'=> 'image|mimes:jpeg,png,jpg,gif,svg',
             'password' => $this->passwordRules(),
         ])->validate();
         if(isset($input['profileImage']) && $input['profileImage'] != null){
             $profileImage = $input['profileImage'];
-            $profileImage->storeAs('public/profileImages',  $input['email']);
+            $path = $input['name'].Str::random(10).'.'.$profileImage->getClientOriginalExtension();
+            $profileImage->storeAs('public/profileImages', $path);
         }
         else{
-            $profileImage = "https://avatars.dicebear.com/api/initials/" . $input['name'] . ".svg";
+            $path = "https://avatars.dicebear.com/api/initials/" . $input['name'] . ".svg";
         }
-        
         $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
         $user->profileImage()->create([
-            'image_path' => $profileImage,
+            'image_path' => $path,
         ]);
         return $user;
     }

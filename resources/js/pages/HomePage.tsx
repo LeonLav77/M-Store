@@ -8,7 +8,7 @@ import "../../css/HomePage.css";
 import { Navbar } from "../components/Navbar";
 import { useFetchCategoriesQuery } from "../slices/productsDataSlice";
 import { ItemsList } from "../components/ItemsList";
-
+import { Link } from "react-router-dom";
 export const HomePage = () => {
     // const value = useSelector((state: any) => state.user);
     const fetchCategories = useFetchCategoriesQuery("categories");
@@ -133,7 +133,7 @@ export const HomePage = () => {
     return (
         <div className="main_home_container">
             <Navbar />
-            {/* <nav className="navbar navbar-expand-md navbar-light navbar-laravel">
+            <nav className="navbar navbar-expand-md navbar-light navbar-laravel">
                 <div className="container">
                     <Link className="navbar-brand" to="products">
                         Products
@@ -168,7 +168,7 @@ export const HomePage = () => {
                         logout
                     </button>
                 </div>
-            </nav>*/}
+            </nav>
             <div key="main_container">
                 <div> {ReactHtmlParser(data.svg)} </div>
             </div>

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserObserver
 {
@@ -44,7 +45,7 @@ class UserObserver
      */
     public function deleted(User $user)
     {
-        //
+        Storage::delete($user->profileImage->image_path);
     }
 
     /**

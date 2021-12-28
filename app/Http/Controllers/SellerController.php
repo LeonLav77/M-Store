@@ -62,7 +62,13 @@ class SellerController extends Controller
                 'expiryDate' => $request->expiry_date
             ]);
         }
-        // return response()->json(['message' => $product->id]);
+        if(isset($request->image)){
+            $image = $request->image;
+            $image_name = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images'), $image_name);
+            $product->image = $image_name;
+            $product->save();
+        }
         return response()->json(['message' => 'Product added']);
     }
     public function getSellerProducts(request $request){
