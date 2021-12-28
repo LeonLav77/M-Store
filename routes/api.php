@@ -23,7 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// WCP = With Current Price
 // Product routes can be refactored into resource routes
 
 
@@ -35,22 +34,23 @@ Route::get('/login/github/callback', [LoginController::class, 'handleGithubCallb
 // All products, probably not going to be used because there is a better version
 // Route::get('/allProducts', [APIController::class,'getAllProducts']);
 // All products, with the current price
-Route::get('/allProductsWCP', [APIController::class,'getAllProductsWCP']);
+Route::get('/allProducts', [APIController::class,'getAllProducts']);
 
 // Specific product, probably not going to be used because there is a better function
 // Route::get('/productById/{id}', [APIController::class,'getProductById']);
 // Specific product with its current price
-Route::get('/productWCP/{id}', [APIController::class,'getProductWCP']);
+Route::get('/product/{id}', [APIController::class,'getProduct']);
 
 Route::get('/relatedProducts/{id}', [APIController::class,'getRelatedProducts']);
 
 Route::get('/sameSellerProducts/{id}', [APIController::class,'getSameSellerProducts']);
 
+Route::get('/search', [APIController::class,'search']);
 
 // Get all categories with their info
 Route::get('/categories', [APIController::class,'getCategories']);
 // All products of a category with their current price
-Route::get('/productsByCategoryWCP/{categoryName}', [APIController::class,'getProductsByCategoryWCP']);
+Route::get('/productsByCategory/{categoryName}', [APIController::class,'getProductsByCategory']);
 
 // Return discounted products
 Route::get('/discountedProducts', [APIController::class,'getDiscountedProducts']);

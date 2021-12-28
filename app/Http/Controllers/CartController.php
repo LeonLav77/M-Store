@@ -53,7 +53,6 @@ class CartController extends Controller
     {
         $user = Auth::user();
             $cart = $user->cart;
-            $product_id = $product_id;
             $cartItem = CartItem::where('cart_id', $cart->id)->where('product_id', $product_id)->delete();
             if($cartItem){
                 return response()->json(['message' => 'Item was removed from cart']);

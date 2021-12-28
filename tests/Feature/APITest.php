@@ -15,7 +15,7 @@ class APITest extends TestCase
      */
     public function test_allProduct_page1()
     {
-        $response = $this->get('/api/allProductsWCP?productPerPage=10&page=1');
+        $response = $this->get('/api/allProducts?productPerPage=10&page=1');
         $response->assertStatus(200)->assertJsonStructure(
             [
                 'data' => [
@@ -37,7 +37,7 @@ class APITest extends TestCase
     }
     public function test_allProduct_page2()
     {
-        $response = $this->get('/api/allProductsWCP?productPerPage=10&page=2');
+        $response = $this->get('/api/allProducts?productPerPage=10&page=2');
         $response->assertStatus(200)->assertJsonStructure(
             [
                 'data' => [
@@ -58,7 +58,7 @@ class APITest extends TestCase
         );
     }
     public function test_singleProduct(){
-        $response = $this->get('/api/productWCP/1');
+        $response = $this->get('/api/product/1');
         $response->assertStatus(200)->assertJsonStructure(
             [
                 'id',
@@ -75,11 +75,11 @@ class APITest extends TestCase
         );
     }
     public function test_singleProduct_notFound(){
-        $response = $this->get('/api/productWCP/10000000000000000000000');
+        $response = $this->get('/api/product/10000000000000000000000');
         $response->assertStatus(404);
     }
     // public function test_singleProduct_empty(){
-    //     $response = $this->get('/api/productWCP/');
+    //     $response = $this->get('/api/product/');
     //     $response->assertStatus(404);
     // }
     public function test_relatedProducts(){
@@ -112,7 +112,7 @@ class APITest extends TestCase
     //     $response->assertStatus(404);
     // }
     public function test_categoryProducts(){
-        $response = $this->get('/api/productsByCategoryWCP/Footwear');
+        $response = $this->get('/api/productsByCategory/Footwear');
         $response->assertStatus(200)->assertJsonStructure(
             [
                 'data' => [
@@ -133,7 +133,7 @@ class APITest extends TestCase
         );
     }
     public function test_categoryProducts_notFound(){
-        $response = $this->get('/api/productsByCategoryWCP/Footwear0000000000000000000000');
+        $response = $this->get('/api/productsByCategory/Footwear0000000000000000000000');
         $response->assertStatus(404);
     }
     public function test_sameSellerProduct(){

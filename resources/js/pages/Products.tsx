@@ -4,7 +4,7 @@ import { useFetchProductsPerPageQuery } from "../counter/productsDataSlice";
 
 export const Products = () => {
     const { data, error, isLoading } = useFetchProductsPerPageQuery(
-        "allProductsWCP?productsPerPage=10"
+        "allProducts?productsPerPage=10"
     );
     return (
         <div>

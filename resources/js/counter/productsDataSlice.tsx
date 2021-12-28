@@ -8,7 +8,7 @@ export const apiSlice = createApi({
     endpoints: (builder) => {
         return {
             fetchProductsPerPage: builder.query({
-                query: () => "allProductsWCP?productsPerPage=10",
+                query: () => "allProducts?productsPerPage=10",
             }),
             fetchCategories: builder.query({
                 query: () => "categories",

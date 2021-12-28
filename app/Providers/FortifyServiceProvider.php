@@ -34,6 +34,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        
         Fortify::confirmPasswordView(function(){
             return view('auth.passwords.confirm');
         });

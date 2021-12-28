@@ -6584,7 +6584,7 @@ exports.apiSlice = (0, react_1.createApi)({
     return {
       fetchProductsPerPage: builder.query({
         query: function query() {
-          return "allProductsWCP?productsPerPage=10";
+          return "allProducts?productsPerPage=10";
         }
       }),
       fetchCategories: builder.query({
@@ -7213,7 +7213,7 @@ var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_mod
 var productsDataSlice_1 = __webpack_require__(/*! ../counter/productsDataSlice */ "./resources/js/counter/productsDataSlice.tsx");
 
 var Products = function Products() {
-  var _a = (0, productsDataSlice_1.useFetchProductsPerPageQuery)("allProductsWCP?productsPerPage=10"),
+  var _a = (0, productsDataSlice_1.useFetchProductsPerPageQuery)("allProducts?productsPerPage=10"),
       data = _a.data,
       error = _a.error,
       isLoading = _a.isLoading;

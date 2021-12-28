@@ -9,33 +9,11 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Actions\CalculateCurrentPrice;
+use App\Http\Requests\ProductsPerPage;
 
 class APIController extends Controller
 {
-    // DEPRECATED because there is a better way
-    // public function getAllProducts($itemsPerPage = 10)
-    // {
-    //     $products = Product::paginate($itemsPerPage);
-    //     return response()->json($products);
-    // }
-
-    // DEPRECATED because there is a better way
-    // public function getProductById($id)
-    // {
-    //     $product = Product::with('images')->find($id);
-    //     return response()->json($product);
-    // }
-
-    // DEPRECATED because there is a better way
-    // public function getProductsByCategory($categoryName, request $request)
-    // {
-    //     $numberOfProducts = $request->numberOfProducts;
-    //     $numberOfSkipped = $request->numberOfSkipped;
-    //     $products = Category::where('name', $categoryName)->first()->products->skip($numberOfSkipped)->take($numberOfProducts);
-    //     return response()->json($products);
-    // }
-
-    public function getProductsByCategoryWCP($categoryName, request $request)
+    public function getProductsByCategory($categoryName, productsPerPage $request)
     {
         $category = Category::where('name', $categoryName)->first();
         if($category == null) {
@@ -49,33 +27,35 @@ class APIController extends Controller
         $categories = Category::all();
         return response()->json($categories);
     }
-    public function getDiscountedProducts(request $request)
+    public function getDiscountedProducts(productsPerPage $request)
     {
         $products = Product::discounted()->paginate($request->productsPerPage ?? 10);
         return response()->json(CalculateCurrentPrice::run($products));
     }
 
-    public function getProductWCP($id)
+    public function getProduct($id)
     {
         $product = Product::with(['discount','seller', 'category', 'details'])->findOrFail($id);
 
         return response()->json(CalculateCurrentPrice::run($product));
     }
-    public function getRelatedProducts($id, request $request){
+    public function getRelatedProducts($id, productsPerPage $request){
         $mainProduct = Product::findOrFail($id);
         $products = Product::where('name','like', '%'.$mainProduct->name.'%')->paginate($request->productsPerPage ?? 15);
         return response()->json(CalculateCurrentPrice::run($products));
     }
-    public function getSameSellerProducts($id, request $request){
+    public function getSameSellerProducts($id, productsPerPage $request){
         $mainProduct = Product::findOrFail($id);
         $products = Product::where('seller_id',$mainProduct->seller_id)->paginate($request->productsPerPage ?? 100);
         return response()->json(CalculateCurrentPrice::run($products));
     }
-    public function getAllProductsWCP(request $request)
+
+    public function getAllProducts(productsPerPage $request)
     {
         $products = Product::paginate($request->productsPerPage ?? 10);
         return response()->json(CalculateCurrentPrice::run($products));
     }
+
     public function getComplexFilterSearch(request $request)
     {
         $products = Product::when($request->name, function ($query, $name) {
@@ -119,7 +99,9 @@ class APIController extends Controller
             return $query->with('stock')->whereHas('stock', function ($query) {
                 return $query->where('isInStock', true);
             });
-        })->paginate($request->productPerPage);
+        })->when($request->search, function ($query, $search) {
+            return $query->where('name', 'like', '%'.$search.'%');
+        })->paginate($request->productsPerPage ?? 10);
         if ($products->isEmpty()) {
             return response()->json(['message' => 'No products found']);
         }
@@ -137,6 +119,13 @@ class APIController extends Controller
     {
         $message = (auth()->check()) ? ['message' => 'Logged In'] : ['message' => 'Not Logged In'];
         return response()->json($message);
+    }
+    public function search(request $request){
+        $products = Product::where('name','like', '%'.$request->keyword.'%')->paginate($request->productsPerPage ?? 5);
+        if ($products->isEmpty()) {
+            return response()->json(['message' => 'No products found']);
+        }
+        return response()->json(CalculateCurrentPrice::run($products));
     }
 
 }

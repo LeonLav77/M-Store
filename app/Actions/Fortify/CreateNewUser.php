@@ -29,12 +29,12 @@ class CreateNewUser implements CreatesNewUsers
                 'max:255',
                 Rule::unique(User::class),
             ],
-            'profileImage'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'profileImage'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'password' => $this->passwordRules(),
         ])->validate();
         if(isset($input['profileImage']) && $input['profileImage'] != null){
             $profileImage = $input['profileImage'];
-            $profileImage->storeAs('public/profileImages', $input['email']);
+            $profileImage->storeAs('public/profileImages',  $input['email']);
         }
         else{
             $profileImage = "https://avatars.dicebear.com/api/initials/" . $input['name'] . ".svg";
