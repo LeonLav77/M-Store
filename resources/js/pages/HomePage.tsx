@@ -167,6 +167,7 @@ export const HomePage = () => {
                     >
                         logout
                     </button>
+                    <Link to="ConfirmPurchase">Confirm purchase</Link>
                 </div>
             </nav>
             <div key="main_container">
