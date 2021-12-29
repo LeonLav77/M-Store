@@ -134,6 +134,18 @@ export const HomePage = () => {
         <div className="main_home_container">
             <Navbar />
             <nav className="navbar navbar-expand-md navbar-light navbar-laravel">
+                <img
+                    src={require("../../images/blob-haikei.svg").default}
+                    alt=""
+                    width={150}
+                    height={150}
+                />
+                <img
+                    src={require("../../images/login_bg1.jpg").default}
+                    alt=""
+                    width={150}
+                    height={150}
+                />
                 <div className="container">
                     <Link className="navbar-brand" to="products">
                         Products
@@ -173,7 +185,7 @@ export const HomePage = () => {
             <div key="main_container">
                 <div> {ReactHtmlParser(data.svg)} </div>
             </div>
-            <div className="greetings_container">
+            {/* <div className="greetings_container">
                 <div className="greetings_text">
                     <h1>Welcome to Yes</h1>
                     <p>we have no. But pizza jes.</p>
@@ -183,12 +195,12 @@ export const HomePage = () => {
                     <ScrollContainer
                         horizontal={false}
                         className="top_products_slider_container"
-                    >
-                        {/* <div
+                    > */}
+            {/* <div
                     className="top_products_slider_container draggable"
                     ref={sliderRef}
                 > */}
-                        <div
+            {/* <div
                             style={{ backgroundColor: "red", color: "white" }}
                             className="slide"
                         >
@@ -226,7 +238,7 @@ export const HomePage = () => {
                         </div>
                     </ScrollContainer>
                 </div>
-            </div>
+            </div> */}
             {/* </div> */}
             {fetchCategories.isLoading ? (
                 <h1>Loading...</h1>
