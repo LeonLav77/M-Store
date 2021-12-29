@@ -31,7 +31,7 @@ render(
                             // !store.getState().userInfo.user ? (
                             //     <Navigate to="/login" />
                             // ) : (
-                            <HomePage />
+                            <ConfirmPurchase />
                             // )
                         }
                     />
@@ -61,18 +61,6 @@ render(
                         path="register"
                         element={<RegisterPage></RegisterPage>}
                     />
-
-<<<<<<< Updated upstream
-                <Route path="TFALogin" element={<TFALogin></TFALogin>} />
-                <Route path="userInfo" element={<UserInfo></UserInfo>} />
-                <Route path="TFAEnable" element={<TFAEnable></TFAEnable>} />
-                <Route path="TFADisable" element={<TFADisable></TFADisable>} />
-                <Route path="confirmPurchase" element={<ConfirmPurchase></ConfirmPurchase>} />
-                <Route
-                    path="confirmPassword"
-                    element={<PasswordConfirm></PasswordConfirm>}
-                />
-=======
                     <Route path="TFALogin" element={<TFALogin></TFALogin>} />
                     <Route path="userInfo" element={<UserInfo></UserInfo>} />
                     <Route path="TFAEnable" element={<TFAEnable></TFAEnable>} />
@@ -80,11 +68,7 @@ render(
                         path="TFADisable"
                         element={<TFADisable></TFADisable>}
                     />
-                    <Route
-                        path="confirmPassword"
-                        element={<PasswordConfirm></PasswordConfirm>}
-                    />
->>>>>>> Stashed changes
+                    <Route path="home" element={<HomePage></HomePage>} />
                     <Route
                         path="*"
                         element={
