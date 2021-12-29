@@ -8,6 +8,7 @@ import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { TFALogin } from "./components/auth/TFALogin";
 import { ConfirmPurchase } from "./components/auth/ConfirmPurchase";
+import { StripePage } from "./components/auth/StripePage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { UserInfo } from "./components/auth/UserInfo";
 import { TFAEnable } from "./components/auth/TFAEnable";
@@ -69,6 +70,7 @@ render(
                         element={<TFADisable></TFADisable>}
                     />
                     <Route path="home" element={<HomePage></HomePage>} />
+                    <Route path="StripePage" element={<StripePage></StripePage>} />
                     <Route
                         path="*"
                         element={

@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ExtraFortifyController;
 
@@ -80,6 +81,13 @@ Route::middleware(['loggedIn'])->group(function () {
     Route::delete('/removeFromWishlist/{id}', [WishlistController::class,'removeFromWishlist']);
 
     Route::get('/wishlist', [WishlistController::class,'getWishlist']);
+
+    Route::post('/createOrder', [CheckoutController::class,'createOrder']);
+
+    Route::post('/orderData', [CheckoutController::class,'orderData']);
+    
+    Route::post('/pay', [CheckoutController::class,'pay']);
+
 
     Route::group(['middleware' =>'seller'],function () {
         Route::post('/becomeSeller', [SellerController::class,'becomeSeller']);

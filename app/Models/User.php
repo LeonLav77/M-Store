@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Models\ProfileImage;
+use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -17,6 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use TwoFactorAuthenticatable;
     use Notifiable;
+    use Billable;
     protected $with = ['profileImage'];
     /**
      * The attributes that are mass assignable.
@@ -62,5 +64,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function wishlist()
     {
         return $this->hasOne(Wishlist::class);
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }
