@@ -6169,6 +6169,53 @@ exports.UserProfile = UserProfile;
 
 /***/ }),
 
+/***/ "./resources/js/components/auth/ConfirmPurchase.tsx":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/auth/ConfirmPurchase.tsx ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.ConfirmPurchase = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var ConfirmPurchase = function ConfirmPurchase() {
+  var Cart = function Cart() {
+    return (0, axios_1["default"])({
+      method: "get",
+      url: "/api/cart"
+    }).then(function (res) {
+      return console.log(res);
+    })["catch"](function (err) {
+      return console.log(err);
+    });
+  };
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      return Cart();
+    }
+  }, "Cart"));
+};
+
+exports.ConfirmPurchase = ConfirmPurchase;
+
+/***/ }),
+
 /***/ "./resources/js/components/auth/Login.tsx":
 /*!************************************************!*\
   !*** ./resources/js/components/auth/Login.tsx ***!
@@ -7417,7 +7464,9 @@ var HomePage = function HomePage() {
     onClick: function onClick() {
       logout();
     }
-  }, "logout"))), react_1["default"].createElement("div", {
+  }, "logout"), react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "ConfirmPurchase"
+  }, "Confirm purchase"))), react_1["default"].createElement("div", {
     key: "main_container"
   }, react_1["default"].createElement("div", null, " ", (0, react_html_parser_1["default"])(data.svg), " ")), react_1["default"].createElement("div", {
     className: "greetings_container"
@@ -8360,8 +8409,8 @@ exports.store = (0, toolkit_1.configureStore)({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/Testing */ "./resources/js/pages/Testing.tsx");
 /* harmony import */ var _pages_Testing__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _pages_ProductsPage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/ProductsPage */ "./resources/js/pages/ProductsPage.tsx");
@@ -8374,26 +8423,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_LoginPage__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_pages_LoginPage__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _components_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/auth/TFALogin */ "./resources/js/components/auth/TFALogin.tsx");
 /* harmony import */ var _components_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_components_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _pages_RegisterPage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/RegisterPage */ "./resources/js/pages/RegisterPage.tsx");
-/* harmony import */ var _pages_RegisterPage__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_pages_RegisterPage__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _components_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/auth/UserInfo */ "./resources/js/components/auth/UserInfo.tsx");
-/* harmony import */ var _components_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_components_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _components_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/auth/TFAEnable */ "./resources/js/components/auth/TFAEnable.tsx");
-/* harmony import */ var _components_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_components_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _components_auth_TFADisable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/auth/TFADisable */ "./resources/js/components/auth/TFADisable.tsx");
-/* harmony import */ var _components_auth_TFADisable__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_components_auth_TFADisable__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _components_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/auth/PasswordConfirm */ "./resources/js/components/auth/PasswordConfirm.tsx");
-/* harmony import */ var _components_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_components_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _pages_UserProfilePage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/UserProfilePage */ "./resources/js/pages/UserProfilePage.tsx");
-/* harmony import */ var _pages_UserProfilePage__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_pages_UserProfilePage__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _components_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/auth/PasswordReset */ "./resources/js/components/auth/PasswordReset.tsx");
-/* harmony import */ var _components_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_components_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var _pages_TestingUi__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/TestingUi */ "./resources/js/pages/TestingUi.tsx");
-/* harmony import */ var _pages_TestingUi__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_pages_TestingUi__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.tsx");
-/* harmony import */ var _hooks_useAuth__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./hooks/useAuth */ "./resources/js/hooks/useAuth.tsx");
-/* harmony import */ var _hooks_useAuth__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_hooks_useAuth__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var _components_auth_ConfirmPurchase__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/auth/ConfirmPurchase */ "./resources/js/components/auth/ConfirmPurchase.tsx");
+/* harmony import */ var _components_auth_ConfirmPurchase__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_components_auth_ConfirmPurchase__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _pages_RegisterPage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/RegisterPage */ "./resources/js/pages/RegisterPage.tsx");
+/* harmony import */ var _pages_RegisterPage__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_pages_RegisterPage__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _components_auth_UserInfo__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/auth/UserInfo */ "./resources/js/components/auth/UserInfo.tsx");
+/* harmony import */ var _components_auth_UserInfo__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_components_auth_UserInfo__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _components_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/auth/TFAEnable */ "./resources/js/components/auth/TFAEnable.tsx");
+/* harmony import */ var _components_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_components_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _components_auth_TFADisable__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/auth/TFADisable */ "./resources/js/components/auth/TFADisable.tsx");
+/* harmony import */ var _components_auth_TFADisable__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_components_auth_TFADisable__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _components_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/auth/PasswordConfirm */ "./resources/js/components/auth/PasswordConfirm.tsx");
+/* harmony import */ var _components_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_components_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _pages_UserProfilePage__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pages/UserProfilePage */ "./resources/js/pages/UserProfilePage.tsx");
+/* harmony import */ var _pages_UserProfilePage__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_pages_UserProfilePage__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _components_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/auth/PasswordReset */ "./resources/js/components/auth/PasswordReset.tsx");
+/* harmony import */ var _components_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_components_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _pages_TestingUi__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/TestingUi */ "./resources/js/pages/TestingUi.tsx");
+/* harmony import */ var _pages_TestingUi__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_pages_TestingUi__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.tsx");
+/* harmony import */ var _hooks_useAuth__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./hooks/useAuth */ "./resources/js/hooks/useAuth.tsx");
+/* harmony import */ var _hooks_useAuth__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_hooks_useAuth__WEBPACK_IMPORTED_MODULE_19__);
 
 
 
@@ -8414,9 +8465,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_redux__WEBPACK_IMPORTED_MODULE_14__.Provider, {
-  store: _store_store__WEBPACK_IMPORTED_MODULE_17__.store
-}, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_hooks_useAuth__WEBPACK_IMPORTED_MODULE_18__.AuthUserProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+
+(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_redux__WEBPACK_IMPORTED_MODULE_15__.Provider, {
+  store: _store_store__WEBPACK_IMPORTED_MODULE_18__.store
+}, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_hooks_useAuth__WEBPACK_IMPORTED_MODULE_19__.AuthUserProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "/",
   element:
   /*#__PURE__*/
@@ -8425,51 +8477,54 @@ __webpack_require__.r(__webpack_exports__);
   // ) : (
   react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_HomePage__WEBPACK_IMPORTED_MODULE_5__.HomePage, null) // )
 
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "mstore",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_HomePage__WEBPACK_IMPORTED_MODULE_5__.HomePage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "login",
-  element: _store_store__WEBPACK_IMPORTED_MODULE_17__.store.getState().userInfo.user ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Navigate, {
+  element: _store_store__WEBPACK_IMPORTED_MODULE_18__.store.getState().userInfo.user ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Navigate, {
     to: "/"
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_LoginPage__WEBPACK_IMPORTED_MODULE_6__.LoginPage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "products",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_ProductsPage__WEBPACK_IMPORTED_MODULE_3__.ProductsPage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "products/:productId",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_ProductDetailsPage__WEBPACK_IMPORTED_MODULE_4__.ProductDetailsPage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "password_reset",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_15__.PasswordReset, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_PasswordReset__WEBPACK_IMPORTED_MODULE_16__.PasswordReset, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "user_profile",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_UserProfilePage__WEBPACK_IMPORTED_MODULE_13__.UserProfilePage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_UserProfilePage__WEBPACK_IMPORTED_MODULE_14__.UserProfilePage, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "testing",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_Testing__WEBPACK_IMPORTED_MODULE_2__.Testing, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "testingUi",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_TestingUi__WEBPACK_IMPORTED_MODULE_16__.TestingUi, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_TestingUi__WEBPACK_IMPORTED_MODULE_17__.TestingUi, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "register",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_RegisterPage__WEBPACK_IMPORTED_MODULE_8__.RegisterPage, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_pages_RegisterPage__WEBPACK_IMPORTED_MODULE_9__.RegisterPage, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "TFALogin",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_TFALogin__WEBPACK_IMPORTED_MODULE_7__.TFALogin, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "userInfo",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_UserInfo__WEBPACK_IMPORTED_MODULE_9__.UserInfo, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_UserInfo__WEBPACK_IMPORTED_MODULE_10__.UserInfo, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "TFAEnable",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_10__.TFAEnable, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_TFAEnable__WEBPACK_IMPORTED_MODULE_11__.TFAEnable, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "TFADisable",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_TFADisable__WEBPACK_IMPORTED_MODULE_11__.TFADisable, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_TFADisable__WEBPACK_IMPORTED_MODULE_12__.TFADisable, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
+  path: "confirmPurchase",
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_ConfirmPurchase__WEBPACK_IMPORTED_MODULE_8__.ConfirmPurchase, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "confirmPassword",
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_12__.PasswordConfirm, null)
-}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_20__.Route, {
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_auth_PasswordConfirm__WEBPACK_IMPORTED_MODULE_13__.PasswordConfirm, null)
+}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.Route, {
   path: "*",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("main", {
     style: {

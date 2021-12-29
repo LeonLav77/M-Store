@@ -7,6 +7,7 @@ import { ProductDetailsPage } from "./pages/ProductDetailsPage";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { TFALogin } from "./components/auth/TFALogin";
+import { ConfirmPurchase } from "./components/auth/ConfirmPurchase";
 import { RegisterPage } from "./pages/RegisterPage";
 import { UserInfo } from "./components/auth/UserInfo";
 import { TFAEnable } from "./components/auth/TFAEnable";
@@ -65,6 +66,7 @@ render(
                 <Route path="userInfo" element={<UserInfo></UserInfo>} />
                 <Route path="TFAEnable" element={<TFAEnable></TFAEnable>} />
                 <Route path="TFADisable" element={<TFADisable></TFADisable>} />
+                <Route path="confirmPurchase" element={<ConfirmPurchase></ConfirmPurchase>} />
                 <Route
                     path="confirmPassword"
                     element={<PasswordConfirm></PasswordConfirm>}
