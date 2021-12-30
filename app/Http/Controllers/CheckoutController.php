@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Order;
+use App\Jobs\CreateInvoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,7 +34,8 @@ class CheckoutController extends Controller
     }
     public function pay(request $request){
         $user = Auth::user();
-        $order = $user->orders->where('paid_at', null)->first();
+        $order = $user->orders->first();
+        // ->where('paid_at', null)
         $payment_method = $request['payment-method'];
         try {
             $user->createOrGetStripeCustomer();
@@ -41,6 +44,7 @@ class CheckoutController extends Controller
             $order->update([
                 'paid_at' => now(),
             ]);
+            dispatch(new CreateInvoice($order->id, $user->id));
             return response()->redirectTo('/');
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
