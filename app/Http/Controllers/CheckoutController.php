@@ -20,6 +20,8 @@ class CheckoutController extends Controller
                 'cart_id' => $user->cart->id,
                 'price' => $total,
             ]);
+            // $user->cart->productsInCart()->delete();
+            // treba da poslije se vidi sta je unutra
         }
     }
     public function orderData(){
@@ -31,6 +33,17 @@ class CheckoutController extends Controller
     public function pay(request $request){
         $user = Auth::user();
         $order = $user->orders->where('paid_at', null)->first();
-        dd($order);
+        $payment_method = $request['payment-method'];
+        try {
+            $user->createOrGetStripeCustomer();
+            $user->updateDefaultPaymentMethod($payment_method);
+            $user->charge($order->price, $payment_method);
+            $order->update([
+                'paid_at' => now(),
+            ]);
+            return response()->redirectTo('/');
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
     }
 }
