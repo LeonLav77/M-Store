@@ -12,7 +12,12 @@ class CheckoutController extends Controller
 {
     public function createOrder(){
         $user = Auth::user();
-        if ($user->cart->productsInCart->count() > 0) {
+        if ($user->cart->productsInCart->count() <= 0) {
+                return response()->json(['message' => 'No products in cart'], 400);
+        }
+        if ($user->orders->where('paid_at', null)->count() > 0) {
+            return response()->json(['message' => 'You already have an order'], 400);
+        }
             $total = 0;
             $cartItems = $user->cart->productsInCart;
             foreach ($cartItems as $cartItem) {
@@ -22,25 +27,29 @@ class CheckoutController extends Controller
                 'cart_id' => $user->cart->id,
                 'price' => $total,
             ]);
-            // $user->cart->productsInCart()->delete();
-            // treba da poslije se vidi sta je unutra
-        }
+            return response()->json(['message' => 'Order created'], 200);
     }
     public function orderData(){
         $user = Auth::user();
         $intent = $user->createSetupIntent();
         $order = Order::where('user_id', $user->id)->where('paid_at', null)->first();
-        return response()->json(['clientSecret' => $intent->client_secret, 'order' => $order, 'user' => $user]);
+        if ($order) {
+            return response()->json(['clientSecret' => $intent->client_secret, 'order' => $order, 'user' => $user]);
+        }
+        return response()->json(['error' => 'No order found']);
     }
     public function pay(request $request){
         $user = Auth::user();
-        $order = $user->orders->first();
-        // ->where('paid_at', null)
+        $order = $user->orders->where('paid_at', null)->first();
+        if(!($order)){
+            return response()->json(['error' => 'No order found']);
+        }
         $payment_method = $request['payment-method'];
         try {
             $user->createOrGetStripeCustomer();
             $user->updateDefaultPaymentMethod($payment_method);
             $user->charge($order->price, $payment_method);
+            // this should be done after a webhook is received
             $order->update([
                 'paid_at' => now(),
             ]);

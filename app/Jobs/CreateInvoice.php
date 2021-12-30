@@ -31,8 +31,8 @@ class CreateInvoice implements ShouldQueue
     {
         $this->order_id = $order_id;
         $this->user_id = $user_id;
-        $this->order = Order::where('id', $this->order_id)->first();
         $this->user = User::where('id', $this->user_id)->first();
+        $this->order = Order::where('id', $this->order_id)->first();
     }
 
     /**
@@ -42,8 +42,9 @@ class CreateInvoice implements ShouldQueue
      */
     public function handle()
     {
-        // $order = Order::find($this->order_id);
-        // $user = User::find($this->user_id);
+        if ($this->order->cart->productsInCart->count() <= 0) {
+            return;
+        }
         $customer = new Buyer([
             'name'          => $this->user->name,
             'custom_fields' => [
@@ -70,7 +71,11 @@ class CreateInvoice implements ShouldQueue
         // ->shipping(9.99)
         ->addItems($items)
         ->filename($this->order->id . '.invoice');
-        // Cart::where('id', $this->order->cart->id)->delete();
+        // this should happen after webhook but it has to be on live
+        $this->user->cart->productsInCart()->delete();
+        $this->order->update([
+            'delivered_at' => now(),
+        ]);
         return $invoice->save();
 
     }
