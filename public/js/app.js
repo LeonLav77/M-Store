@@ -7300,7 +7300,7 @@ var Login = function Login() {
       method: "post",
       url: "/auth/login",
       data: {
-        email: "leonlav77@gmail.com",
+        email: "massimopersic1@gmail.com",
         password: "password"
       },
       headers: {
@@ -7582,7 +7582,7 @@ var Register = function Register() {
       selectedFile = _a[0],
       setSelectedFile = _a[1];
 
-  var _b = (0, react_1.useState)("leonlav77@gmail.com"),
+  var _b = (0, react_1.useState)("massimopersic1@gmail.com"),
       email = _b[0],
       setEmail = _b[1];
 
@@ -7627,7 +7627,7 @@ var Register = function Register() {
       method: "POST",
       url: "/auth/register",
       data: {
-        email: "leonlav77@gmail.com",
+        email: "massimopersic1@gmail.com",
         name: "leonlav77",
         password: "password",
         password_confirmation: "password"
@@ -8636,10 +8636,6 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 
 var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 
-var jquery_1 = __importDefault(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"));
-
-var react_html_parser_1 = __importDefault(__webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js"));
-
 __webpack_require__(/*! ../../css/HomePage.css */ "./resources/css/HomePage.css");
 
 var Navbar_1 = __webpack_require__(/*! ../components/Navbar */ "./resources/js/components/Navbar.tsx");
@@ -8650,6 +8646,7 @@ var ItemsList_1 = __webpack_require__(/*! ../components/ItemsList */ "./resource
 
 var HomePage = function HomePage() {
   // const value = useSelector((state: any) => state.user);
+  var SLIDE_WIDTH = 0.85 * 0.75 * window.outerWidth;
   var fetchCategories = (0, productsDataSlice_1.useFetchCategoriesQuery)("categories");
 
   var _a = (0, react_1.useState)([]),
@@ -8657,6 +8654,10 @@ var HomePage = function HomePage() {
       setData = _a[1];
 
   var sliderRef = (0, react_1.useRef)(null);
+
+  var _b = (0, react_1.useState)(1),
+      currentIndex = _b[0],
+      setCurrentIndex = _b[1];
 
   var getData = function getData() {
     return axios_1["default"].get("http://127.0.0.1:8000/auth/user/two-factor-qr-code").then(function (res) {
@@ -8666,93 +8667,231 @@ var HomePage = function HomePage() {
     });
   };
 
-  var pos = {
-    top: 0,
-    left: 0,
-    x: 0,
-    y: 0
-  };
-
-  var mouseDownHandler = function mouseDownHandler(e) {
-    sliderRef.current.style.cursor = "grabbing";
-    sliderRef.current.style.userSelect = "none";
-    pos = {
-      // The current scroll
-      left: sliderRef.current.scrollLeft,
-      top: sliderRef.current.scrollTop,
-      // Get the current mouse position
-      x: e.clientX,
-      y: e.clientY
-    };
-    document.addEventListener("mousemove", mouseMoveHandler);
-    document.addEventListener("mouseup", mouseUpHandler);
-  };
-
-  var mouseMoveHandler = function mouseMoveHandler(e) {
-    // How far the mouse has been moved
-    var dx = e.clientX - pos.x;
-    var dy = e.clientY - pos.y; // Scroll the element
-
-    sliderRef.current.scrollTop = pos.top - dy;
-    sliderRef.current.scrollLeft = pos.left - dx;
-  };
-
-  var mouseUpHandler = function mouseUpHandler() {
-    document.removeEventListener("mousemove", mouseMoveHandler);
-    document.removeEventListener("mouseup", mouseUpHandler);
-    sliderRef.current.style.cursor = "grab";
-    sliderRef.current.style.removeProperty("user-select");
-  };
-
   (0, react_1.useEffect)(function () {
     getData();
   }, []);
-  var stop = true;
-  (0, jquery_1["default"])(".draggable").on("drag", function (e) {
-    stop = true;
+  (0, react_1.useLayoutEffect)(function () {
+    var changeSlide = setInterval(function () {
+      for (var i = 1; i <= 3; i++) {
+        if (currentIndex >= 3) {
+          setCurrentIndex(1);
+          sliderRef.current.style.transform = "translateX(0px)";
+          return;
+        }
 
-    if (e.originalEvent.clientY < 150) {
-      stop = false;
-      scroll(-1);
-    }
-
-    if (e.originalEvent.clientY > (0, jquery_1["default"])(window).height() - 150) {
-      stop = false;
-      scroll(1);
-    }
-  });
-  (0, jquery_1["default"])(".draggable").on("dragend", function (e) {
-    stop = true;
-  });
-
-  var scroll = function scroll(step) {
-    var scrollY = (0, jquery_1["default"])(window).scrollTop();
-    (0, jquery_1["default"])(window).scrollTop(scrollY + step);
-
-    if (!stop) {
-      setTimeout(function () {
-        scroll(step);
-      }, 20);
-    }
-  };
-
+        setCurrentIndex(currentIndex + 1);
+        sliderRef.current.style.transform = "translateX(-".concat(currentIndex * SLIDE_WIDTH, "px)");
+        return;
+      }
+    }, 5000);
+    return function () {
+      return clearInterval(changeSlide);
+    };
+  }, [currentIndex]);
   return react_1["default"].createElement("div", {
     className: "main_home_container"
-  }, react_1["default"].createElement(Navbar_1.Navbar, null), react_1["default"].createElement("nav", {
-    className: "navbar navbar-expand-md navbar-light navbar-laravel"
+  }, react_1["default"].createElement(Navbar_1.Navbar, null), react_1["default"].createElement("div", {
+    style: {
+      margin: 30,
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, react_1["default"].createElement("h1", {
+    style: {
+      fontWeight: "bold",
+      fontSize: "3.5rem"
+    }
+  }, "Welcome to Yes"), react_1["default"].createElement("h3", null, "we have no. But pizza jes."), react_1["default"].createElement("h3", null, "Say no more, we have it all... BI\u010C")), react_1["default"].createElement("div", {
+    className: "slider_container"
+  }, react_1["default"].createElement("div", {
+    style: {
+      width: "100%",
+      overflow: "hidden",
+      height: 650
+    }
+  }, react_1["default"].createElement("div", {
+    style: {
+      width: "fit-content",
+      height: "95%"
+    }
+  }, react_1["default"].createElement("div", {
+    style: {
+      display: "flex",
+      height: "100%",
+      transition: "all 2s",
+      justifyContent: "center",
+      alignItems: "center",
+      overflow: "hidden"
+    },
+    ref: sliderRef
+  }, react_1["default"].createElement("div", {
+    style: {
+      width: SLIDE_WIDTH
+    }
+  }, react_1["default"].createElement("div", {
+    style: {
+      width: "100%",
+      height: 500,
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      backgroundColor: "#0ED1A7",
+      borderBottomLeftRadius: 15,
+      borderBottomRightRadius: 15,
+      zIndex: -1
+    }
+  }), react_1["default"].createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-around"
+    }
   }, react_1["default"].createElement("img", {
-    src: (__webpack_require__(/*! ../../images/blob-haikei.svg */ "./resources/images/blob-haikei.svg")["default"]),
-    alt: "",
-    width: 150,
-    height: 150
-  }), react_1["default"].createElement("img", {
     src: (__webpack_require__(/*! ../../images/login_bg1.jpg */ "./resources/images/login_bg1.jpg")["default"]),
     alt: "",
-    width: 150,
-    height: 150
-  })), react_1["default"].createElement("div", {
-    key: "main_container"
-  }, react_1["default"].createElement("div", null, " ", (0, react_html_parser_1["default"])(data.svg), " ")), fetchCategories.isLoading ? react_1["default"].createElement("h1", null, "Loading...") : fetchCategories.error ? react_1["default"].createElement("h1", null, "Error...") : react_1["default"].createElement("div", {
+    width: 350,
+    height: 500
+  }), react_1["default"].createElement("div", {
+    style: {
+      width: "30%",
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
+      textAlign: "left"
+    }
+  }, react_1["default"].createElement("h1", {
+    style: {
+      fontSize: 40,
+      fontWeight: "bold"
+    }
+  }, "Footwerar"), react_1["default"].createElement("h3", null, "veri kull"), react_1["default"].createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo veritatis enim laboriosam soluta ratione nostrum, assumenda doloribus ea facere porro!")))), react_1["default"].createElement("div", {
+    // className="slide"
+    style: {
+      width: SLIDE_WIDTH
+    }
+  }, react_1["default"].createElement("div", {
+    style: {
+      width: "100%",
+      height: 500,
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      backgroundColor: "#0ED1A7",
+      borderBottomLeftRadius: 15,
+      borderBottomRightRadius: 15,
+      zIndex: -1
+    }
+  }), react_1["default"].createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-around",
+      alignItems: "center"
+    }
+  }, react_1["default"].createElement("img", {
+    src: (__webpack_require__(/*! ../../images/login_bg1.jpg */ "./resources/images/login_bg1.jpg")["default"]),
+    alt: "",
+    width: 350,
+    height: 500
+  }), react_1["default"].createElement("div", {
+    style: {
+      width: "40%",
+      display: "flex",
+      justifyContent: "space-around",
+      flexDirection: "column",
+      textAlign: "left",
+      marginInline: 40
+    }
+  }, react_1["default"].createElement("h1", {
+    style: {
+      fontSize: 40,
+      fontWeight: "bold"
+    }
+  }, "Footwerar"), react_1["default"].createElement("h3", null, "veri kull"), react_1["default"].createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo veritatis enim laboriosam soluta ratione nostrum, assumenda doloribus ea facere porro!")))), react_1["default"].createElement("div", {
+    // className="slide"
+    style: {
+      width: SLIDE_WIDTH
+    }
+  }, react_1["default"].createElement("div", {
+    style: {
+      width: "100%",
+      height: 500,
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      backgroundColor: "#0ED1A7",
+      borderBottomLeftRadius: 15,
+      borderBottomRightRadius: 15,
+      zIndex: -1
+    }
+  }), react_1["default"].createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 20
+    }
+  }, react_1["default"].createElement("img", {
+    src: (__webpack_require__(/*! ../../images/login_bg1.jpg */ "./resources/images/login_bg1.jpg")["default"]),
+    alt: "",
+    width: 350,
+    height: 500
+  }), react_1["default"].createElement("div", {
+    style: {
+      width: "40%",
+      display: "flex",
+      justifyContent: "space-around",
+      flexDirection: "column",
+      textAlign: "left",
+      marginInline: 40
+    }
+  }, react_1["default"].createElement("h1", {
+    style: {
+      fontSize: 40,
+      fontWeight: "bold"
+    }
+  }, "Footwerar"), react_1["default"].createElement("h3", null, "veri kull"), react_1["default"].createElement("p", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo veritatis enim laboriosam soluta ratione nostrum, assumenda doloribus ea facere porro!")))))), react_1["default"].createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "center",
+      background: "transparent"
+    }
+  }, Array(3).fill("").map(function (_, id) {
+    return react_1["default"].createElement("div", {
+      style: currentIndex - 1 == id ? {
+        backgroundColor: "gray",
+        width: 15,
+        height: 15,
+        borderRadius: "50%",
+        margin: 10
+      } : {
+        backgroundColor: "lightgray",
+        width: 15,
+        height: 15,
+        borderRadius: "50%",
+        margin: 10
+      },
+      key: id,
+      onClick: function onClick() {
+        setCurrentIndex(id + 1);
+        sliderRef.current.style.transform = "translateX(-".concat(id * SLIDE_WIDTH, "px)");
+      }
+    });
+  }))), react_1["default"].createElement("button", {
+    className: currentIndex == 1 ? "smol_id" : "prev_btn",
+    onClick: function onClick() {
+      if (currentIndex <= 1) return;
+      setCurrentIndex(currentIndex - 1);
+      sliderRef.current.style.transform = "translateX(-".concat((currentIndex - 2) * SLIDE_WIDTH, "px)");
+    }
+  }, react_1["default"].createElement("h1", null, "<")), react_1["default"].createElement("button", {
+    className: currentIndex == 3 ? "big_id" : "next_btn",
+    onClick: function onClick() {
+      if (currentIndex >= 3) return;
+      setCurrentIndex(currentIndex + 1);
+      sliderRef.current.style.transform = "translateX(-".concat(currentIndex * SLIDE_WIDTH, "px)");
+    }
+  }, react_1["default"].createElement("h1", null, ">"))), fetchCategories.isLoading ? react_1["default"].createElement("h1", null, "Loading...") : fetchCategories.error ? react_1["default"].createElement("h1", null, "Error...") : react_1["default"].createElement("div", {
     className: "related_categories_container"
   }, react_1["default"].createElement(ItemsList_1.ItemsList, {
     data: fetchCategories.data,
@@ -9374,7 +9513,7 @@ var Testing = function Testing() {
       method: "post",
       url: "/auth/login",
       data: {
-        email: "leonlav77@gmail.com",
+        email: "massimopersic1@gmail.com",
         password: "password"
       }
     }).then(function (res) {
@@ -9412,7 +9551,7 @@ var Testing = function Testing() {
       url: "/auth/register",
       data: {
         name: "Leon",
-        email: "leonlav77@gmail.com",
+        email: "massimopersic1@gmail.com",
         password: "password",
         password_confirmation: "password"
       }
@@ -11921,7 +12060,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".main_home_container {\r\n    width: 85%;\r\n    margin: 0 auto;\r\n    background-color: #16a085;\r\n}\r\n.main_top_products_slider_container {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    height: 700px;\r\n}\r\n.top_products_slider_container {\r\n    max-width: 500px;\r\n    min-width: 400px;\r\n    aspect-ratio: 1;\r\n    background-color: yellowgreen;\r\n    overflow-y: scroll;\r\n    -ms-scroll-snap-type: y mandatory !important;\r\n        scroll-snap-type: y mandatory !important;\r\n}\r\n.slide {\r\n    height: 100%;\r\n    scroll-snap-align: center;\r\n}\r\n.greetings_container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n    width: 80%;\r\n    margin: 0 auto;\r\n    flex-wrap: wrap;\r\n}\r\n.greetings_text {\r\n    margin: auto 0;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".main_home_container {\r\n    width: 85%;\r\n    margin: 0 auto;\r\n    text-align: center;\r\n}\r\n.main_top_products_slider_container {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    height: 700px;\r\n}\r\n.top_products_slider_container {\r\n    max-width: 500px;\r\n    min-width: 400px;\r\n    aspect-ratio: 1;\r\n    background-color: yellowgreen;\r\n    overflow-y: scroll;\r\n    -ms-scroll-snap-type: y mandatory !important;\r\n        scroll-snap-type: y mandatory !important;\r\n}\r\n.slide {\r\n    height: 100%;\r\n    scroll-snap-align: center;\r\n}\r\n.greetings_container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n    width: 80%;\r\n    margin: 0 auto;\r\n    flex-wrap: wrap;\r\n}\r\n.greetings_text {\r\n    margin: auto 0;\r\n}\r\n.maskImg {\r\n    -webkit-mask-image: radial-gradient(circle, black 70%, rgba(0, 0, 0, 0.5) 50%);\r\n            mask-image: radial-gradient(circle, black 70%, rgba(0, 0, 0, 0.5) 50%);\r\n}\r\n.prev_btn {\r\n    position: absolute;\r\n    top: 45%;\r\n    left: 3%;\r\n    width: 50px;\r\n    height: 50px;\r\n    background-color: lightgray;\r\n    border-radius: 50%;\r\n    font-size: 40px;\r\n    display: grid;\r\n    place-items: center;\r\n    opacity: 0.9;\r\n    border: none;\r\n    transition: all 1s ease-in;\r\n}\r\n.next_btn {\r\n    position: absolute;\r\n    top: 45%;\r\n    right: 3%;\r\n    width: 50px;\r\n    height: 50px;\r\n    background-color: lightgray;\r\n    border-radius: 50%;\r\n    display: grid;\r\n    place-items: center;\r\n    opacity: 0.9;\r\n    border: none;\r\n    transition: all 1s ease-in;\r\n}\r\n.slider_container {\r\n    position: relative;\r\n    width: 80%;\r\n    padding: 30px;\r\n    border-radius: 15px;\r\n    margin: 10px;\r\n    margin-inline: auto;\r\n    box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, 0.7);\r\n    text-align: center;\r\n}\r\n.smol_id {\r\n    position: absolute;\r\n    top: 45%;\r\n    left: 3%;\r\n    width: 50px;\r\n    height: 50px;\r\n    background-color: lightgray;\r\n    border-radius: 50%;\r\n    font-size: 40px;\r\n    display: grid;\r\n    place-items: center;\r\n    border: none;\r\n    opacity: 0;\r\n}\r\n.big_id {\r\n    position: absolute;\r\n    top: 45%;\r\n    right: 3%;\r\n    width: 50px;\r\n    height: 50px;\r\n    background-color: lightgray;\r\n    border-radius: 50%;\r\n    display: grid;\r\n    place-items: center;\r\n    opacity: 0;\r\n    border: none;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -12792,21 +12931,6 @@ exports.equal = function equal (a, b) {
   return length === keyList(b).length;
 };
 
-
-/***/ }),
-
-/***/ "./resources/images/blob-haikei.svg":
-/*!******************************************!*\
-  !*** ./resources/images/blob-haikei.svg ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/blob-haikei.svg?210944f934d4c10f6f37894922e70114");
 
 /***/ }),
 
@@ -84601,7 +84725,7 @@ function debounce (delay, atBegin, callback) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\Leon\\\\Desktop\\\\M-Store\\\\M-Store"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\Users\\\\Leon\\\\Desktop\\\\M-Store\\\\M-Store","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
 
 /***/ }),
 
