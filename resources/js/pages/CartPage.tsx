@@ -7,10 +7,7 @@ export const CartPage = () => {
     return (
         <div>
             <Navbar />
-            <div
-                style={{ display: "flex", flexWrap: "wrap" }}
-                className="cart_container"
-            >
+            <div style={{ display: "flex" }} className="cart_container">
                 <Cart />
                 <div
                     style={{
