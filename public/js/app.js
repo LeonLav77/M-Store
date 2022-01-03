@@ -8578,6 +8578,56 @@ exports["default"] = useAuth;
 
 /***/ }),
 
+/***/ "./resources/js/hooks/useDimensions.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/hooks/useDimensions.tsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.useDimensions = void 0;
+
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var useDimensions = function useDimensions() {
+  var getScreenDimensions = function getScreenDimensions() {
+    var screenWidth = window.innerWidth;
+    var screenHeight = window.innerHeight;
+    return {
+      screenHeight: screenHeight,
+      screenWidth: screenWidth
+    };
+  };
+
+  var _a = (0, react_1.useState)(getScreenDimensions()),
+      screenDimensions = _a[0],
+      setScreenDimensions = _a[1];
+
+  (0, react_1.useEffect)(function () {
+    function handleResize() {
+      setScreenDimensions(getScreenDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return function () {
+      return window.removeEventListener("resize", handleResize);
+    };
+  }, [screenDimensions]);
+  return {
+    screenWidth: screenDimensions.screenWidth,
+    screenHeight: screenDimensions.screenHeight
+  };
+};
+
+exports.useDimensions = useDimensions;
+
+/***/ }),
+
 /***/ "./resources/js/pages/HomePage.tsx":
 /*!*****************************************!*\
   !*** ./resources/js/pages/HomePage.tsx ***!
@@ -9300,11 +9350,15 @@ __webpack_require__(/*! ../../css/ProductsPage.css */ "./resources/css/ProductsP
 
 var Navbar_1 = __webpack_require__(/*! ../components/Navbar */ "./resources/js/components/Navbar.tsx");
 
+var useDimensions_1 = __webpack_require__(/*! ../hooks/useDimensions */ "./resources/js/hooks/useDimensions.tsx");
+
 var ProductsPage = function ProductsPage() {
   var _a = (0, productsDataSlice_1.useFetchProductsPerPageQuery)("allProductsWCP?productsPerPage=10"),
       data = _a.data,
       error = _a.error,
       isLoading = _a.isLoading;
+
+  var dimensions = (0, useDimensions_1.useDimensions)();
 
   var _b = (0, react_1.useState)(Array(9).fill(" ")),
       categories = _b[0],
@@ -9318,53 +9372,121 @@ var ProductsPage = function ProductsPage() {
       recents = _d[0],
       setRecents = _d[1];
 
+  var _e = (0, react_1.useState)(null),
+      selectedCategory = _e[0],
+      setSelectedCategory = _e[1];
+
+  var _f = (0, react_1.useState)(""),
+      keyword = _f[0],
+      setKeyword = _f[1];
+
+  var _g = (0, react_1.useState)(false),
+      showFilters = _g[0],
+      setShowFilters = _g[1];
+
+  var _h = (0, react_1.useState)(false),
+      showRecents = _h[0],
+      setShowRecents = _h[1];
+
+  var searchSubmitHandler = function searchSubmitHandler(e) {
+    e.preventDefault();
+    console.log(currentFilterPrice, selectedCategory, keyword);
+  };
+
   return react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(Navbar_1.Navbar, null), react_1["default"].createElement("div", {
     className: "main_all_products_container"
-  }, react_1["default"].createElement("div", {
+  }, react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
     className: "filters_container"
-  }, react_1["default"].createElement("h1", null, "filters"), react_1["default"].createElement("p", null, "category"), react_1["default"].createElement("select", {
+  }, dimensions.screenWidth <= 1400 && !showFilters ? react_1["default"].createElement("h1", {
+    onClick: function onClick() {
+      return setShowFilters(true);
+    }
+  }, "Filters >") : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("h1", null, "Filter Results"), react_1["default"].createElement("div", {
+    className: "category_filter"
+  }, react_1["default"].createElement("h5", null, "Choose Category"), react_1["default"].createElement("select", {
     name: "",
-    id: ""
-  }, categories.map(function (category, id) {
+    id: "",
+    value: ""
+  }, react_1["default"].createElement("option", {
+    value: "",
+    selected: true,
+    hidden: true,
+    disabled: true
+  }, "None"), categories.map(function (_, id) {
     return react_1["default"].createElement("option", {
-      key: id
+      onClick: function onClick() {
+        return setSelectedCategory("nisto");
+      },
+      key: id,
+      value: ""
     }, "category");
-  })), react_1["default"].createElement("p", null, "Price"), react_1["default"].createElement("input", {
+  }))), react_1["default"].createElement("div", {
+    className: "price_filter"
+  }, react_1["default"].createElement("h5", null, "Price"), react_1["default"].createElement("input", {
     type: "range",
     name: "price",
-    min: "1",
-    max: "100",
+    min: 0,
+    max: 100,
     value: currentFilterPrice,
     onChange: function onChange(e) {
       return setCurrentFilterPrice(e.target.value);
     }
-  }), react_1["default"].createElement("p", null, currentFilterPrice, "Kn"), react_1["default"].createElement("p", null, "Na,me"), react_1["default"].createElement("input", {
+  }), react_1["default"].createElement("h6", null, "0-", currentFilterPrice, "kn")), react_1["default"].createElement("div", {
+    className: "keyword_filter"
+  }, react_1["default"].createElement("h5", null, "Filter Results By Name"), react_1["default"].createElement("input", {
     type: "text",
-    placeholder: "ENter product nbame.,."
-  }), react_1["default"].createElement("h1", null), react_1["default"].createElement("button", null, "Sumbmit")), react_1["default"].createElement("div", {
+    placeholder: "Enter product name...",
+    onChange: function onChange(e) {
+      return setKeyword(e.target.value);
+    }
+  })), react_1["default"].createElement("br", null), react_1["default"].createElement("button", {
+    type: "submit",
+    onClick: searchSubmitHandler
+  }, "Submit"))), react_1["default"].createElement("div", {
+    className: "recent_searches"
+  }, dimensions.screenWidth <= 1400 && !showRecents ? react_1["default"].createElement("h1", {
+    onClick: function onClick() {
+      return setShowRecents(true);
+    }
+  }, "Recents >") : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("h1", null, "recents"), react_1["default"].createElement("div", null, recents.map(function (_, id) {
+    return react_1["default"].createElement("p", {
+      key: id
+    }, "nisto");
+  }))))), react_1["default"].createElement("div", {
     className: "products_list"
   }, isLoading ? react_1["default"].createElement("div", null, "Loading...") : error ? react_1["default"].createElement("div", null, "Error...") : data.data.map(function (item) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
 
     return react_1["default"].createElement("div", {
       key: item.id,
       style: {
         border: "2px solid black",
         margin: 20,
-        width: "80%",
+        width: "95%",
         padding: 20,
-        display: "flex"
+        display: "flex",
+        backgroundColor: "whitesmoke",
+        boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.5)"
       }
     }, react_1["default"].createElement("img", {
-      src: "",
+      src: item.images[0].path,
       alt: "",
       style: {
         width: 150,
         height: 150,
         backgroundColor: "lightgray",
-        marginRight: 30
+        margin: 20
       }
-    }), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
+    }), react_1["default"].createElement("div", {
+      style: {
+        marginTop: 5
+      }
+    }, react_1["default"].createElement("div", {
+      style: {
+        display: "flex",
+        flexWrap: "wrap"
+      }
+    }, react_1["default"].createElement(react_router_dom_1.Link, {
       to: "/products/".concat(item.id),
       style: {
         fontSize: 32
@@ -9372,14 +9494,10 @@ var ProductsPage = function ProductsPage() {
       state: {
         item: item
       }
-    }, item.name), react_1["default"].createElement("p", null, item.description), react_1["default"].createElement("h3", null, ((_a = item.discount) === null || _a === void 0 ? void 0 : _a.discount) ? "Discout: " : "Current Price: ", (_c = (_b = item.discount) === null || _b === void 0 ? void 0 : _b.discount) !== null && _c !== void 0 ? _c : item.current_price, "Kn")));
-  })), react_1["default"].createElement("div", {
-    className: "recent_searches"
-  }, react_1["default"].createElement("h1", null, "recents"), react_1["default"].createElement("div", null, recents.map(function (_, id) {
-    return react_1["default"].createElement("p", {
-      key: id
-    }, "nisto");
-  })))));
+    }, item.name), ((_a = item.discount) === null || _a === void 0 ? void 0 : _a.discount) && react_1["default"].createElement("h5", {
+      className: "on_sale_header"
+    }, "SALE")), react_1["default"].createElement("p", null, item.description), react_1["default"].createElement("h3", null, ((_b = item.discount) === null || _b === void 0 ? void 0 : _b.discount) ? "Discout: " : "Current Price: ", (_d = (_c = item.discount) === null || _c === void 0 ? void 0 : _c.discount) !== null && _d !== void 0 ? _d : item.current_price, "Kn")));
+  }))));
 };
 
 exports.ProductsPage = ProductsPage;
@@ -12132,7 +12250,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".main_all_products_container {\r\n    display: grid;\r\n    margin: 0 auto;\r\n    grid-gap: 20px;\r\n}\r\n.recent_searches {\r\n    display: none;\r\n}\r\n@media (min-width: 750px) {\r\n    .main_all_products_container {\r\n        grid-template-columns: 1fr, 3fr;\r\n    }\r\n    .products_list {\r\n        grid-column: 2/3;\r\n    }\r\n}\r\n@media (min-width: 1400px) {\r\n    .main_all_products_container {\r\n        grid-template-columns: 2fr 3.5fr 1fr;\r\n    }\r\n    .filters_container {\r\n        grid-column: 1/2;\r\n    }\r\n    .recent_searches {\r\n        display: block;\r\n        grid-column: 3/4;\r\n    }\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".main_all_products_container {\r\n    display: grid;\r\n    margin: 0 auto;\r\n    background-color: #296a511b;\r\n    min-height: 100vh;\r\n}\r\n.filters_container,\r\n.recent_searches {\r\n    display: flex;\r\n    align-items: flex-start;\r\n    flex-direction: column;\r\n    margin: 10px;\r\n    border-radius: 15px;\r\n    background-color: #eeefef;\r\n    height: -webkit-fit-content;\r\n    height: -moz-fit-content;\r\n    height: fit-content;\r\n    padding: 15px 10px;\r\n    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);\r\n    border: 1px solid rgba(0, 0, 0, 0.5);\r\n}\r\n.price_filter,\r\n.category_filter,\r\n.keyword_filter {\r\n    margin: 10px 0;\r\n}\r\n.on_sale_header {\r\n    padding: 5px;\r\n    margin: auto 10px;\r\n    background-color: red;\r\n    color: white;\r\n    border-radius: 10px;\r\n}\r\n@media (min-width: 1400px) {\r\n    .main_all_products_container {\r\n        grid-template-columns: 1fr 3fr;\r\n        grid-gap: 10px;\r\n    }\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -12204,7 +12322,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".navbar_container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n    align-items: center;\r\n    background-color: white;\r\n    border-top: 30px solid #16a085;\r\n    padding: 20px;\r\n}\r\n.search_bar {\r\n    width: 60%;\r\n    display: flex;\r\n}\r\n.search_bar input {\r\n    min-width: 90%;\r\n    width: 400px;\r\n    border-top-left-radius: 15px;\r\n    border-bottom-left-radius: 15px;\r\n    padding: 10px;\r\n}\r\n.search_bar button {\r\n    width: 10%;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".navbar_container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n    align-items: center;\r\n    background-color: white;\r\n}\r\n.search_bar {\r\n    width: 60%;\r\n    display: flex;\r\n}\r\n.search_bar input {\r\n    min-width: 90%;\r\n    width: 400px;\r\n    border-top-left-radius: 15px;\r\n    border-bottom-left-radius: 15px;\r\n    padding: 10px;\r\n}\r\n.search_bar button {\r\n    width: 10%;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
