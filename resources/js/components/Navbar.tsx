@@ -1,54 +1,55 @@
 import React, { useState, useEffect } from "react";
-import { ImCog } from "react-icons/im";
+import { ImCog, ImCart } from "react-icons/im";
+import { CgProfile } from "react-icons/cg";
+import { FaSearch } from "react-icons/fa";
 import { Button } from "./Button";
 import "../../css/components/Navbar.css";
+import { useDimensions } from "../hooks/useDimensions";
 
 export const Navbar = () => {
-    const getScreenDimensions = () => {
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-        return { screenHeight, screenWidth };
-    };
-    const [screenDimensions, setScreenDimensions] = useState(
-        getScreenDimensions()
-    );
-    useEffect(() => {
-        function handleResize() {
-            setScreenDimensions(getScreenDimensions());
-        }
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, [screenDimensions]);
+    const { screenWidth, screenHeight } = useDimensions();
     return (
         <div className="navbar_container">
-            {screenDimensions.screenWidth >= 1250 ? (
+            {screenWidth >= 1250 && (
                 <img
-                    src="https://thumbs.dreamstime.com/b/online-shop-logo-ecommerce-design-vector-187896714.jpg"
+                    src={require("../../images/Mstore.png").default}
                     alt="store_logo"
                     width={200}
-                    height={200}
+                    height={70}
                 />
-            ) : null}
+            )}
             <div className="search_bar">
-                <input placeholder="Search for products..."></input>
-                <Button
-                    title="Submit"
-                    type="submit"
-                    onClick={() => {}}
+                <input type="text" placeholder="yes" />
+                <div
                     style={{
-                        padding: 10,
-                        width: 100,
-                        height: 50,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        paddingInline: 10,
+                        border: "2px solid white",
+                        borderLeft: "none",
                         borderTopRightRadius: 15,
                         borderBottomRightRadius: 15,
-                        borderLeft: 0,
+                        height: 44,
                     }}
-                />
-                {/* <button type="submit">Submit</button> */}
+                >
+                    <FaSearch size={25} color="white" />
+                </div>
             </div>
             {/* tu je size a ne widht i heihgt */}
-            {screenDimensions.screenWidth >= 600 ? <ImCog size={25} /> : null}
+            {screenWidth >= 600 ? (
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-around",
+                        width: 400,
+                    }}
+                >
+                    <ImCart size={25} color="white" />
+                    <CgProfile size={25} color="white" />
+                    <ImCog size={25} color="white" />
+                </div>
+            ) : null}
         </div>
     );
 };

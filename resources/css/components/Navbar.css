@@ -1,20 +1,29 @@
 .navbar_container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    background-color: white;
+    background-color: #333;
+    padding: 15px;
 }
 .search_bar {
     width: 60%;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .search_bar input {
-    min-width: 90%;
+    min-width: 50%;
     width: 400px;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     padding: 10px;
+    border: none;
 }
 .search_bar button {
     width: 10%;
+}
+@media (max-width: 600px) {
+    .search_bar {
+        min-width: 100%;
+    }
 }

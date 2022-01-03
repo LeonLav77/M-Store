@@ -2,6 +2,7 @@
     width: 85%;
     margin: 0 auto;
     text-align: center;
+    background-color: #f2f2f2;
 }
 .main_top_products_slider_container {
     display: flex;

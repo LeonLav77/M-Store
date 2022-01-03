@@ -16,8 +16,10 @@ import { TFADisable } from "./components/auth/TFADisable";
 import { PasswordConfirm } from "./components/auth/PasswordConfirm";
 import { UserProfilePage } from "./pages/UserProfilePage";
 import { Provider } from "react-redux";
+import { CartPage } from "./pages/CartPage";
 import { PasswordReset } from "./components/auth/PasswordReset";
 import { TestingUi } from "./pages/TestingUi";
+import { CheckoutPage } from "./pages/CheckoutPage";
 import { store } from "./store/store";
 import { AuthUserProvider } from "./hooks/useAuth";
 
@@ -56,6 +58,8 @@ render(
                     />
                     <Route path="password_reset" element={<PasswordReset />} />
                     <Route path="user_profile" element={<UserProfilePage />} />
+                    <Route path="cart" element={<CartPage />} />
+                    <Route path="checkout" element={<CheckoutPage />} />
                     <Route path="testing" element={<Testing></Testing>} />
                     <Route path="testingUi" element={<TestingUi></TestingUi>} />
                     <Route
@@ -70,7 +74,10 @@ render(
                         element={<TFADisable></TFADisable>}
                     />
                     <Route path="home" element={<HomePage></HomePage>} />
-                    <Route path="StripePage" element={<StripePage></StripePage>} />
+                    <Route
+                        path="StripePage"
+                        element={<StripePage></StripePage>}
+                    />
                     <Route
                         path="*"
                         element={
