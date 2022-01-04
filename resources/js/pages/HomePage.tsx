@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import axios from "axios";
-import $ from "jquery";
-import ReactHtmlParser from "react-html-parser";
-import { useSelector } from "react-redux";
-import ScrollContainer from "react-indiana-drag-scroll";
 import "../../css/HomePage.css";
 import { Navbar } from "../components/Navbar";
 import { useFetchCategoriesQuery } from "../slices/productsDataSlice";
 import { ItemsList } from "../components/ItemsList";
-import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 export const HomePage = () => {
     // const value = useSelector((state: any) => state.user);
     const SLIDE_WIDTH = 0.85 * 0.75 * window.outerWidth;
-
+    const { user, setUser } = useAuth();
+    const navigate = useNavigate();
     const fetchCategories = useFetchCategoriesQuery("categories");
     const [data, setData] = useState<any>([]);
     const sliderRef = useRef(null);
@@ -26,6 +24,7 @@ export const HomePage = () => {
             .catch((err) => console.log(err));
     };
     useEffect(() => {
+        if (!user) navigate("/login");
         getData();
     }, []);
     useLayoutEffect(() => {

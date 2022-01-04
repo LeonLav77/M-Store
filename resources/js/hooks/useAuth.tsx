@@ -11,130 +11,61 @@ export const AuthUserProvider = ({ children }) => {
 
     const [user, setUser] = useState(false);
 
-    // async function login() {
-    //     async function loginUser() {
-    //         // axios.defaults.headers.common["X-Requested-With"] =
-    //         //     "XMLHttpRequest";
-    //         try {
-    //             const response = await axios({
-    //                 method: "post",
-    //                 url: "http://127.0.0.1:8000/auth/login",
-    //                 data: {
-    //                     email: "ni9st",
-    //                     password: "password",
-    //                 },
-    //                 headers: {
-    //                     contentType: "application/x-www-form-urlencoded",
-    //                     "X-Requested-With": "XMLHttpRequest",
-    //                 },
-    //             })
-    //                 .then((res) => {
-    //                     console.log(res);
-    //                     if (res.config.data) {
-    //                         setUser(true);
-    //                         return true;
-    //                     } else {
-    //                         return false;
-    //                     }
-
-    //                     // if (result.two_factor === true) {
-    //                     // $("#loginModal").modal("hide");  PRIMJER
-    //                     // $("#twoFactorModal").modal("show");
-    //                     // redirect to TFA login
-    //                     // <Redirect to={"/"} />
-    //                     //     window.location.href = "/TFALogin";
-    //                     // }
-    //                     // console.log(res.config.data);
-    //                     // console.log("LOGIN SUCCESS");
-    //                 })
-    //                 .catch((err) => {
-    //                     console.log("LOIGN ERROR");
-    //                 });
-    //             return response;
-    //         } catch {
-    //             return false;
-    //         }
-    //     }
-    //     const results = await loginUser();
-    //     return results;
-    // }
-
-    function login() {
-        axios({
-            method: "post",
-            url: "http://larareserve.ddns.net/auth/login",
-            data: {
-                email: "ni9st",
-                password: "password",
-            },
-            headers: {
-                contentType: "application/x-www-form-urlencoded",
-            },
-        })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
+    const login = async () => {
+        try {
+            let response = await axios({
+                method: "post",
+                url: "auth/login",
+                data: {
+                    email: process.env.MIX_EMAIL,
+                    password: "password",
+                },
+                headers: {
+                    contentType: "application/x-www-form-urlencoded",
+                },
             });
-    }
+            return response;
+        } catch (err) {
+            return err;
+        }
+    };
 
-    function register(formData) {
-        axios({
-            method: "post",
-            url: "http://larareserve.ddns.net/register",
-            data: formData,
-        })
-            .then((res) => {
-                console.log("REGISTER SUCCESS");
-            })
-            .catch((err) => {
-                console.log("REGISTER ERROR");
+    const register = async () => {
+        try {
+            let response = await axios({
+                method: "post",
+                url: "auth/register",
+                data: {
+                    email: process.env.MIX_EMAIL,
+                    name: "leonlav77",
+                    password: "password",
+                    password_confirmation: "password",
+                },
+                headers: {
+                    contentType: "application/x-www-form-urlencoded",
+                },
             });
-    }
-
-    function userInfo() {
-        axios({
-            method: "get",
-            url: "http://larareserve.ddns.net/userInfo",
-        })
-            .then((res) => {
-                console.log(res);
-                // console.log("USER INFO SUCCESS");
-            })
-            .catch((err) => {
-                console.log("USERINFO ERROR");
-            });
-    }
+            return response;
+        } catch (err) {
+            return err;
+        }
+    };
 
     function logout() {
         axios({
             method: "post",
-            url: "http://larareserve.ddns.net/react/logout",
+            url: "/auth/logout",
             headers: {
                 "content-type": "application/json",
             },
         })
             .then((res) => {
-                console.log("LOGOUT SUCCESS");
-            })
-            .catch((err) => {
-                console.log("LOGOUT ERROR");
-            });
-    }
-    function isLoggedIn() {
-        axios({
-            method: "get",
-            url: "http://larareserve.ddns.net/checkIfLoggedIn",
-        })
-            .then((res) => {
                 console.log(res);
             })
             .catch((err) => {
                 console.log(err);
             });
     }
-
     const userInfos = useMemo(
         () => ({
             // password,
@@ -144,9 +75,9 @@ export const AuthUserProvider = ({ children }) => {
             login,
             user,
             setUser,
-            // register,
+            register,
             // userInfo,
-            // logout,
+            logout,
             // isLoggedIn,
         }),
         [user, setUser]
@@ -163,6 +94,8 @@ export interface AuthContextInterface {
     login?: () => any;
     user?: boolean;
     setUser?: (bool: boolean) => any;
+    logout?: () => any;
+    register?: () => any;
 }
 
 export default function useAuth() {

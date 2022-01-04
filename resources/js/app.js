@@ -39,18 +39,8 @@ render(
                         }
                     />
                     {/* ill add this just not today */}
-                    {/* element={!store.isLoggedIn ? <Navigate to="/login" /> : <App />} */}
                     <Route path="mstore" element={<HomePage />} />
-                    <Route
-                        path="login"
-                        element={
-                            store.getState().userInfo.user ? (
-                                <Navigate to="/" />
-                            ) : (
-                                <LoginPage />
-                            )
-                        }
-                    />
+                    <Route path="login" element={<LoginPage />} />
                     <Route path="products" element={<ProductsPage />} />
                     <Route
                         path="products/:productId"

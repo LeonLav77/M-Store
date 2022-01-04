@@ -1,75 +1,21 @@
 import React, { useEffect, useState } from "react";
-import "../../../css/components/Login.css";
-import $ from "jquery";
 import { Link, useNavigate } from "react-router-dom";
+import "../../../css/components/Login.css";
 import useAuth from "../../hooks/useAuth";
-import { setUser } from "../../slices/userInfoSlice";
-import { useDispatch } from "react-redux";
-import { useTimeout } from "react-use";
-import axios from "axios";
 
 export const Login = () => {
     const [error, setError] = useState(false);
-    const dispatch = useDispatch();
+
     const navigate = useNavigate();
-    // const { login, user, setUser } = useAuth();
-    const [isReady, cancel] = useTimeout(1000);
+    const { login, logout, user, setUser } = useAuth();
+    // const [isReady, cancel] = useTimeout(1000);
     useEffect(() => {
-        const Logout = () =>
-            axios({
-                method: "post",
-                url: "/auth/logout",
-            })
-                .then((res) => console.log(res))
-                .catch((err) => console.log(err));
-        Logout();
+        console.log(user);
+
+        if (user) navigate("/home");
+        logout();
     }, []);
 
-    function login() {
-        return axios({
-            method: "post",
-            url: "/auth/login",
-            data: {
-                email: process.env.MIX_EMAIL,
-                password: "password",
-            },
-            headers: {
-                contentType: "application/x-www-form-urlencoded",
-            },
-        })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-
-    // function login() {
-    //     $.ajax({
-    //         method: "POST",
-    //         url: "/auth/login",
-    //         data: {
-    //             email: process.env.MIX_EMAIL,
-    //             password: "password",
-    //         },
-    //         dataType: "json",
-    //         contentType: "application/x-www-form-urlencoded",
-    //         success: (result) => {
-    //             console.log(result);
-    //             if (result.two_factor === true) {
-    //                 // $("#loginModal").modal("hide");  PRIMJER
-    //                 // $("#twoFactorModal").modal("show");
-    //                 // redirect to TFA login
-    //                 // <Redirect to={"/"} />
-    //                 window.location.href = "/TFALogin";
-    //             }
-    //         },
-    //         error: (error) => {
-    //             console.log(error);
-    //         },
-    //     });
-    // }
     return (
         <div className="login_container">
             {error ? (
@@ -113,20 +59,17 @@ export const Login = () => {
                         </div>
                         <button
                             className="login_submit_button"
-                            // onClick={async () => {
-                            //     //if succ
-                            //     const res = await login();
-
-                            //     if (res) {
-                            //         if (isReady()) {
-                            //             setUser(true);
-                            //         }
-                            //         // dispatch(setUser(true));
-                            //         console.log(user);
-                            //         navigate("/");
-                            //     } else setError(true);
-                            // }}
-                            onClick={() => login()}
+                            onClick={() => {
+                                const nil = async () => {
+                                    const resp = await login();
+                                    console.log(resp);
+                                    if (resp.statusText == "OK") {
+                                        setUser(true);
+                                        navigate("/home");
+                                    } else throw new Error("BITHC!");
+                                };
+                                nil();
+                            }}
                         >
                             Login
                         </button>
