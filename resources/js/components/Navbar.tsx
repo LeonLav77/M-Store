@@ -5,9 +5,18 @@ import { FaSearch } from "react-icons/fa";
 import { Button } from "./Button";
 import "../../css/components/Navbar.css";
 import { useDimensions } from "../hooks/useDimensions";
+import { useDispatch } from "react-redux";
+import { fetchProductsByKeyword } from "../slices/dataSlice";
+import { useDebounced } from "../hooks/useDebounced";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
+    const [keyword, setKeyword] = useState("");
     const { screenWidth, screenHeight } = useDimensions();
+    const dispatch = useDispatch();
+    const search = useDebounced(keyword, 1000);
+    const navigate = useNavigate();
+
     return (
         <div className="navbar_container">
             {screenWidth >= 1250 && (
@@ -19,7 +28,12 @@ export const Navbar = () => {
                 />
             )}
             <div className="search_bar">
-                <input type="text" placeholder="yes" />
+                <input
+                    type="text"
+                    placeholder="yes"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                />
                 <div
                     style={{
                         display: "flex",
@@ -31,6 +45,9 @@ export const Navbar = () => {
                         borderTopRightRadius: 15,
                         borderBottomRightRadius: 15,
                         height: 44,
+                    }}
+                    onClick={() => {
+                        dispatch(fetchProductsByKeyword(search));
                     }}
                 >
                     <FaSearch size={25} color="white" />
@@ -45,8 +62,16 @@ export const Navbar = () => {
                         width: 400,
                     }}
                 >
-                    <ImCart size={25} color="white" />
-                    <CgProfile size={25} color="white" />
+                    <ImCart
+                        size={25}
+                        color="white"
+                        onClick={() => navigate("/cart")}
+                    />
+                    <CgProfile
+                        size={25}
+                        color="white"
+                        onClick={() => navigate("/products")}
+                    />
                     <ImCog size={25} color="white" />
                 </div>
             ) : null}

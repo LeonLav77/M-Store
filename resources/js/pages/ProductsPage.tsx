@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useFetchProductsPerPageQuery } from "../slices/productsDataSlice";
+import { useFetchProductsPerPageQuery } from "../slices/rtkQuerySlice";
 import "../../css/ProductsPage.css";
 import { Navbar } from "../components/Navbar";
 import { useDimensions } from "../hooks/useDimensions";
+import { PaginationFooter } from "../components/PaginationFooter";
+import { useSelector } from "react-redux";
 
 export const ProductsPage = () => {
     const { data, error, isLoading } = useFetchProductsPerPageQuery(
         "allProductsWCP?productsPerPage=10"
+    );
+    const filteredProducts = useSelector(
+        (state: any) => state.productsData.filteredProducts
+    );
+    const showFilteredItems = useSelector(
+        (state: any) => state.productsData.showFilteredProducts
+    );
+    const filteredProductsStatus = useSelector(
+        (state: any) => state.productsData.status
     );
     const dimensions = useDimensions();
     const [categories, setCategories] = useState(Array(9).fill(" "));
@@ -17,6 +28,11 @@ export const ProductsPage = () => {
     const [keyword, setKeyword] = useState("");
     const [showFilters, setShowFilters] = useState(false);
     const [showRecents, setShowRecents] = useState(false);
+    // const [showFilteredItems, setShowFilteredItems] = useState(true);
+
+    useEffect(() => {
+        console.log(filteredProducts);
+    }, [filteredProducts]);
 
     const searchSubmitHandler = (e) => {
         e.preventDefault();
@@ -119,64 +135,165 @@ export const ProductsPage = () => {
                     ) : error ? (
                         <div>Error...</div>
                     ) : (
-                        data.data.map((item) => {
-                            return (
-                                <div
-                                    key={item.id}
-                                    style={{
-                                        border: "2px solid black",
-                                        margin: 20,
-                                        width: "95%",
-                                        padding: 20,
-                                        display: "flex",
-                                        backgroundColor: "whitesmoke",
-                                        boxShadow:
-                                            "3px 3px 6px rgba(0, 0, 0, 0.5)",
-                                    }}
-                                >
-                                    <img
-                                        src={item.images[0].path}
-                                        alt=""
-                                        style={{
-                                            width: 150,
-                                            height: 150,
-                                            backgroundColor: "lightgray",
-                                            margin: 20,
-                                        }}
-                                    />
-                                    <div style={{ marginTop: 5 }}>
+                        <div>
+                            <PaginationFooter
+                                currentPage={data.current_page}
+                                lastPage={data.last_page}
+                                firstPage={data.first_page_url}
+                                nextPage={data.next_page_url}
+                                prevPage={data.prev_page_url}
+                            />
+                            {!showFilteredItems ? (
+                                data.data.map((item) => {
+                                    return (
                                         <div
+                                            key={item.id}
                                             style={{
+                                                border: "2px solid black",
+                                                margin: 20,
+                                                width: "95%",
+                                                padding: 20,
                                                 display: "flex",
-                                                flexWrap: "wrap",
+                                                backgroundColor: "whitesmoke",
+                                                boxShadow:
+                                                    "3px 3px 6px rgba(0, 0, 0, 0.5)",
                                             }}
                                         >
-                                            <Link
-                                                to={`/products/${item.id}`}
-                                                style={{ fontSize: 32 }}
-                                                state={{ item }}
-                                            >
-                                                {item.name}
-                                            </Link>
-                                            {item.discount?.discount && (
-                                                <h5 className="on_sale_header">
-                                                    SALE
-                                                </h5>
-                                            )}
+                                            <img
+                                                src={item.images[0].path}
+                                                alt=""
+                                                style={{
+                                                    width: 150,
+                                                    height: 150,
+                                                    backgroundColor:
+                                                        "lightgray",
+                                                    margin: 20,
+                                                }}
+                                            />
+                                            <div style={{ marginTop: 5 }}>
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        flexWrap: "wrap",
+                                                    }}
+                                                >
+                                                    <Link
+                                                        to={`/products/${item.id}`}
+                                                        style={{
+                                                            fontSize: 32,
+                                                        }}
+                                                        state={{ item }}
+                                                    >
+                                                        {item.name}
+                                                    </Link>
+                                                    {item.discount
+                                                        ?.discount && (
+                                                        <h5 className="on_sale_header">
+                                                            SALE
+                                                        </h5>
+                                                    )}
+                                                </div>
+                                                <p>{item.description}</p>
+                                                <h3>
+                                                    {item.discount?.discount
+                                                        ? "Discout: "
+                                                        : "Current Price: "}
+                                                    {item.discount?.discount ??
+                                                        item.current_price}
+                                                    Kn
+                                                </h3>
+                                            </div>
                                         </div>
-                                        <p>{item.description}</p>
-                                        <h3>
-                                            {item.discount?.discount
-                                                ? "Discout: "
-                                                : "Current Price: "}
-                                            {item.discount?.discount ??
-                                                item.current_price}
-                                            Kn
-                                        </h3>
-                                    </div>
+                                    );
+                                })
+                            ) : (
+                                <div>
+                                    {filteredProductsStatus == "pending" ? (
+                                        <h1>loading</h1>
+                                    ) : (
+                                        filteredProducts[0].data.map((item) => {
+                                            return (
+                                                <div
+                                                    key={item.id}
+                                                    style={{
+                                                        border: "2px solid black",
+                                                        margin: 20,
+                                                        width: "95%",
+                                                        padding: 20,
+                                                        display: "flex",
+                                                        backgroundColor:
+                                                            "whitesmoke",
+                                                        boxShadow:
+                                                            "3px 3px 6px rgba(0, 0, 0, 0.5)",
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={
+                                                            item.images[0].path
+                                                        }
+                                                        alt=""
+                                                        style={{
+                                                            width: 150,
+                                                            height: 150,
+                                                            backgroundColor:
+                                                                "lightgray",
+                                                            margin: 20,
+                                                        }}
+                                                    />
+                                                    <div
+                                                        style={{ marginTop: 5 }}
+                                                    >
+                                                        <div
+                                                            style={{
+                                                                display: "flex",
+                                                                flexWrap:
+                                                                    "wrap",
+                                                            }}
+                                                        >
+                                                            <Link
+                                                                to={`/products/${item.id}`}
+                                                                style={{
+                                                                    fontSize: 32,
+                                                                }}
+                                                                state={{ item }}
+                                                            >
+                                                                {item.name}
+                                                            </Link>
+                                                            {item.discount
+                                                                ?.discount && (
+                                                                <h5 className="on_sale_header">
+                                                                    SALE
+                                                                </h5>
+                                                            )}
+                                                        </div>
+                                                        <p>
+                                                            {item.description}
+                                                        </p>
+                                                        <h3>
+                                                            {item.discount
+                                                                ?.discount
+                                                                ? "Discout: "
+                                                                : "Current Price: "}
+                                                            {item.discount
+                                                                ?.discount ??
+                                                                item.current_price}
+                                                            Kn
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })
+                                    )}
                                 </div>
-                            );
-                        })
+                            )}
+                            <PaginationFooter
+                                currentPage={data.current_page}
+                                lastPage={data.last_page}
+                                firstPage={data.first_page_url}
+                                nextPage={data.next_page_url}
+                                prevPage={data.prev_page_url}
+                            />
+                        </div>
                     )}
                 </div>
             </div>

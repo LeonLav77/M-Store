@@ -24,6 +24,19 @@ export const ProductDetailsPage = () => {
     const [currentId, setCurrentId] = useState(0);
     const [isZoomedIn, setIsZoomedIn] = useState(false);
 
+    const addItemToCart = () => {
+        return axios({
+            method: "post",
+            url: "http://127.0.0.1:8000/api/addItemToCart",
+            data: {
+                product_id: 20,
+                quantity: 3,
+            },
+        })
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+    };
+
     const getRelatedProducts = () => {
         return axios
             .get(`http://127.0.0.1:8000/api/relatedProducts/${id}`)
@@ -220,7 +233,7 @@ export const ProductDetailsPage = () => {
                     <div className="product_buttons">
                         <Button
                             title="Add To Cart"
-                            onClick={() => console.log("added to cart")}
+                            onClick={() => addItemToCart()}
                             type="submit"
                             style={{}}
                         />

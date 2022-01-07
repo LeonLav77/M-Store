@@ -2,30 +2,26 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import axios from "axios";
 import "../../css/HomePage.css";
 import { Navbar } from "../components/Navbar";
-import { useFetchCategoriesQuery } from "../slices/productsDataSlice";
+import { useFetchCategoriesQuery } from "../slices/rtkQuerySlice";
 import { ItemsList } from "../components/ItemsList";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 export const HomePage = () => {
-    // const value = useSelector((state: any) => state.user);
     const SLIDE_WIDTH = 0.85 * 0.75 * window.outerWidth;
-    const { user, setUser } = useAuth();
+    const { user } = useAuth();
     const navigate = useNavigate();
     const fetchCategories = useFetchCategoriesQuery("categories");
-    const [data, setData] = useState<any>([]);
     const sliderRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(1);
-    const getData = () => {
-        return axios
-            .get("http://127.0.0.1:8000/auth/user/two-factor-qr-code")
-            .then((res) => {
-                setData(res.data);
-            })
-            .catch((err) => console.log(err));
-    };
+    // const getData = () => {
+    //     return axios
+    //         .get("http://127.0.0.1:8000/auth/user/two-factor-qr-code")
+    //         .then((res) => console.log(res))
+    //         .catch((err) => console.log(err));
+    // };
     useEffect(() => {
         if (!user) navigate("/login");
-        getData();
+        // getData();
     }, []);
     useLayoutEffect(() => {
         const changeSlide = setInterval(() => {

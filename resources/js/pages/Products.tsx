@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useFetchProductsPerPageQuery } from "../slices/productsDataSlice";
+import { useFetchProductsPerPageQuery } from "../slices/rtkQuerySlice";
 
 export const Products = () => {
     const { data, error, isLoading } = useFetchProductsPerPageQuery(

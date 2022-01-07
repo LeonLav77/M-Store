@@ -56,7 +56,7 @@ export const ConfirmPurchase = () => {
             },
         });
     }
-    function confirmPurchase(){
+    function confirmPurchase() {
         $.ajax({
             method: "POST",
             url: "/api/confirmPurchase",
@@ -71,7 +71,7 @@ export const ConfirmPurchase = () => {
         });
     }
     // <script src="https://js.stripe.com/v3/"></script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         console.log("ready!");
         // var stripe = Stripe('pk_test_51Jw50WDB0ZXzzlRgrPMcKbe72z3tlRuuOCikk9pfHRennyyvIh8ztZEOtG8shUKaxWbuU4Bfc5FPipBAy8ZYAh9P007llCXJzS');
     });
@@ -132,12 +132,6 @@ export const ConfirmPurchase = () => {
             <form>
                 <div id="card-element"></div>
             </form>
-
-
-
-
-
-
         </div>
     );
 };
