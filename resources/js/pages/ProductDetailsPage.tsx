@@ -5,10 +5,25 @@ import "react-medium-image-zoom/dist/styles.css";
 import "../../css/ProductPage.css";
 import axios from "axios";
 import { ItemsList } from "../components/ItemsList";
+import { ProductDataInterface } from "./ProductsPage";
+import { useDimensions } from "../hooks/useDimensions";
+
+interface RelatedCategoriesInterface {
+    created_at: null | string;
+    description: string;
+    id: number;
+    name: string;
+    updated_at: null | string;
+}
 
 export const ProductDetailsPage = () => {
-    const [relatedItems, setRelatedItems] = useState([]);
-    const [relatedCategories, setRelatedCategories] = useState([]);
+    const dimensions = useDimensions();
+    const [relatedItems, setRelatedItems] = useState<ProductDataInterface[]>(
+        []
+    );
+    const [relatedCategories, setRelatedCategories] = useState<
+        RelatedCategoriesInterface[]
+    >([]);
     const location = useLocation();
     const {
         item: {
@@ -33,7 +48,7 @@ export const ProductDetailsPage = () => {
                 quantity: 3,
             },
         })
-            .then((res) => console.log(res))
+            .then((res) => console.log(res.data))
             .catch((err) => console.log(err));
     };
 
@@ -56,26 +71,10 @@ export const ProductDetailsPage = () => {
         else return;
     };
 
-    const getScreenDimensions = () => {
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-        return { screenHeight, screenWidth };
-    };
-    const [screenDimensions, setScreenDimensions] = useState(
-        getScreenDimensions()
-    );
     useEffect(() => {
         getCategories();
         getRelatedProducts();
     }, []);
-    useEffect(() => {
-        function handleResize() {
-            setScreenDimensions(getScreenDimensions());
-        }
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, [screenDimensions]);
 
     return (
         <div className="main_container">
@@ -86,7 +85,7 @@ export const ProductDetailsPage = () => {
                         className={
                             discount &&
                             !isZoomedIn &&
-                            screenDimensions.screenWidth > 1132
+                            dimensions.screenWidth > 1132
                                 ? "on_sale on_sale_main"
                                 : "hide"
                         }
@@ -180,7 +179,7 @@ export const ProductDetailsPage = () => {
                 <div className="product_infos">
                     <span style={{ display: "flex" }}>
                         <h1 className="main_title">{name}</h1>
-                        {screenDimensions.screenWidth < 1132 && (
+                        {dimensions.screenWidth < 1132 && (
                             <h3 className="on_sale on_sale_secondary">
                                 ON SALE
                             </h3>
@@ -248,7 +247,7 @@ export const ProductDetailsPage = () => {
                 {/* RELATED PRODUCTS FGALLEYRY */}
                 <div
                     className={
-                        screenDimensions.screenWidth > 1660
+                        dimensions.screenWidth > 1660
                             ? `related_products_container vertical_list`
                             : "hide"
                     }
@@ -277,7 +276,7 @@ export const ProductDetailsPage = () => {
             </div>
             <div
                 className={
-                    screenDimensions.screenWidth < 1660
+                    dimensions.screenWidth < 1660
                         ? `related_products_container horizontal_list`
                         : "hide"
                 }

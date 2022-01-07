@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useFetchProductsPerPageQuery } from "../slices/rtkQuerySlice";
 import "../../css/ProductsPage.css";
@@ -7,10 +7,60 @@ import { useDimensions } from "../hooks/useDimensions";
 import { PaginationFooter } from "../components/PaginationFooter";
 import { useSelector } from "react-redux";
 
+export interface ProductDataInterface {
+    id: number;
+    name: string;
+    price: number;
+    description: string;
+    updated_at: string;
+    seller_id: number;
+    images: { product_id: number; path: string };
+    discount: null | {
+        created_at: null | string;
+        discount: number;
+        expiryDate: string;
+        id: number;
+        product_id: number;
+        updated_at: null | string;
+    };
+    current_price: number;
+    created_at: string;
+    category_id: number;
+}
+interface LinkInterface {
+    url: null | string;
+    label: string;
+    active: boolean;
+}
+
+interface productsPerPageDataInterface {
+    current_page: number;
+    data: ProductDataInterface[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: LinkInterface[];
+    next_page_url: string | null;
+    path: string;
+    prev_page: string;
+    prev_page_url: null | string;
+    total: number;
+    to: number;
+}
+
 export const ProductsPage = () => {
-    const { data, error, isLoading } = useFetchProductsPerPageQuery(
+    const productsPerPageData = useFetchProductsPerPageQuery(
         "allProductsWCP?productsPerPage=10"
     );
+    const {
+        data,
+        error,
+        isLoading,
+    }: { data?: productsPerPageDataInterface; error?: any; isLoading?: any } =
+        productsPerPageData;
+
+    data as productsPerPageDataInterface;
     const filteredProducts = useSelector(
         (state: any) => state.productsData.filteredProducts
     );
@@ -21,20 +71,22 @@ export const ProductsPage = () => {
         (state: any) => state.productsData.status
     );
     const dimensions = useDimensions();
-    const [categories, setCategories] = useState(Array(9).fill(" "));
-    const [currentFilterPrice, setCurrentFilterPrice] = useState("50");
-    const [recents, setRecents] = useState(Array(5).fill(" "));
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [categories, setCategories] = useState<string[]>(Array(9).fill(" "));
+    const [currentFilterPrice, setCurrentFilterPrice] = useState<
+        string | number
+    >("50");
+    const [recents, setRecents] = useState<string[]>(Array(5).fill(" "));
+    const [selectedCategory, setSelectedCategory] = useState<string>(null);
     const [keyword, setKeyword] = useState("");
     const [showFilters, setShowFilters] = useState(false);
     const [showRecents, setShowRecents] = useState(false);
     // const [showFilteredItems, setShowFilteredItems] = useState(true);
 
     useEffect(() => {
-        console.log(filteredProducts);
-    }, [filteredProducts]);
+        console.log(data);
+    }, [isLoading]);
 
-    const searchSubmitHandler = (e) => {
+    const searchSubmitHandler = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         console.log(currentFilterPrice, selectedCategory, keyword);
     };
@@ -131,9 +183,9 @@ export const ProductsPage = () => {
                 </div>
                 <div className="products_list">
                     {isLoading ? (
-                        <div>Loading...</div>
+                        <h1>Loading...</h1>
                     ) : error ? (
-                        <div>Error...</div>
+                        <h1>Error...</h1>
                     ) : (
                         <div>
                             <PaginationFooter
@@ -148,27 +200,12 @@ export const ProductsPage = () => {
                                     return (
                                         <div
                                             key={item.id}
-                                            style={{
-                                                border: "2px solid black",
-                                                margin: 20,
-                                                width: "95%",
-                                                padding: 20,
-                                                display: "flex",
-                                                backgroundColor: "whitesmoke",
-                                                boxShadow:
-                                                    "3px 3px 6px rgba(0, 0, 0, 0.5)",
-                                            }}
+                                            className="product_item_container"
                                         >
                                             <img
                                                 src={item.images[0].path}
                                                 alt=""
-                                                style={{
-                                                    width: 150,
-                                                    height: 150,
-                                                    backgroundColor:
-                                                        "lightgray",
-                                                    margin: 20,
-                                                }}
+                                                className="product_item_image"
                                             />
                                             <div style={{ marginTop: 5 }}>
                                                 <div
@@ -211,78 +248,88 @@ export const ProductsPage = () => {
                                     {filteredProductsStatus == "pending" ? (
                                         <h1>loading</h1>
                                     ) : (
-                                        filteredProducts[0].data.map((item) => {
-                                            return (
-                                                <div
-                                                    key={item.id}
-                                                    style={{
-                                                        border: "2px solid black",
-                                                        margin: 20,
-                                                        width: "95%",
-                                                        padding: 20,
-                                                        display: "flex",
-                                                        backgroundColor:
-                                                            "whitesmoke",
-                                                        boxShadow:
-                                                            "3px 3px 6px rgba(0, 0, 0, 0.5)",
-                                                    }}
-                                                >
-                                                    <img
-                                                        src={
-                                                            item.images[0].path
-                                                        }
-                                                        alt=""
-                                                        style={{
-                                                            width: 150,
-                                                            height: 150,
-                                                            backgroundColor:
-                                                                "lightgray",
-                                                            margin: 20,
-                                                        }}
-                                                    />
+                                        filteredProducts[0].data.map(
+                                            (item: any) => {
+                                                return (
                                                     <div
-                                                        style={{ marginTop: 5 }}
+                                                        key={item.id}
+                                                        style={{
+                                                            border: "2px solid black",
+                                                            margin: 20,
+                                                            width: "95%",
+                                                            padding: 20,
+                                                            display: "flex",
+                                                            backgroundColor:
+                                                                "whitesmoke",
+                                                            boxShadow:
+                                                                "3px 3px 6px rgba(0, 0, 0, 0.5)",
+                                                        }}
                                                     >
+                                                        <img
+                                                            src={
+                                                                item.images[0]
+                                                                    .path
+                                                            }
+                                                            alt=""
+                                                            style={{
+                                                                width: 150,
+                                                                height: 150,
+                                                                backgroundColor:
+                                                                    "lightgray",
+                                                                margin: 20,
+                                                            }}
+                                                        />
                                                         <div
                                                             style={{
-                                                                display: "flex",
-                                                                flexWrap:
-                                                                    "wrap",
+                                                                marginTop: 5,
                                                             }}
                                                         >
-                                                            <Link
-                                                                to={`/products/${item.id}`}
+                                                            <div
                                                                 style={{
-                                                                    fontSize: 32,
+                                                                    display:
+                                                                        "flex",
+                                                                    flexWrap:
+                                                                        "wrap",
                                                                 }}
-                                                                state={{ item }}
                                                             >
-                                                                {item.name}
-                                                            </Link>
-                                                            {item.discount
-                                                                ?.discount && (
-                                                                <h5 className="on_sale_header">
-                                                                    SALE
-                                                                </h5>
-                                                            )}
+                                                                <Link
+                                                                    to={`/products/${item.id}`}
+                                                                    style={{
+                                                                        fontSize: 32,
+                                                                    }}
+                                                                    state={{
+                                                                        item,
+                                                                    }}
+                                                                >
+                                                                    {item.name}
+                                                                </Link>
+                                                                {item.discount
+                                                                    ?.discount && (
+                                                                    <h5 className="on_sale_header">
+                                                                        SALE
+                                                                    </h5>
+                                                                )}
+                                                            </div>
+                                                            <p>
+                                                                {
+                                                                    item.description
+                                                                }
+                                                            </p>
+                                                            <h3>
+                                                                {item.discount
+                                                                    ?.discount
+                                                                    ? "Discout: "
+                                                                    : "Current Price: "}
+                                                                {item.discount
+                                                                    ?.discount ??
+                                                                    item.current_price}
+                                                                Kn
+                                                            </h3>
                                                         </div>
-                                                        <p>
-                                                            {item.description}
-                                                        </p>
-                                                        <h3>
-                                                            {item.discount
-                                                                ?.discount
-                                                                ? "Discout: "
-                                                                : "Current Price: "}
-                                                            {item.discount
-                                                                ?.discount ??
-                                                                item.current_price}
-                                                            Kn
-                                                        </h3>
                                                     </div>
-                                                </div>
-                                            );
-                                        })
+                                                );
+                                            }
+                                        )
                                     )}
                                 </div>
                             )}

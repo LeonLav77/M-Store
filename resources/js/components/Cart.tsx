@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUserCart } from "../slices/userInfoSlice";
-import axios from "axios";
+import React, { useEffect } from "react";
 import { useFetchCartQuery } from "../slices/rtkQuerySlice";
+import "../../css/CartPage.css";
+
+interface CartDataInterface {
+    cart_id: number;
+    created_at: string;
+    current_price: null | number;
+    id: number;
+    product_id: number;
+    quantity: number;
+    updated_at: string;
+}
 
 export const Cart = () => {
-    const cart = useSelector((state: any) => state.userInfo.cart);
-    const cartStatus = useSelector((state: any) => state.userInfo.cartStatus);
-    const dispatch = useDispatch();
-    const cartData: any = useFetchCartQuery("cart");
-    // const getCartData = () => {
-    //     return axios
-    //         .get("http://127.0.0.1:8000/api/cart")
-    //         .then((res) => {
-    //             console.log(res.data);
-    //         })
-    //         .catch((err) => console.log(err));
-    // };
+    const cartData = useFetchCartQuery("cart");
+    const {
+        data,
+        isLoading,
+        error,
+    }: { data?: CartDataInterface[]; isLoading?: any; error?: any } = cartData;
     useEffect(() => {
-        // getCartData();
-        // dispatch(fetchUserCart());
         console.log(cartData.data);
     }, [cartData.isLoading]);
 
@@ -42,16 +42,16 @@ export const Cart = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {cartData.isLoading ? (
+                    {isLoading ? (
                         <tr>
                             <td>Loading...</td>
                         </tr>
-                    ) : cartData.isError ? (
+                    ) : error ? (
                         <tr>
                             <td>Erorr</td>
                         </tr>
                     ) : (
-                        cartData.data.map((cartItem, id) => {
+                        data.map((cartItem, id: number) => {
                             return (
                                 <tr key={id}>
                                     <td>
