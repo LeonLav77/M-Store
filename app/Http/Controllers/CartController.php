@@ -16,6 +16,7 @@ class CartController extends Controller
     {
             $user = Auth::user();
             $cartItems = $user->cart->productsInCart;
+            $cartItems->load('product');
             return response()->json(CalculateCurrentPrice::run($cartItems));
     }
 

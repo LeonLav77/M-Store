@@ -52,7 +52,10 @@ class CreateInvoice implements ShouldQueue
             ],
         ]);
         $seller = new Party([
-            'name'          => 'Laravel Daily',
+            'name'          => 'M-Store',
+            'custom_fields' => [
+                'email' => 'M-store@m-store.com',
+            ],
         ]);
         $items = [];
         for ($i = 0; $i < $this->order->cart->productsInCart->count(); $i++) {
