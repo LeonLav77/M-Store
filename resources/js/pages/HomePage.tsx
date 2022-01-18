@@ -19,8 +19,7 @@ export const HomePage = () => {
     const sliderRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(1);
     useEffect(() => {
-        // if (!user) navigate("/login");
-        // getData();
+        if (!user) navigate("/login");
     }, []);
     useLayoutEffect(() => {
         const changeSlide = setInterval(() => {

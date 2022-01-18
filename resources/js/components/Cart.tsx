@@ -2,15 +2,16 @@ import React, { useEffect } from "react";
 import { useFetchCartQuery } from "../slices/rtkQuerySlice";
 import "../../css/CartPage.css";
 
-interface CartDataInterface {
-    cart_id: number;
-    created_at: string;
-    current_price: null | number;
-    id: number;
-    product_id: number;
-    quantity: number;
-    updated_at: string;
-}
+//nanovo
+// interface CartDataInterface {
+//     cart_id: number;
+//     created_at: string;
+//     current_price: null | number;
+//     id: number;
+//     product_id: number;
+//     quantity: number;
+//     updated_at: string;
+// }
 
 export const Cart = () => {
     const cartData = useFetchCartQuery("cart");
@@ -18,7 +19,7 @@ export const Cart = () => {
         data,
         isLoading,
         error,
-    }: { data?: CartDataInterface[]; isLoading?: any; error?: any } = cartData;
+    }: { data?: any[]; isLoading?: any; error?: any } = cartData;
     useEffect(() => {
         console.log(cartData.data);
     }, [cartData.isLoading]);
@@ -56,14 +57,16 @@ export const Cart = () => {
                                 <tr key={id}>
                                     <td>
                                         <img
-                                            src="cartItemImg"
+                                            src={
+                                                cartItem.product.images[0].path
+                                            }
                                             alt=""
                                             height={150}
                                             width={150}
                                         />
                                     </td>
                                     <td style={{ display: "flex" }}>
-                                        {cartItem.product_id}
+                                        <h1>{cartItem.product.name}</h1>
                                     </td>
                                     <td
                                         style={{
@@ -73,30 +76,22 @@ export const Cart = () => {
                                     >
                                         <div
                                             style={{
-                                                position: "absolute",
-                                                top: "15%",
-                                                left: "47%",
-                                                transform: "rotateZ(-90deg)",
-                                                fontSize: 36,
+                                                display: "flex",
+                                                gap: 20,
+                                                justifyContent: "center",
+                                                alignItems: "center",
                                             }}
                                         >
-                                            &gt;
-                                        </div>
-                                        {cartItem.quantity}
-                                        <div
-                                            style={{
-                                                position: "absolute",
-                                                bottom: "15%",
-                                                left: "47%",
-                                                transform: "rotateZ(90deg)",
-                                                fontSize: 36,
-                                            }}
-                                        >
-                                            &gt;
+                                            <button>-</button>
+                                            <h5>{cartItem.quantity}</h5>
+                                            <button>+</button>
                                         </div>
                                     </td>
                                     <td style={{ display: "flex" }}>
-                                        {cartItem.current_price ?? "Null"}
+                                        <h3>
+                                            {cartItem.product.price + " Kn" ??
+                                                "Null"}
+                                        </h3>
                                     </td>
                                 </tr>
                             );

@@ -82,6 +82,8 @@ export const ProductsPage = () => {
     const [showFilters, setShowFilters] = useState(false);
     const [showRecents, setShowRecents] = useState(false);
     // const [showFilteredItems, setShowFilteredItems] = useState(true);
+    const [showCloseBtn, setShowCloseBtn] = useState(false);
+    const [hideRecents, setHideRecents] = useState(false);
 
     useEffect(() => {
         console.log(data);
@@ -99,12 +101,39 @@ export const ProductsPage = () => {
                 <div>
                     <div className="filters_container">
                         {dimensions.screenWidth <= 1400 && !showFilters ? (
-                            <h1 onClick={() => setShowFilters(true)}>
+                            <h1
+                                onClick={() => {
+                                    setShowFilters(true);
+                                    setShowCloseBtn(true);
+                                }}
+                            >
                                 Filters &gt;
                             </h1>
                         ) : (
                             <>
-                                <h1>Filter Results</h1>
+                                <div
+                                    style={
+                                        showCloseBtn
+                                            ? {
+                                                  width: "100%",
+                                                  display: "flex",
+                                                  justifyContent:
+                                                      "space-between",
+                                              }
+                                            : null
+                                    }
+                                >
+                                    <h1>Filter Results</h1>
+                                    {showCloseBtn && (
+                                        <h1
+                                            onClick={() =>
+                                                setShowFilters(false)
+                                            }
+                                        >
+                                            X
+                                        </h1>
+                                    )}
+                                </div>
                                 <div className="category_filter">
                                     <h5>Choose Category</h5>
                                     <select name="" id="" value="">
@@ -167,12 +196,39 @@ export const ProductsPage = () => {
                     </div>
                     <div className="recent_searches">
                         {dimensions.screenWidth <= 1400 && !showRecents ? (
-                            <h1 onClick={() => setShowRecents(true)}>
+                            <h1
+                                onClick={() => {
+                                    setShowRecents(true);
+                                    setHideRecents(true);
+                                }}
+                            >
                                 Recents &gt;
                             </h1>
                         ) : (
                             <>
-                                <h1>recents</h1>
+                                <div
+                                    style={
+                                        hideRecents
+                                            ? {
+                                                  width: "100%",
+                                                  display: "flex",
+                                                  justifyContent:
+                                                      "space-between",
+                                              }
+                                            : null
+                                    }
+                                >
+                                    <h1>Recents</h1>
+                                    {hideRecents && (
+                                        <h1
+                                            onClick={() =>
+                                                setShowRecents(false)
+                                            }
+                                        >
+                                            X
+                                        </h1>
+                                    )}
+                                </div>
                                 <div>
                                     {recents.map((_, id) => (
                                         <p key={id}>nisto</p>
@@ -190,7 +246,7 @@ export const ProductsPage = () => {
                     ) : filteredProducts.message != undefined ? (
                         <h1>{filteredProducts.message}</h1>
                     ) : (
-                        <div>
+                        <div style={{ width: "100%" }}>
                             <PaginationFooter
                                 currentPage={data.current_page}
                                 lastPage={data.last_page}
