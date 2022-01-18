@@ -36,7 +36,7 @@ export const dataSlice = createSlice({
         });
         builder.addCase(fetchProductsByKeyword.fulfilled, (state, action) => {
             // Add user to the state array
-            state.filteredProducts.push(action.payload);
+            state.filteredProducts = action.payload;
             state.showFilteredProducts = true;
             state.status = "fulfilled";
         });

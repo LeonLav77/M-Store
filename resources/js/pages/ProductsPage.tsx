@@ -64,6 +64,7 @@ export const ProductsPage = () => {
     const filteredProducts = useSelector(
         (state: any) => state.productsData.filteredProducts
     );
+    console.log(filteredProducts);
     const showFilteredItems = useSelector(
         (state: any) => state.productsData.showFilteredProducts
     );
@@ -186,6 +187,8 @@ export const ProductsPage = () => {
                         <h1>Loading...</h1>
                     ) : error ? (
                         <h1>Error...</h1>
+                    ) : filteredProducts.message != undefined ? (
+                        <h1>{filteredProducts.message}</h1>
                     ) : (
                         <div>
                             <PaginationFooter
@@ -248,7 +251,7 @@ export const ProductsPage = () => {
                                     {filteredProductsStatus == "pending" ? (
                                         <h1>loading</h1>
                                     ) : (
-                                        filteredProducts[0].data.map(
+                                        filteredProducts.data.map(
                                             (item: any) => {
                                                 return (
                                                     <div
