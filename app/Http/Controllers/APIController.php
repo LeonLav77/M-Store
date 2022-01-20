@@ -69,24 +69,24 @@ class APIController extends Controller
                 return $query->where('name', $category);
             });
         })->when($request->size, function ($query, $size) {
-            return $query->with('details')->whereHas('details', function ($query) use ($size) {
+            return $query->whereHas('details', function ($query) use ($size) {
                 return $query->where('size', $size);
             });
         })
         ->when($request->condition, function ($query, $condition) {
-            return $query->with('details')->whereHas('details', function ($query) use ($condition) {
+            return $query->whereHas('details', function ($query) use ($condition) {
                 return $query->where('condition', $condition);
             });
         })->when($request->color, function ($query, $color) {
-            return $query->with('details')->whereHas('details', function ($query) use ($color) {
+            return $query->whereHas('details', function ($query) use ($color) {
                 return $query->where('color', $color);
             });
         })->when($request->brand, function ($query, $brand) {
-            return $query->with('details')->whereHas('details', function ($query) use ($brand) {
+            return $query->whereHas('details', function ($query) use ($brand) {
                 return $query->where('brand', $brand);
             });
         })->when($request->countryOfManifacture, function ($query, $countryOfManifacture) {
-            return $query->with('details')->whereHas('details', function ($query) use ($countryOfManifacture) {
+            return $query->whereHas('details', function ($query) use ($countryOfManifacture) {
                 return $query->where('countryOfManifacture', $countryOfManifacture);
             });
         })->when($request->seller, function ($query, $seller) {
@@ -101,7 +101,7 @@ class APIController extends Controller
             });
         })->when($request->search, function ($query, $search) {
             return $query->where('name', 'like', '%'.$search.'%');
-        })->paginate($request->productsPerPage ?? 10);
+        })->with('details')->paginate($request->productsPerPage ?? 10);
         if ($products->isEmpty()) {
             return response()->json(['message' => 'No products found']);
         }
