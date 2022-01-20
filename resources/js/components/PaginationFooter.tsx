@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDimensions } from "../hooks/useDimensions";
 
 export const PaginationFooter = ({
     nextPage,
@@ -7,6 +8,7 @@ export const PaginationFooter = ({
     firstPage,
     currentPage,
 }) => {
+    const dimensions = useDimensions();
     return (
         <div
             style={{
@@ -20,20 +22,27 @@ export const PaginationFooter = ({
         >
             <div
                 style={{
-                    paddingInline: 20,
+                    paddingInline: dimensions.screenWidth >= 650 ? 20 : 0,
+                    minWidth: dimensions.screenWidth < 500 ? 80 : 130,
                     height: 50,
                     backgroundColor: "#eeefef",
                     borderRadius: 10,
-                    fontSize: 32,
+                    fontSize: dimensions.screenWidth >= 650 ? 32 : 20,
                     display: "grid",
                     placeItems: "center",
                     boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
                     border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
             >
-                First Page
+                {dimensions.screenWidth < 500 ? "First" : "First Page"}
             </div>
-            <div style={{ display: "flex", gap: 25 }}>
+            <div
+                style={
+                    dimensions.screenWidth >= 650
+                        ? { display: "flex", gap: 25 }
+                        : { display: "flex", gap: 10 }
+                }
+            >
                 <div
                     style={
                         prevPage == null
@@ -90,16 +99,16 @@ export const PaginationFooter = ({
                     height: 50,
                     backgroundColor: "#eeefef",
                     borderRadius: 10,
-                    fontSize: 32,
+                    fontSize: dimensions.screenWidth >= 650 ? 32 : 20,
                     display: "grid",
-                    margin: 10,
                     placeItems: "center",
-                    paddingInline: 20,
+                    paddingInline: dimensions.screenWidth >= 650 ? 20 : 0,
                     boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
+                    minWidth: dimensions.screenWidth < 500 ? 80 : 130,
                     border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
             >
-                Last Page
+                {dimensions.screenWidth < 500 ? "Last" : "Last Page"}
             </div>
         </div>
     );

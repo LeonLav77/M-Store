@@ -8,7 +8,7 @@ import { ItemsList } from "../components/ItemsList";
 import { ProductDataInterface } from "./ProductsPage";
 import { useDimensions } from "../hooks/useDimensions";
 
-interface RelatedCategoriesInterface {
+export interface RelatedCategoriesInterface {
     created_at: null | string;
     description: string;
     id: number;
@@ -264,9 +264,23 @@ export const ProductDetailsPage = () => {
                                             width: "350px",
                                             height: "150px",
                                             backgroundColor: "grey",
+                                            display: "flex",
                                         }}
                                     >
-                                        <h1>{item.name}</h1>
+                                        <img
+                                            src={item.images[0].path}
+                                            alt=""
+                                            height={"90%"}
+                                            width={150}
+                                            style={{ margin: "2%" }}
+                                        />
+                                        <div style={{ marginBlock: "auto" }}>
+                                            <h1>{item.name}</h1>
+                                            <h3>
+                                                {item.current_price.toFixed(2)}{" "}
+                                                Kn
+                                            </h3>
+                                        </div>
                                     </div>
                                 );
                             })}

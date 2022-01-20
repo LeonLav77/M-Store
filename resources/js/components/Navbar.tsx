@@ -6,7 +6,7 @@ import { Button } from "./Button";
 import "../../css/components/Navbar.css";
 import { useDimensions } from "../hooks/useDimensions";
 import { useDispatch } from "react-redux";
-import { fetchProductsByKeyword } from "../slices/dataSlice";
+import { addToRecents, fetchFilteredProducts } from "../slices/dataSlice";
 import { useDebounced } from "../hooks/useDebounced";
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +14,7 @@ export const Navbar = () => {
     const [keyword, setKeyword] = useState("");
     const { screenWidth, screenHeight } = useDimensions();
     const dispatch = useDispatch();
-    const search = useDebounced(keyword, 1000);
+    const search = useDebounced(keyword, 500);
     const navigate = useNavigate();
 
     return (
@@ -47,7 +47,8 @@ export const Navbar = () => {
                         height: 44,
                     }}
                     onClick={() => {
-                        dispatch(fetchProductsByKeyword(search));
+                        if (search != "") dispatch(addToRecents(search));
+                        dispatch(fetchFilteredProducts({ keyword: search }));
                     }}
                 >
                     <FaSearch size={25} color="white" />

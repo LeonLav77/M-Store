@@ -5,12 +5,21 @@ const initialState = {
     filteredProducts: [],
     showFilteredProducts: false,
     status: null,
+    recents: [],
 };
 
-export const fetchProductsByKeyword = createAsyncThunk(
+export const fetchFilteredProducts = createAsyncThunk(
     "products/fetchByKeyword",
-    async (keyword: string, thunkAPI) => {
-        let url = `http://127.0.0.1:8000/api/complexFilterSearch?name=${keyword}`;
+    async (searchParameters: any, thunkAPI) => {
+        let url = `http://127.0.0.1:8000/api/complexFilterSearch?max=${
+            searchParameters.maxPrice ?? ""
+        }&size=${searchParameters.size ?? ""}&condition=${
+            searchParameters.condition ?? ""
+        }&color=&countryOfManifacture=&seller=&discount=${
+            searchParameters.discount ?? ""
+        }&stock=&name=${searchParameters.keyword ?? ""}&category=${
+            searchParameters.category ?? ""
+        }`;
         console.log(url);
         const response = await axios.get(url);
         return response?.data;
@@ -24,24 +33,27 @@ export const dataSlice = createSlice({
         setShowFilteredProducts(state) {
             state.showFilteredProducts = true;
         },
+        addToRecents(state, action) {
+            state.recents.push(action.payload);
+        },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchProductsByKeyword.pending, (state, action) => {
+        builder.addCase(fetchFilteredProducts.pending, (state, action) => {
             state.showFilteredProducts = false;
             state.status = "pending";
         });
-        builder.addCase(fetchProductsByKeyword.rejected, (state, action) => {
+        builder.addCase(fetchFilteredProducts.rejected, (state, action) => {
             state.showFilteredProducts = false;
             state.status = "rejected";
         });
-        builder.addCase(fetchProductsByKeyword.fulfilled, (state, action) => {
+        builder.addCase(fetchFilteredProducts.fulfilled, (state, action) => {
             // Add user to the state array
-            state.filteredProducts.push(action.payload);
+            state.filteredProducts = action.payload;
             state.showFilteredProducts = true;
             state.status = "fulfilled";
         });
     },
 });
 
-export const { setShowFilteredProducts } = dataSlice.actions;
+export const { setShowFilteredProducts, addToRecents } = dataSlice.actions;
 export default dataSlice.reducer;

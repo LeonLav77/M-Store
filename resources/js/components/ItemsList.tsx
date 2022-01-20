@@ -12,12 +12,27 @@ export const ItemsList = ({ data, title }) => {
                                 key={id}
                                 style={{
                                     margin: 10,
-                                    width: "250px",
+                                    width: "350px",
                                     height: "150px",
                                     backgroundColor: "grey",
+                                    display: "flex",
                                 }}
                             >
-                                {item.name}
+                                <img
+                                    src={item.images && item.images[0].path}
+                                    alt=""
+                                    height={"90%"}
+                                    width={150}
+                                    style={{ margin: "2%" }}
+                                />
+                                <div style={{ marginBlock: "auto" }}>
+                                    <h1>{item.name}</h1>
+                                    {item.current_price && (
+                                        <h3>
+                                            {item.current_price.toFixed(2)} Kn
+                                        </h3>
+                                    )}
+                                </div>
                             </div>
                         );
                     })}
