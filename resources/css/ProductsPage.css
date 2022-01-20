@@ -53,14 +53,24 @@
     }
 }
 @media (max-width: 500px) {
+    .main_all_products_container {
+        min-width: 300px;
+    }
     .product_item_container {
         flex-direction: column;
         margin: 5px;
-        width: 90%;
     }
     .product_item_image {
         height: 100%;
         width: 100%;
         margin: 0 auto;
+    }
+    .filters_container,
+    .recent_searches {
+        padding: 5px;
+        margin: 3px;
+    }
+    .products_list {
+        min-width: 90%;
     }
 }

@@ -8,7 +8,7 @@ import { ItemsList } from "../components/ItemsList";
 import { ProductDataInterface } from "./ProductsPage";
 import { useDimensions } from "../hooks/useDimensions";
 
-interface RelatedCategoriesInterface {
+export interface RelatedCategoriesInterface {
     created_at: null | string;
     description: string;
     id: number;

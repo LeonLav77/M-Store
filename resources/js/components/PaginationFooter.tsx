@@ -23,7 +23,7 @@ export const PaginationFooter = ({
             <div
                 style={{
                     paddingInline: dimensions.screenWidth >= 650 ? 20 : 0,
-                    minWidth: 130,
+                    minWidth: dimensions.screenWidth < 500 ? 80 : 130,
                     height: 50,
                     backgroundColor: "#eeefef",
                     borderRadius: 10,
@@ -34,7 +34,7 @@ export const PaginationFooter = ({
                     border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
             >
-                First Page
+                {dimensions.screenWidth < 500 ? "First" : "First Page"}
             </div>
             <div
                 style={
@@ -104,11 +104,11 @@ export const PaginationFooter = ({
                     placeItems: "center",
                     paddingInline: dimensions.screenWidth >= 650 ? 20 : 0,
                     boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
-                    minWidth: 130,
+                    minWidth: dimensions.screenWidth < 500 ? 80 : 130,
                     border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
             >
-                Last Page
+                {dimensions.screenWidth < 500 ? "Last" : "Last Page"}
             </div>
         </div>
     );

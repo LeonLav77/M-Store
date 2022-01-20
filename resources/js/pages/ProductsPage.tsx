@@ -1,11 +1,14 @@
-import React, { MouseEvent, useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useFetchProductsPerPageQuery } from "../slices/rtkQuerySlice";
 import "../../css/ProductsPage.css";
 import { Navbar } from "../components/Navbar";
 import { useDimensions } from "../hooks/useDimensions";
 import { PaginationFooter } from "../components/PaginationFooter";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToRecents, fetchFilteredProducts } from "../slices/dataSlice";
+import axios from "axios";
+import { RelatedCategoriesInterface } from "./ProductDetailsPage";
 
 export interface ProductDataInterface {
     id: number;
@@ -50,6 +53,7 @@ interface productsPerPageDataInterface {
 }
 
 export const ProductsPage = () => {
+    const dispatch = useDispatch();
     const productsPerPageData = useFetchProductsPerPageQuery(
         "allProductsWCP?productsPerPage=10"
     );
@@ -64,41 +68,66 @@ export const ProductsPage = () => {
     const filteredProducts = useSelector(
         (state: any) => state.productsData.filteredProducts
     );
-    console.log(filteredProducts);
     const showFilteredItems = useSelector(
         (state: any) => state.productsData.showFilteredProducts
     );
     const filteredProductsStatus = useSelector(
         (state: any) => state.productsData.status
     );
+    const recentSearches = useSelector(
+        (state: any) => state.productsData.recents
+    );
     const dimensions = useDimensions();
-    const [categories, setCategories] = useState<string[]>(Array(9).fill(" "));
-    const [currentFilterPrice, setCurrentFilterPrice] = useState<
-        string | number
-    >("50");
-    const [recents, setRecents] = useState<string[]>(Array(5).fill(" "));
+    const [categories, setCategories] = useState<RelatedCategoriesInterface[]>(
+        []
+    );
+    const [maxPrice, setMaxPrice] = useState<string | number>("100");
     const [selectedCategory, setSelectedCategory] = useState<string>(null);
+    const [selectedSize, setSelectedSize] = useState<string>(null);
+    const [selectedCondition, setSelectedCondition] = useState<string>(null);
+    const conditions = ["new", "used"];
+    const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
     const [keyword, setKeyword] = useState("");
     const [showFilters, setShowFilters] = useState(false);
     const [showRecents, setShowRecents] = useState(false);
     // const [showFilteredItems, setShowFilteredItems] = useState(true);
     const [showCloseBtn, setShowCloseBtn] = useState(false);
     const [hideRecents, setHideRecents] = useState(false);
-
-    useEffect(() => {
-        console.log(data);
-    }, [isLoading]);
+    const discountCheckboxRef = useRef(null);
 
     const searchSubmitHandler = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        console.log(currentFilterPrice, selectedCategory, keyword);
+        if (keyword != "") dispatch(addToRecents(keyword));
+        dispatch(
+            fetchFilteredProducts({
+                maxPrice,
+                keyword,
+                category: selectedCategory,
+                size: selectedSize,
+                condition: selectedCondition,
+                discount: discountCheckboxRef.current.checked ? "true" : "",
+            })
+        );
     };
+
+    const getCategories = () => {
+        return axios
+            .get("http://127.0.0.1:8000/api/categories")
+            .then((res: any) => {
+                setCategories(res.data);
+                console.log(res);
+            })
+            .catch((err) => console.log(err));
+    };
+    useEffect(() => {
+        getCategories();
+    }, []);
 
     return (
         <>
             <Navbar />
             <div className="main_all_products_container">
-                <div>
+                <div style={{ minWidth: 300 }}>
                     <div className="filters_container">
                         {dimensions.screenWidth <= 1400 && !showFilters ? (
                             <h1
@@ -136,24 +165,67 @@ export const ProductsPage = () => {
                                 </div>
                                 <div className="category_filter">
                                     <h5>Choose Category</h5>
-                                    <select name="" id="" value="">
-                                        <option
-                                            value=""
-                                            selected
-                                            hidden
-                                            disabled
-                                        >
-                                            None
+                                    <select
+                                        onChange={(e) => {
+                                            if (e.target.value == "any")
+                                                setSelectedCategory("");
+                                            else
+                                                setSelectedCategory(
+                                                    e.target.value
+                                                );
+                                        }}
+                                    >
+                                        <option value="any" selected>
+                                            any
                                         </option>
-                                        {categories.map((_, id) => (
+                                        {categories.map((category, id) => (
                                             <option
-                                                onClick={() =>
-                                                    setSelectedCategory("nisto")
-                                                }
                                                 key={id}
-                                                value=""
+                                                value={category.name}
                                             >
-                                                category
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="category_filter">
+                                    <h5>Choose Size</h5>
+                                    <select
+                                        onChange={(e) => {
+                                            if (e.target.value == "any")
+                                                setSelectedSize("");
+                                            else
+                                                setSelectedSize(e.target.value);
+                                        }}
+                                    >
+                                        <option value="any" selected>
+                                            any
+                                        </option>
+                                        {sizes.map((size, id) => (
+                                            <option key={id} value={size}>
+                                                {size}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="category_filter">
+                                    <h5>Choose Condition</h5>
+                                    <select
+                                        onChange={(e) => {
+                                            if (e.target.value == "any")
+                                                setSelectedCondition("");
+                                            else
+                                                setSelectedCondition(
+                                                    e.target.value
+                                                );
+                                        }}
+                                    >
+                                        <option value="any" selected>
+                                            any
+                                        </option>
+                                        {conditions.map((condition, id) => (
+                                            <option key={id} value={condition}>
+                                                {condition}
                                             </option>
                                         ))}
                                     </select>
@@ -165,15 +237,18 @@ export const ProductsPage = () => {
                                         name="price"
                                         min={0}
                                         max={100}
-                                        value={currentFilterPrice}
+                                        value={maxPrice}
                                         onChange={(e) =>
-                                            setCurrentFilterPrice(
-                                                e.target.value
-                                            )
+                                            setMaxPrice(e.target.value)
                                         }
                                     ></input>
-                                    <h6>0-{currentFilterPrice}kn</h6>
+                                    <h6>0-{maxPrice}kn</h6>
                                 </div>
+                                Discount Only:
+                                <input
+                                    type="checkbox"
+                                    ref={discountCheckboxRef}
+                                />
                                 <div className="keyword_filter">
                                     <h5>Filter Results By Name</h5>
                                     <input
@@ -230,9 +305,15 @@ export const ProductsPage = () => {
                                     )}
                                 </div>
                                 <div>
-                                    {recents.map((_, id) => (
-                                        <p key={id}>nisto</p>
-                                    ))}
+                                    {recentSearches.length == 0 ? (
+                                        <h2>No Recent Searches...</h2>
+                                    ) : (
+                                        recentSearches.map(
+                                            (recentSearch, id) => (
+                                                <h3 key={id}>{recentSearch}</h3>
+                                            )
+                                        )
+                                    )}
                                 </div>
                             </>
                         )}
@@ -292,10 +373,11 @@ export const ProductsPage = () => {
                                                 <p>{item.description}</p>
                                                 <h3>
                                                     {item.discount?.discount
-                                                        ? "Discout: "
+                                                        ? "Discount: "
                                                         : "Current Price: "}
-                                                    {item.discount?.discount ??
-                                                        item.current_price}
+                                                    {item.current_price.toFixed(
+                                                        2
+                                                    )}
                                                     Kn
                                                 </h3>
                                             </div>
@@ -312,17 +394,7 @@ export const ProductsPage = () => {
                                                 return (
                                                     <div
                                                         key={item.id}
-                                                        style={{
-                                                            border: "2px solid black",
-                                                            margin: 20,
-                                                            width: "95%",
-                                                            padding: 20,
-                                                            display: "flex",
-                                                            backgroundColor:
-                                                                "whitesmoke",
-                                                            boxShadow:
-                                                                "3px 3px 6px rgba(0, 0, 0, 0.5)",
-                                                        }}
+                                                        className="product_item_container"
                                                     >
                                                         <img
                                                             src={
@@ -330,13 +402,7 @@ export const ProductsPage = () => {
                                                                     .path
                                                             }
                                                             alt=""
-                                                            style={{
-                                                                width: 150,
-                                                                height: 150,
-                                                                backgroundColor:
-                                                                    "lightgray",
-                                                                margin: 20,
-                                                            }}
+                                                            className="product_item_image"
                                                         />
                                                         <div
                                                             style={{
@@ -379,9 +445,9 @@ export const ProductsPage = () => {
                                                                     ?.discount
                                                                     ? "Discout: "
                                                                     : "Current Price: "}
-                                                                {item.discount
-                                                                    ?.discount ??
-                                                                    item.current_price}
+                                                                {item.current_price.toFixed(
+                                                                    2
+                                                                )}
                                                                 Kn
                                                             </h3>
                                                         </div>
