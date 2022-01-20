@@ -2,29 +2,15 @@ import React from "react";
 import { Cart } from "../components/Cart";
 import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
+import "../../css/CartPage.css";
 
 export const CartPage = () => {
     return (
         <div>
             <Navbar />
-            <div style={{ display: "flex" }} className="cart_container">
+            <div className="cart_container">
                 <Cart />
-                <div
-                    style={{
-                        width: "30%",
-                        backgroundColor: "whitesmoke",
-                        borderRadius: 15,
-                        margin: 40,
-                        boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.2)",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        height: "fit-content",
-                        paddingBlock: 20,
-                        gap: 15,
-                    }}
-                    className="checkout_container"
-                >
+                <div className="checkout_container">
                     <div
                         style={{
                             display: "flex",

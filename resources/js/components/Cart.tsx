@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useFetchCartQuery } from "../slices/rtkQuerySlice";
 import "../../css/CartPage.css";
+import { useDimensions } from "../hooks/useDimensions";
 
 //nanovo
 // interface CartDataInterface {
@@ -20,14 +21,17 @@ export const Cart = () => {
         isLoading,
         error,
     }: { data?: any[]; isLoading?: any; error?: any } = cartData;
-    useEffect(() => {
-        console.log(cartData.data);
-    }, [cartData.isLoading]);
-
+    const dimensions = useDimensions();
     return (
         <div style={{ width: "70%", marginLeft: 20 }}>
             <table cellPadding={20}>
-                <thead>
+                <thead
+                    style={
+                        dimensions.screenWidth < 1000
+                            ? { display: "none" }
+                            : null
+                    }
+                >
                     <tr
                         style={{
                             padding: 20,
@@ -65,34 +69,67 @@ export const Cart = () => {
                                             width={150}
                                         />
                                     </td>
-                                    <td style={{ display: "flex" }}>
-                                        <h1>{cartItem.product.name}</h1>
-                                    </td>
                                     <td
                                         style={{
-                                            position: "relative",
-                                            textAlign: "center",
+                                            display: "flex",
+                                            flexDirection: "column",
                                         }}
                                     >
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                gap: 20,
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <button>-</button>
-                                            <h5>{cartItem.quantity}</h5>
-                                            <button>+</button>
-                                        </div>
+                                        <h1>{cartItem.product.name}</h1>
+                                        {dimensions.screenWidth < 1000 && (
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                }}
+                                            >
+                                                <div
+                                                    style={{ display: "flex" }}
+                                                >
+                                                    <button>-</button>
+                                                    <h5>{cartItem.quantity}</h5>
+                                                    <button>+</button>
+                                                </div>
+                                                <div>
+                                                    <h3>
+                                                        {cartItem.product
+                                                            .price + " Kn" ??
+                                                            "Null"}
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        )}
                                     </td>
-                                    <td style={{ display: "flex" }}>
-                                        <h3>
-                                            {cartItem.product.price + " Kn" ??
-                                                "Null"}
-                                        </h3>
-                                    </td>
+                                    {dimensions.screenWidth > 1000 && (
+                                        <>
+                                            <td
+                                                style={{
+                                                    position: "relative",
+                                                    textAlign: "center",
+                                                }}
+                                            >
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        gap: 20,
+                                                        justifyContent:
+                                                            "center",
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <button>-</button>
+                                                    <h5>{cartItem.quantity}</h5>
+                                                    <button>+</button>
+                                                </div>
+                                            </td>
+                                            <td style={{ display: "flex" }}>
+                                                <h3>
+                                                    {cartItem.product.price +
+                                                        " Kn" ?? "Null"}
+                                                </h3>
+                                            </td>
+                                        </>
+                                    )}
                                 </tr>
                             );
                         })
