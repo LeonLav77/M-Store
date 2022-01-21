@@ -7,7 +7,7 @@ const AuthUserContext = createContext({});
 
 export const AuthUserProvider = ({ children }) => {
     const [password, setPassword] = useState("password");
-    const [email, setEmail] = useState("leonlav77@gmail.com");
+    const [email, setEmail] = useState(process.env.MIX_EMAIL);
 
     const [user, setUser] = useState(false);
 

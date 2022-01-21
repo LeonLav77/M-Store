@@ -3,7 +3,7 @@ import $ from "jquery";
 import ReactHtmlParser from "react-html-parser";
 import axios from "axios";
 
-export const Login = () => {
+export const UserInfo = () => {
     const [data, setData] = useState<any>([]);
     const getData = () => {
         return axios

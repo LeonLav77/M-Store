@@ -1,8 +1,17 @@
 import React, { useState } from "react";
+import { UserInfo } from "../components/auth/UserInfo";
+import axios from "axios";
 import "../../css/components/UserProfile.css";
 
 export const UserProfile = () => {
     const [userPosts, setUserPosts] = useState(Array(9).fill(""));
+    const disableTFA = () =>
+        axios({
+            method: "delete",
+            url: "/auth/user/two-factor-authentication",
+        })
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
     return (
         <div className="main_user_infos_container">
             <div className="user_infos_container">
@@ -30,6 +39,9 @@ export const UserProfile = () => {
                 </div>
             </div>
             <h1>User Posts</h1>
+            <UserInfo />
+            <h1>disable TFA</h1>
+            <button onClick={() => disableTFA()}>disable tfa</button>
             <div
                 style={{
                     display: "flex",

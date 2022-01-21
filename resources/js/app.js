@@ -20,6 +20,7 @@ import { CartPage } from "./pages/CartPage";
 import { PasswordReset } from "./components/auth/PasswordReset";
 import { TestingUi } from "./pages/TestingUi";
 import { CheckoutPage } from "./pages/CheckoutPage";
+import { ConfirmPassword } from "./components/ConfirmPassword";
 import { store } from "./store/store";
 import { AuthUserProvider } from "./hooks/useAuth";
 
@@ -45,6 +46,10 @@ render(
                     <Route
                         path="products/:productId"
                         element={<ProductDetailsPage />}
+                    />
+                    <Route
+                        path="confirmPassword"
+                        element={<ConfirmPassword />}
                     />
                     <Route path="password_reset" element={<PasswordReset />} />
                     <Route path="user_profile" element={<UserProfilePage />} />

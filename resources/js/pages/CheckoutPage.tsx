@@ -1,5 +1,10 @@
 import React from "react";
+import { StripePage } from "../components/auth/StripePage";
 
 export const CheckoutPage = () => {
-    return <div>Cehckoout</div>;
+    return (
+        <div>
+            <StripePage />
+        </div>
+    );
 };

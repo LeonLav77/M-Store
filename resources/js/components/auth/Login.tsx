@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../css/components/Login.css";
@@ -5,13 +6,35 @@ import useAuth from "../../hooks/useAuth";
 
 export const Login = () => {
     const [error, setError] = useState(false);
+    const [showTFAChallenge, setShowTFAChallenge] = useState(false);
+    const [TFAChallengeCode, setTFAChallengeCode] = useState("");
 
     const navigate = useNavigate();
     const { login, logout, user, setUser } = useAuth();
     // const [isReady, cancel] = useTimeout(1000);
+
+    const TFAChallenge = () =>
+        axios({
+            method: "post",
+            url: "/auth/two-factor-challenge",
+            data: {
+                code: TFAChallengeCode,
+            },
+        })
+            .then((res) => {
+                console.log(res);
+                if (res.statusText == "No Content") {
+                    setTFAChallengeCode("");
+                    setUser(true);
+                    navigate("/home");
+                } else throw new Error("BITHC!");
+            })
+            .catch((err) => {
+                console.log(err);
+                setError(true);
+            });
     useEffect(() => {
         console.log(user);
-
         if (user) navigate("/home");
         logout();
     }, []);
@@ -22,6 +45,19 @@ export const Login = () => {
                 <h1 onClick={() => setError(false)}>Error...</h1>
             ) : (
                 <>
+                    {showTFAChallenge && (
+                        <>
+                            <input
+                                value={TFAChallengeCode}
+                                onChange={(e) =>
+                                    setTFAChallengeCode(e.target.value)
+                                }
+                            />
+                            <button onClick={() => TFAChallenge()}>
+                                send code
+                            </button>
+                        </>
+                    )}
                     <img
                         src={require("../../../images/login_bg.jpg").default}
                         alt=""
@@ -63,9 +99,11 @@ export const Login = () => {
                                 const nil = async () => {
                                     const resp = await login();
                                     console.log(resp);
-                                    if (resp.statusText == "OK") {
+                                    if (resp.data?.two_factor == false) {
                                         setUser(true);
                                         navigate("/home");
+                                    } else if (resp.data?.two_factor == true) {
+                                        setShowTFAChallenge(true);
                                     } else throw new Error("BITHC!");
                                 };
                                 nil();
