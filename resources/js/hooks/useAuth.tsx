@@ -17,7 +17,7 @@ export const AuthUserProvider = ({ children }) => {
                 method: "post",
                 url: "auth/login",
                 data: {
-                    email: process.env.MIX_EMAIL,
+                    email: "persic.massimo@gmail.com",
                     password: "password",
                 },
                 headers: {

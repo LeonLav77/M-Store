@@ -22,6 +22,7 @@ export const Cart = () => {
         error,
     }: { data?: any[]; isLoading?: any; error?: any } = cartData;
     const dimensions = useDimensions();
+    console.log(data);
     return (
         <div style={{ width: "70%", marginLeft: 20 }}>
             <table cellPadding={20}>

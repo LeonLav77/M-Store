@@ -47,7 +47,7 @@ export const Navbar = () => {
                         zIndex: 100,
                     }}
                 >
-                    <h1>Before you start...</h1>
+                    <h1>Before you continue...</h1>
                     <div style={{ display: "flex" }}>
                         <button onClick={() => navigate("/user_profile")}>
                             userprofuke

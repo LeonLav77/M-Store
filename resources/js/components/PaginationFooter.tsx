@@ -33,6 +33,7 @@ export const PaginationFooter = ({
                     boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
                     border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
+                onClick={() => console.log(firstPage)}
             >
                 {dimensions.screenWidth < 500 ? "First" : "First Page"}
             </div>
@@ -59,6 +60,7 @@ export const PaginationFooter = ({
                                   border: "1px solid rgba(0, 0, 0, 0.5)",
                               }
                     }
+                    onClick={() => console.log(prevPage)}
                 >
                     {currentPage - 1}
                 </div>
@@ -90,6 +92,7 @@ export const PaginationFooter = ({
                         boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
                         border: "1px solid rgba(0, 0, 0, 0.5)",
                     }}
+                    onClick={() => console.log(nextPage)}
                 >
                     {currentPage + 1}
                 </div>
@@ -107,6 +110,7 @@ export const PaginationFooter = ({
                     minWidth: dimensions.screenWidth < 500 ? 80 : 130,
                     border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
+                onClick={() => console.log(lastPage)}
             >
                 {dimensions.screenWidth < 500 ? "Last" : "Last Page"}
             </div>
