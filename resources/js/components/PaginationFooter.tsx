@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { useDimensions } from "../hooks/useDimensions";
+import { setCurrentPage } from "../slices/dataSlice";
 
 export const PaginationFooter = ({
     nextPage,
@@ -8,6 +10,7 @@ export const PaginationFooter = ({
     firstPage,
     currentPage,
 }) => {
+    const dispatch = useDispatch();
     const dimensions = useDimensions();
     return (
         <div
@@ -33,7 +36,9 @@ export const PaginationFooter = ({
                     boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
                     border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
-                onClick={() => console.log(firstPage)}
+                onClick={() =>
+                    dispatch(setCurrentPage(firstPage.split("api/")[1]))
+                }
             >
                 {dimensions.screenWidth < 500 ? "First" : "First Page"}
             </div>
@@ -60,7 +65,11 @@ export const PaginationFooter = ({
                                   border: "1px solid rgba(0, 0, 0, 0.5)",
                               }
                     }
-                    onClick={() => console.log(prevPage)}
+                    onClick={() => {
+                        if (prevPage == null) return console.log("no more");
+                        else
+                            dispatch(setCurrentPage(prevPage.split("api/")[1]));
+                    }}
                 >
                     {currentPage - 1}
                 </div>
@@ -81,18 +90,26 @@ export const PaginationFooter = ({
                     {currentPage}
                 </div>
                 <div
-                    style={{
-                        width: 50,
-                        height: 50,
-                        backgroundColor: "#eeefef",
-                        borderRadius: 10,
-                        fontSize: 32,
-                        display: "grid",
-                        placeItems: "center",
-                        boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
-                        border: "1px solid rgba(0, 0, 0, 0.5)",
+                    style={
+                        nextPage == null
+                            ? { display: "none" }
+                            : {
+                                  width: 50,
+                                  height: 50,
+                                  backgroundColor: "#eeefef",
+                                  borderRadius: 10,
+                                  fontSize: 32,
+                                  display: "grid",
+                                  placeItems: "center",
+                                  boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
+                                  border: "1px solid rgba(0, 0, 0, 0.5)",
+                              }
+                    }
+                    onClick={() => {
+                        if (nextPage == null) return console.log("no more");
+                        else
+                            dispatch(setCurrentPage(nextPage.split("api/")[1]));
                     }}
-                    onClick={() => console.log(nextPage)}
                 >
                     {currentPage + 1}
                 </div>
@@ -110,7 +127,9 @@ export const PaginationFooter = ({
                     minWidth: dimensions.screenWidth < 500 ? 80 : 130,
                     border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
-                onClick={() => console.log(lastPage)}
+                onClick={() =>
+                    dispatch(setCurrentPage(`allProducts?page=${lastPage}`))
+                }
             >
                 {dimensions.screenWidth < 500 ? "Last" : "Last Page"}
             </div>

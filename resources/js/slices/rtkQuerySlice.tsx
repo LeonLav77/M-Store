@@ -6,8 +6,9 @@ export const apiSlice = createApi({
     }),
     endpoints: (builder) => {
         return {
-            fetchProductsPerPage: builder.query({
-                query: () => "allProducts?productsPerPage=10",
+            fetchProducts: builder.query({
+                //?productsPerPage=xx --> ne dela
+                query: (page = "allProducts?page=1") => `${page}`,
             }),
             fetchCategories: builder.query({
                 query: () => "categories",
@@ -23,7 +24,7 @@ export const apiSlice = createApi({
 });
 
 export const {
-    useFetchProductsPerPageQuery,
+    useFetchProductsQuery,
     useFetchCategoriesQuery,
     useFetchCartQuery,
 } = apiSlice;

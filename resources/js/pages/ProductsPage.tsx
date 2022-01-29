@@ -1,6 +1,6 @@
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useFetchProductsPerPageQuery } from "../slices/rtkQuerySlice";
+import { useFetchProductsQuery } from "../slices/rtkQuerySlice";
 import "../../css/ProductsPage.css";
 import { Navbar } from "../components/Navbar";
 import { useDimensions } from "../hooks/useDimensions";
@@ -54,9 +54,10 @@ interface productsPerPageDataInterface {
 
 export const ProductsPage = () => {
     const dispatch = useDispatch();
-    const productsPerPageData = useFetchProductsPerPageQuery(
-        "allProductsWCP?productsPerPage=10"
+    const currentPage = useSelector(
+        (state: any) => state.productsData.whatPage
     );
+    const productsPerPageData = useFetchProductsQuery(currentPage);
     const {
         data,
         error,
@@ -122,6 +123,7 @@ export const ProductsPage = () => {
     useEffect(() => {
         getCategories();
     }, []);
+    useEffect(() => {}, [data]);
 
     return (
         <>
@@ -389,7 +391,7 @@ export const ProductsPage = () => {
                                     {filteredProductsStatus == "pending" ? (
                                         <h1>loading</h1>
                                     ) : (
-                                        filteredProducts.data.map(
+                                        filteredProducts.data?.map(
                                             (item: any) => {
                                                 return (
                                                     <div

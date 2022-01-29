@@ -103,7 +103,8 @@ export const Register = () => {
                                 console.log(reponse);
                                 if (reponse.statusText == "Created") {
                                     setUser(true);
-                                    navigate("/home");
+                                    //verify email
+                                    // navigate("/home");
                                 } else {
                                     setShowFalseInfoMsg(true);
                                 }

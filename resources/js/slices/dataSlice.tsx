@@ -6,6 +6,7 @@ const initialState = {
     showFilteredProducts: false,
     status: null,
     recents: [],
+    whatPage: "allProducts?page=1",
 };
 
 export const fetchFilteredProducts = createAsyncThunk(
@@ -36,6 +37,12 @@ export const dataSlice = createSlice({
         addToRecents(state, action) {
             state.recents.push(action.payload);
         },
+        setFilteredProducts(state, action) {
+            state.filteredProducts = action.payload;
+        },
+        setCurrentPage(state, action) {
+            state.whatPage = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchFilteredProducts.pending, (state, action) => {
@@ -55,5 +62,10 @@ export const dataSlice = createSlice({
     },
 });
 
-export const { setShowFilteredProducts, addToRecents } = dataSlice.actions;
+export const {
+    setShowFilteredProducts,
+    addToRecents,
+    setFilteredProducts,
+    setCurrentPage,
+} = dataSlice.actions;
 export default dataSlice.reducer;
