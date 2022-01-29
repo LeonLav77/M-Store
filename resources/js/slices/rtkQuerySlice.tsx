@@ -16,6 +16,9 @@ export const apiSlice = createApi({
             fetchCart: builder.query({
                 query: () => "cart",
             }),
+            fetchWishlist: builder.query({
+                query: () => "wishlist",
+            }),
             // fetchOnlyOnePerson: builder.query({
             //     query: (id) => `people/${id}`,
             // }),
@@ -27,4 +30,5 @@ export const {
     useFetchProductsQuery,
     useFetchCategoriesQuery,
     useFetchCartQuery,
+    useFetchWishlistQuery,
 } = apiSlice;

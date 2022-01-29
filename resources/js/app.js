@@ -14,6 +14,7 @@ import { UserInfo } from "./components/auth/UserInfo";
 import { TFAEnable } from "./components/auth/TFAEnable";
 import { TFADisable } from "./components/auth/TFADisable";
 import { PasswordConfirm } from "./components/auth/PasswordConfirm";
+import { Wishlist } from "./components/Wishlist";
 import { UserProfilePage } from "./pages/UserProfilePage";
 import { Provider } from "react-redux";
 import { CartPage } from "./pages/CartPage";
@@ -64,6 +65,7 @@ render(
                     <Route path="TFALogin" element={<TFALogin></TFALogin>} />
                     <Route path="userInfo" element={<UserInfo></UserInfo>} />
                     <Route path="TFAEnable" element={<TFAEnable></TFAEnable>} />
+                    <Route path="wishlist" element={<Wishlist />} />
                     <Route
                         path="TFADisable"
                         element={<TFADisable></TFADisable>}

@@ -51,6 +51,17 @@ export const ProductDetailsPage = () => {
             .then((res) => console.log(res.data))
             .catch((err) => console.log(err));
     };
+    const addItemToWishlist = () => {
+        return axios({
+            method: "post",
+            url: "http://127.0.0.1:8000/api/addToWishlist",
+            data: {
+                id: id,
+            },
+        })
+            .then((res) => console.log(res.data))
+            .catch((err) => console.log(err));
+    };
 
     const getRelatedProducts = () => {
         return axios
@@ -238,7 +249,7 @@ export const ProductDetailsPage = () => {
                         />
                         <Button
                             title="Wishlist"
-                            onClick={() => console.log("wishlist")}
+                            onClick={() => addItemToWishlist()}
                             type="submit"
                             style={{}}
                         />
