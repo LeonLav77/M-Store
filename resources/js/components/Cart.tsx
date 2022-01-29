@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useFetchCartQuery } from "../slices/rtkQuerySlice";
 import "../../css/CartPage.css";
 import { useDimensions } from "../hooks/useDimensions";
+import axios from "axios";
 
 //nanovo
 // interface CartDataInterface {
@@ -22,7 +23,7 @@ export const Cart = () => {
         error,
     }: { data?: any[]; isLoading?: any; error?: any } = cartData;
     const dimensions = useDimensions();
-    console.log(data);
+    useEffect(() => console.log(data), [data]);
     return (
         <div style={{ width: "70%", marginLeft: 20 }}>
             <table cellPadding={20}>
