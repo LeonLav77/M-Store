@@ -14,10 +14,10 @@ export const apiSlice = createApi({
                 query: () => "categories",
             }),
             fetchCart: builder.query({
-                query: () => "cart",
+                query: (broj = 0) => "cart",
             }),
             fetchWishlist: builder.query({
-                query: () => "wishlist",
+                query: (broj = 0) => "wishlist",
             }),
             // fetchOnlyOnePerson: builder.query({
             //     query: (id) => `people/${id}`,

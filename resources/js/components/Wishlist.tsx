@@ -5,7 +5,7 @@ import { useFetchWishlistQuery } from "../slices/rtkQuerySlice";
 import { Error } from "./Error";
 
 export const Wishlist = () => {
-    const [itemRemoved, setItemRemoved] = useState<any>("wishlist");
+    const [itemRemoved, setItemRemoved] = useState<any>(0);
     const wishlistData = useFetchWishlistQuery(itemRemoved);
     const removeFromWishlist = (product_id) => {
         return axios({
@@ -13,18 +13,12 @@ export const Wishlist = () => {
             url: `/api/removeFromWishlist/${product_id}`,
         })
             .then((res) => {
-                setItemRemoved(
-                    itemRemoved == "wishlist" ? "wishlist " : "wishlist"
-                );
-                console.log(res.data);
+                setItemRemoved(itemRemoved + 1);
                 return res;
             })
             .catch((err) => err);
     };
-    useEffect(
-        () => console.log(wishlistData.data),
-        [wishlistData.data, itemRemoved]
-    );
+    useEffect(() => console.log(wishlistData.data), [itemRemoved]);
     return (
         <>
             <div>
@@ -41,9 +35,9 @@ export const Wishlist = () => {
                                 <div key={id}>
                                     <h3>Product: {item.product_id}</h3>
                                     <button
-                                        onClick={() =>
-                                            removeFromWishlist(item.product_id)
-                                        }
+                                        onClick={() => {
+                                            removeFromWishlist(item.product_id);
+                                        }}
                                     >
                                         REmove item from list
                                     </button>

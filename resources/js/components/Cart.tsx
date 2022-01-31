@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useFetchCartQuery } from "../slices/rtkQuerySlice";
 import "../../css/CartPage.css";
 import { useDimensions } from "../hooks/useDimensions";
@@ -16,13 +16,29 @@ import axios from "axios";
 // }
 
 export const Cart = () => {
-    const cartData = useFetchCartQuery("cart");
+    const [itemRemoved, setItemRemoved] = useState(0);
+    const cartData = useFetchCartQuery(itemRemoved);
     const {
         data,
         isLoading,
         error,
     }: { data?: any[]; isLoading?: any; error?: any } = cartData;
     const dimensions = useDimensions();
+    const removeFromCart = (product_id) => {
+        return axios({
+            method: "delete",
+            url: `/api/itemFromCart/${product_id}`,
+            data: {
+                product_id,
+            },
+        })
+            .then((res) => {
+                setItemRemoved(itemRemoved + 1);
+                console.log(res.data);
+                return res;
+            })
+            .catch((err) => err);
+    };
     useEffect(() => console.log(data), [data]);
     return (
         <div style={{ width: "70%", marginLeft: 20 }}>
@@ -57,6 +73,12 @@ export const Cart = () => {
                         <tr>
                             <td>Erorr</td>
                         </tr>
+                    ) : data.length == 0 ? (
+                        <tr>
+                            <td>
+                                <h1>NO items in cart...</h1>
+                            </td>
+                        </tr>
                     ) : (
                         data.map((cartItem, id: number) => {
                             return (
@@ -78,6 +100,18 @@ export const Cart = () => {
                                         }}
                                     >
                                         <h1>{cartItem.product.name}</h1>
+                                        <button
+                                            onClick={() => {
+                                                console.log(
+                                                    cartItem.product_id
+                                                );
+                                                removeFromCart(
+                                                    cartItem.product_id
+                                                );
+                                            }}
+                                        >
+                                            Remove item
+                                        </button>
                                         {dimensions.screenWidth < 1000 && (
                                             <div
                                                 style={{
