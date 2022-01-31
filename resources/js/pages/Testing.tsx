@@ -85,6 +85,9 @@ export const Testing = () => {
                 </div>
             </div>
             <div className="login_container_shape"></div>
+            <div className="login_container_shape2"></div>
+            <div className="login_container_shape3"></div>
+            <div className="login_container_shape4"></div>
         </div>
     );
 };

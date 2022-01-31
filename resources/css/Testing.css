@@ -1,7 +1,8 @@
 .main_login_container2 {
     height: 100vh;
     overflow: hidden;
-    background-color: #050505;
+    background: radial-gradient(rgba(5, 5, 5, 1), rgba(5, 5, 5, 0.9));
+    /* background-color: rgb(5, 5, 5); */
     position: relative;
     display: grid;
     place-items: center;
@@ -10,12 +11,47 @@
     position: absolute;
     top: -5%;
     right: -20%;
-    width: 850px;
-    background: linear-gradient(45deg, #419f83, #097895);
+    width: 750px;
+    background: linear-gradient(45deg, rgb(65, 159, 131), #097895);
     height: 150vh;
     /* background-color: rgb(49, 155, 141); */
     z-index: 2;
     transform: rotateZ(25deg);
+    box-shadow: -5px 17px 10px rgba(0, 0, 0, 0.75);
+}
+.login_container_shape2 {
+    position: absolute;
+    top: -22%;
+    left: -20%;
+    background: linear-gradient(45deg, #097895, rgb(65, 159, 131));
+    height: 150vh;
+    /* background-color: rgb(49, 155, 141); */
+    z-index: 2;
+    transform: rotateZ(25deg);
+    width: 600px;
+    box-shadow: 5px 17px 7px rgba(0, 0, 0, 0.75);
+}
+.login_container_shape3 {
+    position: absolute;
+    bottom: -15%;
+    left: -10%;
+    background: linear-gradient(45deg, rgb(52, 130, 106), #046279);
+    height: 50vh;
+    /* background-color: rgb(49, 155, 141); */
+    z-index: 1;
+    transform: rotateZ(-25deg);
+    width: 400px;
+}
+.login_container_shape4 {
+    position: absolute;
+    top: -15%;
+    right: -5%;
+    background: linear-gradient(45deg, #046279, rgb(52, 130, 106));
+    height: 50vh;
+    /* background-color: rgb(49, 155, 141); */
+    z-index: 1;
+    transform: rotateZ(-25deg);
+    width: 350px;
 }
 .login_form_wrapper {
     width: 60%;
@@ -25,6 +61,7 @@
     border-radius: 20px;
     display: flex;
     align-items: center;
+    box-shadow: 0px 0px 15px 10px rgba(0, 0, 0, 0.67);
     gap: 75px;
     position: inherit;
     z-index: 5;
