@@ -16,6 +16,19 @@ export interface RelatedCategoriesInterface {
     updated_at: null | string;
 }
 
+export const addItemToCart = (product_id, quantity) => {
+    return axios({
+        method: "post",
+        url: "http://127.0.0.1:8000/api/addItemToCart",
+        data: {
+            product_id,
+            quantity,
+        },
+    })
+        .then((res) => console.log(product_id, quantity))
+        .catch((err) => console.log(err));
+};
+
 export const ProductDetailsPage = () => {
     const dimensions = useDimensions();
     const [relatedItems, setRelatedItems] = useState<ProductDataInterface[]>(
@@ -39,18 +52,6 @@ export const ProductDetailsPage = () => {
     const [currentId, setCurrentId] = useState(0);
     const [isZoomedIn, setIsZoomedIn] = useState(false);
 
-    const addItemToCart = () => {
-        return axios({
-            method: "post",
-            url: "http://127.0.0.1:8000/api/addItemToCart",
-            data: {
-                product_id: 20,
-                quantity: 3,
-            },
-        })
-            .then((res) => console.log(res.data))
-            .catch((err) => console.log(err));
-    };
     const addItemToWishlist = () => {
         return axios({
             method: "post",
@@ -243,7 +244,7 @@ export const ProductDetailsPage = () => {
                     <div className="product_buttons">
                         <Button
                             title="Add To Cart"
-                            onClick={() => addItemToCart()}
+                            onClick={() => addItemToCart(id, 1)}
                             type="submit"
                             style={{}}
                         />

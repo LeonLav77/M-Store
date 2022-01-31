@@ -3,6 +3,7 @@ import { useFetchCartQuery } from "../slices/rtkQuerySlice";
 import "../../css/CartPage.css";
 import { useDimensions } from "../hooks/useDimensions";
 import axios from "axios";
+import { CartItem } from "./CartItem";
 
 //nanovo
 // interface CartDataInterface {
@@ -24,6 +25,17 @@ export const Cart = () => {
         error,
     }: { data?: any[]; isLoading?: any; error?: any } = cartData;
     const dimensions = useDimensions();
+    const clearCart = () => {
+        return axios({
+            method: "delete",
+            url: "/api/emptyCart",
+        })
+            .then((res) => {
+                setItemRemoved(itemRemoved + 1);
+                console.log(res.data);
+            })
+            .catch((err) => err);
+    };
     const removeFromCart = (product_id) => {
         return axios({
             method: "delete",
@@ -80,99 +92,18 @@ export const Cart = () => {
                             </td>
                         </tr>
                     ) : (
-                        data.map((cartItem, id: number) => {
-                            return (
-                                <tr key={id}>
-                                    <td>
-                                        <img
-                                            src={
-                                                cartItem.product.images[0].path
-                                            }
-                                            alt=""
-                                            height={150}
-                                            width={150}
-                                        />
-                                    </td>
-                                    <td
-                                        style={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                        }}
-                                    >
-                                        <h1>{cartItem.product.name}</h1>
-                                        <button
-                                            onClick={() => {
-                                                console.log(
-                                                    cartItem.product_id
-                                                );
-                                                removeFromCart(
-                                                    cartItem.product_id
-                                                );
-                                            }}
-                                        >
-                                            Remove item
-                                        </button>
-                                        {dimensions.screenWidth < 1000 && (
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                }}
-                                            >
-                                                <div
-                                                    style={{ display: "flex" }}
-                                                >
-                                                    <button>-</button>
-                                                    <h5>{cartItem.quantity}</h5>
-                                                    <button>+</button>
-                                                </div>
-                                                <div>
-                                                    <h3>
-                                                        {cartItem.product
-                                                            .price + " Kn" ??
-                                                            "Null"}
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </td>
-                                    {dimensions.screenWidth > 1000 && (
-                                        <>
-                                            <td
-                                                style={{
-                                                    position: "relative",
-                                                    textAlign: "center",
-                                                }}
-                                            >
-                                                <div
-                                                    style={{
-                                                        display: "flex",
-                                                        gap: 20,
-                                                        justifyContent:
-                                                            "center",
-                                                        alignItems: "center",
-                                                    }}
-                                                >
-                                                    <button>-</button>
-                                                    <h5>{cartItem.quantity}</h5>
-                                                    <button>+</button>
-                                                </div>
-                                            </td>
-                                            <td style={{ display: "flex" }}>
-                                                <h3>
-                                                    {cartItem.product.price +
-                                                        " Kn" ?? "Null"}
-                                                </h3>
-                                            </td>
-                                        </>
-                                    )}
-                                </tr>
-                            );
-                        })
+                        data.map((cartItemData, id) => (
+                            <CartItem
+                                cartItemData={cartItemData}
+                                key={id}
+                                removeFromCart={removeFromCart}
+                            />
+                        ))
                     )}
                     <tr></tr>
                 </tbody>
             </table>
+            <button onClick={() => clearCart()}>Clear Cart</button>
         </div>
     );
 };
