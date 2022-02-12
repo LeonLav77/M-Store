@@ -1,9 +1,10 @@
 .main_all_products_container {
     display: grid;
     margin: 0 auto;
-    background-color: #296a511b;
+    /* background: linear-gradient(45deg, rgb(65, 159, 131), #097895); */
     min-height: 100vh;
     width: 100%;
+    background-color: #ebebeb;
 }
 .filters_container,
 .recent_searches {
@@ -12,11 +13,11 @@
     flex-direction: column;
     margin: 10px;
     border-radius: 15px;
-    background-color: #eeefef;
+    background-color: #ebebeb;
     height: fit-content;
     padding: 15px 10px;
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(0, 0, 0, 0.5);
+    border: 2px solid #d3d3d3;
+    width: 350px;
 }
 .price_filter,
 .category_filter,
@@ -32,13 +33,33 @@
 }
 
 .product_item_container {
-    border: 2px solid black;
+    border: 2px solid #d3d3d3;
     margin: 20px;
-    width: "95%";
-    padding: 20px;
+    width: 100%;
     display: flex;
-    background-color: whitesmoke;
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    background-color: #ebebeb;
+    position: relative;
+}
+.product_item_container_2 {
+    padding: 20px;
+    border: 2px solid #d3d3d3;
+    width: 30%;
+    display: flex;
+    margin: 20px;
+    min-width: 370px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    position: relative;
+    border-radius: 15px;
+    background-color: #ebebeb;
+    /* box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5); */
+    /* box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+        rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset; */
+}
+.product_item_container_2:hover {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 15px,
+        rgba(0, 0, 0, 0.22) 0px 5px 8px;
 }
 .product_item_image {
     width: 150px;
@@ -46,9 +67,19 @@
     background-color: lightgray;
     margin: 20px;
 }
+.product_item_image_2 {
+    width: 90%;
+    height: 300px;
+    background-color: #ebebeb;
+    margin: 20px auto;
+}
+.product_item_container:hover {
+    background-color: #d4d4d4;
+    cursor: pointer;
+}
 @media (min-width: 1400px) {
     .main_all_products_container {
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 1fr 4fr;
         grid-gap: 10px;
     }
 }

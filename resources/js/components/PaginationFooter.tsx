@@ -1,7 +1,14 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useDimensions } from "../hooks/useDimensions";
-import { setCurrentPage } from "../slices/dataSlice";
+import {
+    setCurrentPage,
+    setFetchingProps,
+    toggleListStyle,
+} from "../slices/dataSlice";
+import { BsGrid1X2Fill } from "react-icons/bs";
+import { GiHamburgerMenu } from "react-icons/gi";
+// import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 export const PaginationFooter = ({
     nextPage,
@@ -11,7 +18,11 @@ export const PaginationFooter = ({
     currentPage,
 }) => {
     const dispatch = useDispatch();
+    const listStyle = useSelector((state: any) => state.productsData.listStyle);
     const dimensions = useDimensions();
+    const keyword = useSelector((state: any) => state.productsData.searchWord);
+    useEffect(() => console.log(keyword), [keyword]);
+    //BsGrid1X2Fill GiHamburgerMenu
     return (
         <div
             style={{
@@ -33,14 +44,23 @@ export const PaginationFooter = ({
                     fontSize: dimensions.screenWidth >= 650 ? 32 : 20,
                     display: "grid",
                     placeItems: "center",
-                    boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
+                    // boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
                     border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
                 onClick={() =>
-                    dispatch(setCurrentPage(firstPage.split("api/")[1]))
+                    dispatch(
+                        setFetchingProps({
+                            page: firstPage.split("?")[1].split("=")[1],
+                            params: { keyword },
+                        })
+                    )
                 }
             >
-                {dimensions.screenWidth < 500 ? "First" : "First Page"}
+                {dimensions.screenWidth < 500 ? (
+                    <p style={{ margin: 0, fontSize: 20 }}>First</p>
+                ) : (
+                    <p style={{ margin: 0, fontSize: 20 }}>First Page</p>
+                )}
             </div>
             <div
                 style={
@@ -49,6 +69,7 @@ export const PaginationFooter = ({
                         : { display: "flex", gap: 10 }
                 }
             >
+                {/* <FaArrowLeft size={20} /> */}
                 <div
                     style={
                         prevPage == null
@@ -68,10 +89,15 @@ export const PaginationFooter = ({
                     onClick={() => {
                         if (prevPage == null) return console.log("no more");
                         else
-                            dispatch(setCurrentPage(prevPage.split("api/")[1]));
+                            dispatch(
+                                setFetchingProps({
+                                    page: prevPage.split("?")[1].split("=")[1],
+                                    params: { keyword },
+                                })
+                            );
                     }}
                 >
-                    {currentPage - 1}
+                    <p style={{ margin: 0, fontSize: 20 }}>{currentPage - 1}</p>
                 </div>
                 <div
                     style={{
@@ -87,7 +113,7 @@ export const PaginationFooter = ({
                         border: "1px solid rgba(0, 0, 0, 0.5)",
                     }}
                 >
-                    {currentPage}
+                    <p style={{ margin: 0, fontSize: 20 }}>{currentPage}</p>
                 </div>
                 <div
                     style={
@@ -108,11 +134,17 @@ export const PaginationFooter = ({
                     onClick={() => {
                         if (nextPage == null) return console.log("no more");
                         else
-                            dispatch(setCurrentPage(nextPage.split("api/")[1]));
+                            dispatch(
+                                setFetchingProps({
+                                    page: nextPage.split("?")[1].split("=")[1],
+                                    params: { keyword },
+                                })
+                            );
                     }}
                 >
-                    {currentPage + 1}
+                    <p style={{ margin: 0, fontSize: 20 }}>{currentPage + 1}</p>
                 </div>
+                {/* <FaArrowRight size={20} /> */}
             </div>
             <div
                 style={{
@@ -123,15 +155,43 @@ export const PaginationFooter = ({
                     display: "grid",
                     placeItems: "center",
                     paddingInline: dimensions.screenWidth >= 650 ? 20 : 0,
-                    boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
+                    // boxShadow: "3px 3px 6px rgb(0, 0, 0, .5)",
                     minWidth: dimensions.screenWidth < 500 ? 80 : 130,
                     border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
                 onClick={() =>
-                    dispatch(setCurrentPage(`allProducts?page=${lastPage}`))
+                    dispatch(
+                        setFetchingProps({
+                            page: lastPage,
+                            params: { keyword },
+                        })
+                    )
                 }
             >
-                {dimensions.screenWidth < 500 ? "Last" : "Last Page"}
+                {dimensions.screenWidth < 500 ? (
+                    <p style={{ margin: 0, fontSize: 20 }}>Last</p>
+                ) : (
+                    <p style={{ margin: 0, fontSize: 20 }}>Last Page</p>
+                )}
+            </div>
+            <div
+                style={{
+                    border: "1px solid rgba(0, 0, 0, 0.5)",
+                    borderRadius: 10,
+                    padding: 10,
+                }}
+            >
+                {listStyle == "block" ? (
+                    <BsGrid1X2Fill
+                        size={30}
+                        onClick={() => dispatch(toggleListStyle("flex"))}
+                    />
+                ) : (
+                    <GiHamburgerMenu
+                        size={30}
+                        onClick={() => dispatch(toggleListStyle("block"))}
+                    />
+                )}
             </div>
         </div>
     );

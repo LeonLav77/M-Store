@@ -1,14 +1,19 @@
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { useFetchProductsQuery } from "../slices/rtkQuerySlice";
+import {
+    useFetchCategoriesQuery,
+    useFetchProductsQuery,
+} from "../slices/rtkQuerySlice";
 import "../../css/ProductsPage.css";
 import { Navbar } from "../components/Navbar";
 import { useDimensions } from "../hooks/useDimensions";
 import { PaginationFooter } from "../components/PaginationFooter";
 import { useDispatch, useSelector } from "react-redux";
 import { addToRecents, fetchFilteredProducts } from "../slices/dataSlice";
-import axios from "axios";
+import { Error } from "../components/Error";
 import { RelatedCategoriesInterface } from "./ProductDetailsPage";
+import { ProductsList } from "../components/ProductsList";
+import { FiMinimize2 } from "react-icons/fi";
+import { FaChevronDown } from "react-icons/fa";
 
 export interface ProductDataInterface {
     id: number;
@@ -54,34 +59,49 @@ interface productsPerPageDataInterface {
 
 export const ProductsPage = () => {
     const dispatch = useDispatch();
-    const currentPage = useSelector(
-        (state: any) => state.productsData.whatPage
+    const fetchingProps = useSelector(
+        (state: any) => state.productsData.fetchingProps
     );
-    const productsPerPageData = useFetchProductsQuery(currentPage);
+    const productsPerPageData = useFetchProductsQuery(fetchingProps);
     const {
-        data,
-        error,
-        isLoading,
-    }: { data?: productsPerPageDataInterface; error?: any; isLoading?: any } =
-        productsPerPageData;
+        data: productsData,
+        error: productsError,
+        isLoading: productsLoading,
+    }: {
+        data?: productsPerPageDataInterface;
+        error?: any;
+        isLoading?: any;
+    } = productsPerPageData;
 
-    data as productsPerPageDataInterface;
-    const filteredProducts = useSelector(
-        (state: any) => state.productsData.filteredProducts
-    );
-    const showFilteredItems = useSelector(
-        (state: any) => state.productsData.showFilteredProducts
-    );
-    const filteredProductsStatus = useSelector(
-        (state: any) => state.productsData.status
-    );
+    // productsData as productsPerPageDataInterface;
+    const categories = useFetchCategoriesQuery("categories");
+    const {
+        data: categoriesData,
+        error: categoriesError,
+        isLoading: categoriesLoading,
+    }: {
+        data?: RelatedCategoriesInterface[];
+        error?: any;
+        isLoading?: any;
+    } = categories;
+    // const filteredProducts = useSelector(
+    //     (state: any) => state.productsData.filteredProducts
+    // );
+    // const showFilteredItems = useSelector(
+    //     (state: any) => state.productsData.showFilteredProducts
+    // );
+    // const filteredProductsStatus = useSelector(
+    //     (state: any) => state.productsData.status
+    // );
     const recentSearches = useSelector(
         (state: any) => state.productsData.recents
     );
     const dimensions = useDimensions();
-    const [categories, setCategories] = useState<RelatedCategoriesInterface[]>(
-        []
-    );
+
+    //filter props - NE KORISIN
+    // const [categories, setCategories] = useState<RelatedCategoriesInterface[]>(
+    //     []
+    // );
     const [maxPrice, setMaxPrice] = useState<string | number>("100");
     const [selectedCategory, setSelectedCategory] = useState<string>(null);
     const [selectedSize, setSelectedSize] = useState<string>(null);
@@ -89,81 +109,77 @@ export const ProductsPage = () => {
     const conditions = ["new", "used"];
     const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
     const [keyword, setKeyword] = useState("");
+
+    //dropdowns
     const [showFilters, setShowFilters] = useState(false);
     const [showRecents, setShowRecents] = useState(false);
-    // const [showFilteredItems, setShowFilteredItems] = useState(true);
-    const [showCloseBtn, setShowCloseBtn] = useState(false);
-    const [hideRecents, setHideRecents] = useState(false);
     const discountCheckboxRef = useRef(null);
+
+    //listStyle
+    const listStyle = useSelector((state: any) => state.productsData.listStyle);
 
     const searchSubmitHandler = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (keyword != "") dispatch(addToRecents(keyword));
-        dispatch(
-            fetchFilteredProducts({
-                maxPrice,
-                keyword,
-                category: selectedCategory,
-                size: selectedSize,
-                condition: selectedCondition,
-                discount: discountCheckboxRef.current.checked ? "true" : "",
-            })
-        );
+        // dispatch(
+        //     fetchFilteredProducts({
+        //         maxPrice,
+        //         keyword,
+        //         category: selectedCategory,
+        //         size: selectedSize,
+        //         condition: selectedCondition,
+        //         discount: discountCheckboxRef.current.checked ? "true" : "",
+        //         page: 1,
+        //         // page: currentPage.split("?")[1].split("=")[1],
+        //     })
+        // );
     };
-
-    const getCategories = () => {
-        return axios
-            .get("http://127.0.0.1:8000/api/categories")
-            .then((res: any) => {
-                setCategories(res.data);
-                console.log(res);
-            })
-            .catch((err) => console.log(err));
-    };
-    useEffect(() => {
-        getCategories();
-    }, []);
-    useEffect(() => {}, [data]);
+    useEffect(() => {}, [productsData]);
 
     return (
         <>
             <Navbar />
             <div className="main_all_products_container">
-                <div style={{ minWidth: 300 }}>
+                <div style={{ minWidth: 300, width: 350 }}>
                     <div className="filters_container">
-                        {dimensions.screenWidth <= 1400 && !showFilters ? (
-                            <h1
+                        {dimensions.screenWidth <= 1400 || !showFilters ? (
+                            <div
+                                style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                }}
                                 onClick={() => {
                                     setShowFilters(true);
-                                    setShowCloseBtn(true);
                                 }}
                             >
-                                Filters &gt;
-                            </h1>
+                                <h3 style={{ margin: 0 }}>Filters</h3>
+                                <FaChevronDown
+                                    size={20}
+                                    style={{
+                                        marginRight: 5,
+                                    }}
+                                />
+                            </div>
                         ) : (
                             <>
                                 <div
-                                    style={
-                                        showCloseBtn
-                                            ? {
-                                                  width: "100%",
-                                                  display: "flex",
-                                                  justifyContent:
-                                                      "space-between",
-                                              }
-                                            : null
-                                    }
+                                    style={{
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                    }}
                                 >
-                                    <h1>Filter Results</h1>
-                                    {showCloseBtn && (
-                                        <h1
-                                            onClick={() =>
-                                                setShowFilters(false)
-                                            }
-                                        >
-                                            X
-                                        </h1>
-                                    )}
+                                    <h3>Filter Results</h3>
+                                    <FiMinimize2
+                                        style={{
+                                            marginRight: 10,
+                                            marginTop: 5,
+                                        }}
+                                        size={25}
+                                        onClick={() => setShowFilters(false)}
+                                    />
                                 </div>
                                 <div className="category_filter">
                                     <h5>Choose Category</h5>
@@ -180,14 +196,22 @@ export const ProductsPage = () => {
                                         <option value="any" selected>
                                             any
                                         </option>
-                                        {categories.map((category, id) => (
-                                            <option
-                                                key={id}
-                                                value={category.name}
-                                            >
-                                                {category.name}
-                                            </option>
-                                        ))}
+                                        {categoriesError ? (
+                                            <Error showError={true} />
+                                        ) : categoriesLoading ? (
+                                            <h4>Loading...</h4>
+                                        ) : (
+                                            categoriesData.map(
+                                                (category, id) => (
+                                                    <option
+                                                        key={id}
+                                                        value={category.name}
+                                                    >
+                                                        {category.name}
+                                                    </option>
+                                                )
+                                            )
+                                        )}
                                     </select>
                                 </div>
                                 <div className="category_filter">
@@ -272,47 +296,53 @@ export const ProductsPage = () => {
                         )}
                     </div>
                     <div className="recent_searches">
-                        {dimensions.screenWidth <= 1400 && !showRecents ? (
-                            <h1
+                        {dimensions.screenWidth <= 1400 || !showRecents ? (
+                            <div
+                                style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                }}
                                 onClick={() => {
                                     setShowRecents(true);
-                                    setHideRecents(true);
                                 }}
                             >
-                                Recents &gt;
-                            </h1>
+                                <h3 style={{ margin: 0 }}>Recents</h3>
+                                <FaChevronDown
+                                    size={20}
+                                    style={{
+                                        marginRight: 5,
+                                    }}
+                                />
+                            </div>
                         ) : (
                             <>
                                 <div
-                                    style={
-                                        hideRecents
-                                            ? {
-                                                  width: "100%",
-                                                  display: "flex",
-                                                  justifyContent:
-                                                      "space-between",
-                                              }
-                                            : null
-                                    }
+                                    style={{
+                                        display: "flex",
+                                        width: "100%",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                    }}
                                 >
-                                    <h1>Recents</h1>
-                                    {hideRecents && (
-                                        <h1
-                                            onClick={() =>
-                                                setShowRecents(false)
-                                            }
-                                        >
-                                            X
-                                        </h1>
-                                    )}
+                                    <h3>Recents</h3>
+                                    <FiMinimize2
+                                        style={{
+                                            marginRight: 10,
+                                            marginTop: 5,
+                                        }}
+                                        size={25}
+                                        onClick={() => setShowRecents(false)}
+                                    />
                                 </div>
                                 <div>
                                     {recentSearches.length == 0 ? (
-                                        <h2>No Recent Searches...</h2>
+                                        <h4>No Recent Searches...</h4>
                                     ) : (
                                         recentSearches.map(
                                             (recentSearch, id) => (
-                                                <h3 key={id}>{recentSearch}</h3>
+                                                <h4 key={id}>{recentSearch}</h4>
                                             )
                                         )
                                     )}
@@ -322,150 +352,54 @@ export const ProductsPage = () => {
                     </div>
                 </div>
                 <div className="products_list">
-                    {isLoading ? (
+                    {productsLoading ? (
                         <h1>Loading...</h1>
-                    ) : error ? (
+                    ) : productsError ? (
                         <h1>Error...</h1>
-                    ) : filteredProducts.message != undefined ? (
-                        <h1>{filteredProducts.message}</h1>
                     ) : (
+                        // ) : filteredProducts.message != undefined ? (
+                        //     <h1>{filteredProducts.message}</h1>
                         <div style={{ width: "100%" }}>
                             <PaginationFooter
-                                currentPage={data.current_page}
-                                lastPage={data.last_page}
-                                firstPage={data.first_page_url}
-                                nextPage={data.next_page_url}
-                                prevPage={data.prev_page_url}
+                                currentPage={productsData.current_page}
+                                lastPage={productsData.last_page}
+                                firstPage={productsData.first_page_url}
+                                nextPage={productsData.next_page_url}
+                                prevPage={productsData.prev_page_url}
                             />
-                            {!showFilteredItems ? (
-                                data.data.map((item) => {
-                                    return (
-                                        <div
-                                            key={item.id}
-                                            className="product_item_container"
-                                        >
-                                            <img
-                                                src={item.images[0].path}
-                                                alt=""
-                                                className="product_item_image"
-                                            />
-                                            <div style={{ marginTop: 5 }}>
-                                                <div
-                                                    style={{
-                                                        display: "flex",
-                                                        flexWrap: "wrap",
-                                                    }}
-                                                >
-                                                    <Link
-                                                        to={`/products/${item.id}`}
-                                                        style={{
-                                                            fontSize: 32,
-                                                        }}
-                                                        state={{ item }}
-                                                    >
-                                                        {item.name}
-                                                    </Link>
-                                                    {item.discount
-                                                        ?.discount && (
-                                                        <h5 className="on_sale_header">
-                                                            SALE
-                                                        </h5>
-                                                    )}
-                                                </div>
-                                                <p>{item.description}</p>
-                                                <h3>
-                                                    {item.discount?.discount
-                                                        ? "Discount: "
-                                                        : "Current Price: "}
-                                                    {item.current_price.toFixed(
-                                                        2
-                                                    )}
-                                                    Kn
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    );
-                                })
-                            ) : (
-                                <div>
-                                    {filteredProductsStatus == "pending" ? (
-                                        <h1>loading</h1>
-                                    ) : (
-                                        filteredProducts.data?.map(
-                                            (item: any) => {
-                                                return (
-                                                    <div
-                                                        key={item.id}
-                                                        className="product_item_container"
-                                                    >
-                                                        <img
-                                                            src={
-                                                                item.images[0]
-                                                                    .path
-                                                            }
-                                                            alt=""
-                                                            className="product_item_image"
-                                                        />
-                                                        <div
-                                                            style={{
-                                                                marginTop: 5,
-                                                            }}
-                                                        >
-                                                            <div
-                                                                style={{
-                                                                    display:
-                                                                        "flex",
-                                                                    flexWrap:
-                                                                        "wrap",
-                                                                }}
-                                                            >
-                                                                <Link
-                                                                    to={`/products/${item.id}`}
-                                                                    style={{
-                                                                        fontSize: 32,
-                                                                    }}
-                                                                    state={{
-                                                                        item,
-                                                                    }}
-                                                                >
-                                                                    {item.name}
-                                                                </Link>
-                                                                {item.discount
-                                                                    ?.discount && (
-                                                                    <h5 className="on_sale_header">
-                                                                        SALE
-                                                                    </h5>
-                                                                )}
-                                                            </div>
-                                                            <p>
-                                                                {
-                                                                    item.description
-                                                                }
-                                                            </p>
-                                                            <h3>
-                                                                {item.discount
-                                                                    ?.discount
-                                                                    ? "Discout: "
-                                                                    : "Current Price: "}
-                                                                {item.current_price.toFixed(
-                                                                    2
-                                                                )}
-                                                                Kn
-                                                            </h3>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            }
-                                        )
-                                    )}
-                                </div>
-                            )}
+                            <div
+                                style={
+                                    listStyle == "block"
+                                        ? {
+                                              display: "flex",
+                                              flexWrap: "wrap",
+                                              width: "100%",
+                                          }
+                                        : null
+                                }
+                            >
+                                <ProductsList data={productsData.data} />
+                                {/* {!showFilteredItems ? (
+                                    <ProductsList data={data.data} />
+                                ) : (
+                                    <>
+                                        {filteredProductsStatus == "pending" ? (
+                                            <h1>loading</h1>
+                                        ) : (
+                                            <></>
+                                            // <ProductsList
+                                            //     data={filteredProducts.data}
+                                            // />
+                                        )}
+                                    </>
+                                )} */}
+                            </div>
                             <PaginationFooter
-                                currentPage={data.current_page}
-                                lastPage={data.last_page}
-                                firstPage={data.first_page_url}
-                                nextPage={data.next_page_url}
-                                prevPage={data.prev_page_url}
+                                currentPage={productsData.current_page}
+                                lastPage={productsData.last_page}
+                                firstPage={productsData.first_page_url}
+                                nextPage={productsData.next_page_url}
+                                prevPage={productsData.prev_page_url}
                             />
                         </div>
                     )}

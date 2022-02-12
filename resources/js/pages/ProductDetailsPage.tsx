@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router";
-import { Button } from "../components/Button";
 import "react-medium-image-zoom/dist/styles.css";
 import "../../css/ProductPage.css";
 import axios from "axios";
@@ -242,18 +241,12 @@ export const ProductDetailsPage = () => {
                     </h3>
                     {/* BUTTONS */}
                     <div className="product_buttons">
-                        <Button
-                            title="Add To Cart"
-                            onClick={() => addItemToCart(id, 1)}
-                            type="submit"
-                            style={{}}
-                        />
-                        <Button
-                            title="Wishlist"
-                            onClick={() => addItemToWishlist()}
-                            type="submit"
-                            style={{}}
-                        />
+                        <button onClick={() => addItemToCart(id, 1)}>
+                            Add To Cart
+                        </button>
+                        <button onClick={() => addItemToWishlist()}>
+                            Wishlist
+                        </button>
                     </div>
                 </div>
                 {/* RELATED PRODUCTS FGALLEYRY */}

@@ -2,13 +2,26 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
+    //NE KORISTIN
+    //------------------
     filteredProducts: [],
     showFilteredProducts: false,
     status: null,
+    //------------------
     recents: [],
-    whatPage: "allProducts?page=1",
+    currentPage: 1,
+    listStyle: "block",
+    searchWord: "",
+    fetchingProps: {
+        //default
+        domainName: "complexFilterSearch?productsPerPage=20",
+        page: "1",
+        params: { keyword: "" },
+    },
 };
 
+//NE KORISITIN
+//------------------------------------------------------------------------------------------
 export const fetchFilteredProducts = createAsyncThunk(
     "products/fetchByKeyword",
     async (searchParameters: any, thunkAPI) => {
@@ -26,7 +39,7 @@ export const fetchFilteredProducts = createAsyncThunk(
         return response?.data;
     }
 );
-
+//------------------------------------------------------------------------------------------
 export const dataSlice = createSlice({
     name: "products",
     initialState,
@@ -41,9 +54,22 @@ export const dataSlice = createSlice({
             state.filteredProducts = action.payload;
         },
         setCurrentPage(state, action) {
-            state.whatPage = action.payload;
+            state.currentPage = action.payload;
+        },
+        toggleListStyle(state, action) {
+            if (action.payload == "flex") state.listStyle = "flex";
+            else state.listStyle = "block";
+        },
+        setFetchingProps(state, action) {
+            state.fetchingProps.params = action.payload.params;
+            state.fetchingProps.page = action.payload.page;
+        },
+        setSearchWord(state, action) {
+            state.searchWord = action.payload;
         },
     },
+    //NE KORISITIN
+    //------------------------------------------------------------------------------------------
     extraReducers: (builder) => {
         builder.addCase(fetchFilteredProducts.pending, (state, action) => {
             state.showFilteredProducts = false;
@@ -60,6 +86,7 @@ export const dataSlice = createSlice({
             state.status = "fulfilled";
         });
     },
+    //------------------------------------------------------------------------------------------
 });
 
 export const {
@@ -67,5 +94,8 @@ export const {
     addToRecents,
     setFilteredProducts,
     setCurrentPage,
+    toggleListStyle,
+    setFetchingProps,
+    setSearchWord,
 } = dataSlice.actions;
 export default dataSlice.reducer;

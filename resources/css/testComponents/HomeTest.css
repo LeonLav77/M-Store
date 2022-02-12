@@ -1,0 +1,45 @@
+.main_home_container2 {
+    width: 85%;
+    margin: 0 auto;
+    text-align: center;
+    /* background: linear-gradient(to top left, rgb(52, 130, 106), #046279); */
+    box-shadow: inset 0px 17px 20px rgba(0, 0, 0, 0.75);
+    background-color: #ebebeb;
+}
+.main_heading {
+    font-weight: bold;
+    font-size: 3.5rem;
+}
+.main_heading:hover {
+    background: linear-gradient(rgb(65, 159, 131), #097895);
+    background-clip: text;
+    color: transparent;
+}
+.routing_tags {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2%;
+}
+.related_categories_container2 {
+    height: 200px;
+    overflow-x: scroll;
+    scrollbar-width: thin !important; /*ne dela na chorme */
+}
+.related_categories_container2::-webkit-scrollbar {
+    width: 25px !important;
+    scrollbar-width: thin !important; /*ne dela na chorme */
+}
+.related_categories_container2::-webkit-scrollbar-track {
+    background: transparent;
+}
+.related_categories_container2::-webkit-scrollbar-track-piece {
+    width: 30px;
+}
+.related_categories_container2::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: linear-gradient(45deg, rgb(65, 159, 131), #097895);
+    /* background: transparent; */
+}
+.related_categories_container2::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, rgb(65, 159, 131), #097895);
+}
