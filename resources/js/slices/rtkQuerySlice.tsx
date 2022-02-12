@@ -15,9 +15,6 @@ export const apiSlice = createApi({
                     params,
                 }) => {
                     let { keyword, ...rest } = params;
-                    console.log(
-                        `${domainName}&page=${page}&name=${keyword ?? ""}`
-                    );
                     return `${domainName}&page=${page}&name=${keyword ?? ""}`;
                 },
             }),

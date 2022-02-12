@@ -34,7 +34,6 @@ export const fetchFilteredProducts = createAsyncThunk(
         }&stock=&name=${searchParameters.keyword ?? ""}&category=${
             searchParameters.category ?? ""
         }`;
-        console.log(url);
         const response = await axios.get(url);
         return response?.data;
     }
