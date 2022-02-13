@@ -96,6 +96,7 @@ export const Navbar = () => {
                         alt="store_logo"
                         width={200}
                         height={70}
+                        onClick={() => navigate("/home")}
                     />
                 )}
                 <div className="search_bar">

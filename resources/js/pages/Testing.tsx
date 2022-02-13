@@ -1,16 +1,9 @@
 import React from "react";
 import "../../css/Testing.css";
-import { HomeTest } from "../components/testComponents/HomeTest";
-import { LoginTest } from "../components/testComponents/LoginTest";
 // import axios from "axios";
 
 export const Testing = () => {
-    return (
-        <>
-            {/* <LoginTest /> */}
-            <HomeTest />
-        </>
-    );
+    return <>a</>;
 };
 // const Login = () =>
 //     axios({

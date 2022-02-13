@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
-import "../../../css/components/Login.css";
+import "../../../css/LoginPage.css";
 import useAuth from "../../hooks/useAuth";
 import { Error as ErrorMessage } from "../Error";
 import { useLocalStorage } from "react-use";
+import { BsFacebook, BsTwitter, BsInstagram } from "react-icons/bs";
 
 export const Login = () => {
     // const [showFalseTFACode, setShowFalseTFACode, remove] = useLocalStorage(
@@ -61,11 +62,11 @@ export const Login = () => {
     }, []);
 
     return (
-        <div className="login_container">
+        <div className="main_login_container2">
             {error ? (
                 <ErrorMessage showError={true} />
             ) : (
-                <>
+                <div>
                     {showTFAChallenge && (
                         <div
                             style={{
@@ -150,77 +151,107 @@ export const Login = () => {
                             )} */}
                         </div>
                     )}
-                    <img
-                        src={require("../../../images/login_bg.jpg").default}
-                        alt=""
-                        height={"100%"}
-                        width={"55%"}
-                        style={{
-                            borderBottomLeftRadius: 15,
-                            borderTopLeftRadius: 15,
-                        }}
-                        className="login_bg_img"
-                    />
-                    <div className="login_form">
-                        <h1>User Login</h1>
-                        <div>
-                            <h4>Email</h4>
-                            <div className="wrap_input">
-                                <input
-                                    className="form_input"
-                                    type="email"
-                                    id=""
-                                    placeholder="Enter Email...."
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <h4>Password</h4>
-                            <div className="wrap_input">
-                                <input
-                                    className="form_input"
-                                    type="password"
-                                    id=""
-                                    placeholder="Enter Password..."
-                                />
-                            </div>
-                        </div>
-                        {showFalseInfoMsg && (
-                            <h6>
-                                Email or Password is incorrect! Try again...
-                            </h6>
-                        )}
-                        <button
-                            className="login_submit_button"
-                            onClick={() => {
-                                const nil = async () => {
-                                    const resp = await login();
-                                    console.log(resp);
-                                    if (resp.data?.two_factor == false) {
-                                        setUser(true);
-                                        navigate("/home");
-                                    } else if (resp.data?.two_factor == true) {
-                                        setShowTFAChallenge(true);
-                                    } else {
-                                        //wrong infos/not logged in
-                                        setShowFalseInfoMsg(true);
-                                        throw new Error("Failed to login!");
-                                    }
-                                };
-                                nil();
-                            }}
-                        >
-                            Login
-                        </button>
-                        <h6>
-                            First time here?{" "}
-                            <Link to="/register" style={{ color: "#2a765f" }}>
-                                Create Account...
-                            </Link>
-                        </h6>
-                    </div>
-                </>
+                </div>
             )}
+            <div className="login_form_wrapper">
+                <div className="login_image_container">
+                    <div className="login_image_container_overlay">
+                        <div className="login_text_part">
+                            <h1
+                                style={{
+                                    position: "relative",
+                                    zIndex: 100,
+                                    color: "whitesmoke",
+                                    fontSize: 40,
+                                    fontWeight: "bold",
+                                    letterSpacing: 2,
+                                    width: "70%",
+                                    textAlign: "center",
+                                }}
+                            >
+                                We keep our shit clean
+                            </h1>
+                            <p
+                                style={{
+                                    width: "70%",
+                                    color: "whitesmoke",
+                                    textAlign: "center",
+                                    fontSize: 18,
+                                }}
+                            >
+                                Join us before we get drafted for WW3. Keep It
+                                Simple :)
+                            </p>
+                        </div>
+                        <div className="socials">
+                            <BsFacebook size={20} color="white" />
+                            <BsTwitter size={20} color="white" />
+                            <BsInstagram size={20} color="white" />
+                        </div>
+                    </div>
+                    <div className="logo_image_container"></div>
+                </div>
+                <div className="login_form">
+                    <h1>User Login</h1>
+                    <div>
+                        <h4>Email</h4>
+                        <div className="wrap_input">
+                            <input
+                                className="form_input"
+                                type="email"
+                                id=""
+                                placeholder="Enter Email...."
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Password</h4>
+                        <div className="wrap_input">
+                            <input
+                                className="form_input"
+                                type="password"
+                                id=""
+                                placeholder="Enter Password..."
+                            />
+                        </div>
+                    </div>
+                    {showFalseInfoMsg && (
+                        <h6>Email or Password is incorrect! Try again...</h6>
+                    )}
+                    <button
+                        className="login_submit_button"
+                        onClick={() => {
+                            const nil = async () => {
+                                const resp = await login();
+                                console.log(resp);
+                                if (resp.data?.two_factor == false) {
+                                    setUser(true);
+                                    navigate("/home");
+                                } else if (resp.data?.two_factor == true) {
+                                    setShowTFAChallenge(true);
+                                } else {
+                                    //wrong infos/not logged in
+                                    setShowFalseInfoMsg(true);
+                                    throw new Error("Failed to login!");
+                                }
+                            };
+                            nil();
+                        }}
+                    >
+                        Login
+                    </button>
+                    <h6>
+                        First time here?{" "}
+                        <Link to="/register" style={{ color: "#2a765f" }}>
+                            Create Account...
+                        </Link>
+                    </h6>
+                </div>
+            </div>
+            <div className="login_container_shape"></div>
+            <div className="login_container_shape2"></div>
+            <div className="login_container_shape3"></div>
+            <div className="login_container_shape4"></div>
         </div>
     );
 };
