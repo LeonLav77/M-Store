@@ -21,7 +21,7 @@ export const PaginationFooter = ({
     const listStyle = useSelector((state: any) => state.productsData.listStyle);
     const dimensions = useDimensions();
     const keyword = useSelector((state: any) => state.productsData.searchWord);
-    useEffect(() => console.log(keyword), [keyword]);
+    useEffect(() => {}, [keyword]);
     //BsGrid1X2Fill GiHamburgerMenu
     return (
         <div

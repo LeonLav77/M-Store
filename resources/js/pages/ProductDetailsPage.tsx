@@ -5,7 +5,9 @@ import "../../css/ProductPage.css";
 import axios from "axios";
 import { ItemsList } from "../components/ItemsList";
 import { ProductDataInterface } from "./ProductsPage";
+import { useFetchCategoriesQuery } from "../slices/rtkQuerySlice";
 import { useDimensions } from "../hooks/useDimensions";
+import { Error } from "../components/Error";
 
 export interface RelatedCategoriesInterface {
     created_at: null | string;
@@ -33,9 +35,16 @@ export const ProductDetailsPage = () => {
     const [relatedItems, setRelatedItems] = useState<ProductDataInterface[]>(
         []
     );
-    const [relatedCategories, setRelatedCategories] = useState<
-        RelatedCategoriesInterface[]
-    >([]);
+    const categories = useFetchCategoriesQuery("categories");
+    const {
+        data: categoriesData,
+        error: categoriesError,
+        isLoading: categoriesLoading,
+    }: {
+        data?: RelatedCategoriesInterface[];
+        error?: any;
+        isLoading?: any;
+    } = categories;
     const location = useLocation();
     const {
         item: {
@@ -70,20 +79,12 @@ export const ProductDetailsPage = () => {
             .catch((err) => console.log(err));
     };
 
-    const getCategories = () => {
-        return axios
-            .get("http://127.0.0.1:8000/api/categories")
-            .then((res: any) => setRelatedCategories(res.data))
-            .catch((err) => console.log(err));
-    };
-
     const hideSlider = (e) => {
         if (e.target.classList.contains("overlay")) setIsZoomedIn(false);
         else return;
     };
 
     useEffect(() => {
-        getCategories();
         getRelatedProducts();
     }, []);
 
@@ -174,7 +175,7 @@ export const ProductDetailsPage = () => {
                                 key={id}
                                 src={image.path}
                                 className={`product_slider_image ${
-                                    currentId == id ? "active" : ""
+                                    currentId == id ? "active_image" : ""
                                 }`}
                                 onClick={() => {
                                     setCurrentId(id);
@@ -203,9 +204,7 @@ export const ProductDetailsPage = () => {
                         </div>
                         <div className="product_info">
                             <span className="first_span">Category: </span>
-                            <span>
-                                {relatedCategories[category_id - 1]?.name}
-                            </span>
+                            <span>{categoriesData[category_id - 1]?.name}</span>
                         </div>
                         <div className="product_info">
                             <span className="first_span">Description:</span>
@@ -241,11 +240,17 @@ export const ProductDetailsPage = () => {
                     </h3>
                     {/* BUTTONS */}
                     <div className="product_buttons">
-                        <button onClick={() => addItemToCart(id, 1)}>
+                        <button
+                            className="add_to_cart_btn"
+                            onClick={() => addItemToCart(id, 1)}
+                        >
                             Add To Cart
                         </button>
-                        <button onClick={() => addItemToWishlist()}>
-                            Wishlist
+                        <button
+                            className="wishlist_btn"
+                            onClick={() => addItemToWishlist()}
+                        >
+                            Add To Wishlist
                         </button>
                     </div>
                 </div>
@@ -262,16 +267,7 @@ export const ProductDetailsPage = () => {
                         <div className="vertical">
                             {relatedItems.map((item, id) => {
                                 return (
-                                    <div
-                                        key={id}
-                                        style={{
-                                            margin: 10,
-                                            width: "350px",
-                                            height: "150px",
-                                            backgroundColor: "grey",
-                                            display: "flex",
-                                        }}
-                                    >
+                                    <div className="related_item" key={id}>
                                         <img
                                             src={item.images[0].path}
                                             alt=""
@@ -280,11 +276,12 @@ export const ProductDetailsPage = () => {
                                             style={{ margin: "2%" }}
                                         />
                                         <div style={{ marginBlock: "auto" }}>
-                                            <h1>{item.name}</h1>
-                                            <h3>
+                                            <h3>{item.name}</h3>
+                                            <h5>
+                                                Price:{" "}
                                                 {item.current_price.toFixed(2)}{" "}
                                                 Kn
-                                            </h3>
+                                            </h5>
                                         </div>
                                     </div>
                                 );
@@ -300,11 +297,16 @@ export const ProductDetailsPage = () => {
                         : "hide"
                 }
             >
-                <ItemsList data={relatedItems} title="Related Items" />
+                <ItemsList
+                    dataType={"relatedItems"}
+                    data={relatedItems}
+                    title="Related Items"
+                />
             </div>
             <div className="related_categories_container">
                 <ItemsList
-                    data={relatedCategories}
+                    dataType={"categories"}
+                    data={categoriesData}
                     title="Related Categories"
                 />
             </div>
