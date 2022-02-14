@@ -18,6 +18,7 @@ const initialState = {
         page: "1",
         params: { keyword: "" },
     },
+    cartModified: 0,
 };
 
 //NE KORISITIN
@@ -66,6 +67,9 @@ export const dataSlice = createSlice({
         setSearchWord(state, action) {
             state.searchWord = action.payload;
         },
+        setCartModified(state) {
+            state.cartModified += 1;
+        },
     },
     //NE KORISITIN
     //------------------------------------------------------------------------------------------
@@ -96,5 +100,6 @@ export const {
     toggleListStyle,
     setFetchingProps,
     setSearchWord,
+    setCartModified,
 } = dataSlice.actions;
 export default dataSlice.reducer;

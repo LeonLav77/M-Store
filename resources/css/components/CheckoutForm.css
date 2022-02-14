@@ -1,0 +1,9 @@
+.user_info_form {
+    width: 1000px;
+    padding: 10px;
+}
+.checkout_form_container_wrapper {
+    border: 2px solid #dedede;
+    background-color: #ebebeb;
+    margin-block: 10px;
+}

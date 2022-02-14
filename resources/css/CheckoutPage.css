@@ -8,10 +8,3 @@
     border: 1px solid gray;
     border-radius: 5px;
 }
-.user_info_form {
-    width: 1000px;
-    margin: 10px;
-    padding: 5px;
-    margin-left: 40px;
-    background-color: rgb(212, 212, 212, 0.3);
-}

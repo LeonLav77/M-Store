@@ -4,6 +4,8 @@ import "../../css/CartPage.css";
 import { useDimensions } from "../hooks/useDimensions";
 import axios from "axios";
 import { CartItem } from "./CartItem";
+import { useDispatch, useSelector } from "react-redux";
+import { setCartModified } from "../slices/dataSlice";
 
 //nanovo
 // interface CartDataInterface {
@@ -17,7 +19,11 @@ import { CartItem } from "./CartItem";
 // }
 
 export const Cart = () => {
-    const [itemRemoved, setItemRemoved] = useState(0);
+    const itemRemoved = useSelector(
+        (state: any) => state.productsData.cartModified
+    );
+    // const [itemRemoved, setItemRemoved] = useState(0);
+    const dispatch = useDispatch();
     const cartData = useFetchCartQuery(itemRemoved);
     const {
         data,
@@ -31,7 +37,8 @@ export const Cart = () => {
             url: "/api/emptyCart",
         })
             .then((res) => {
-                setItemRemoved(itemRemoved + 1);
+                // setItemRemoved(itemRemoved + 1);
+                dispatch(setCartModified());
                 console.log(res.data);
             })
             .catch((err) => err);
@@ -45,13 +52,14 @@ export const Cart = () => {
             },
         })
             .then((res) => {
-                setItemRemoved(itemRemoved + 1);
+                dispatch(setCartModified());
+                // setItemRemoved(itemRemoved + 1);
                 console.log(res.data);
                 return res;
             })
             .catch((err) => err);
     };
-    useEffect(() => console.log(data), [data]);
+    useEffect(() => console.log(data), [itemRemoved]);
     return (
         <div style={{ width: "70%", marginLeft: 20 }}>
             <table cellPadding={20}>
