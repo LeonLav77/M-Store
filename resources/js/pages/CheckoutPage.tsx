@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import "../../css/CheckoutPage.css";
 import { StripePage } from "../components/auth/StripePage";
 // import { Cart } from "../components/Cart";
@@ -6,6 +8,8 @@ import { CartSummary } from "../components/CartSummary";
 import { CheckoutCart } from "../components/CheckoutCart";
 import { CheckoutForm } from "../components/CheckoutForm";
 import { Navbar } from "../components/Navbar";
+import useAuth from "../hooks/useAuth";
+import { setLastDomainPath } from "../slices/dataSlice";
 
 export const CheckoutPage = () => {
     // const handleSelect = (country) => {
@@ -20,6 +24,13 @@ export const CheckoutPage = () => {
     //         }
     //     */
     // };
+    const { user } = useAuth();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!user) navigate("/login");
+        dispatch(setLastDomainPath("checkout"));
+    }, []);
     return (
         <div style={{ backgroundColor: "whitesmoke" }}>
             {/* <Cart /> */}

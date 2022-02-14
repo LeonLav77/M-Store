@@ -5,7 +5,9 @@ import { useDimensions } from "../hooks/useDimensions";
 import axios from "axios";
 import { CartItem } from "./CartItem";
 import { useDispatch, useSelector } from "react-redux";
-import { setCartModified } from "../slices/dataSlice";
+import { setCartModified, setLastDomainPath } from "../slices/dataSlice";
+import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 //nanovo
 // interface CartDataInterface {
@@ -59,7 +61,7 @@ export const Cart = () => {
             })
             .catch((err) => err);
     };
-    useEffect(() => console.log(data), [itemRemoved]);
+    useEffect(() => {}, [itemRemoved]);
     return (
         <div style={{ width: "70%", marginLeft: 20 }}>
             <table cellPadding={20}>

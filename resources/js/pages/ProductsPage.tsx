@@ -8,12 +8,19 @@ import { Navbar } from "../components/Navbar";
 import { useDimensions } from "../hooks/useDimensions";
 import { PaginationFooter } from "../components/PaginationFooter";
 import { useDispatch, useSelector } from "react-redux";
-import { addToRecents, fetchFilteredProducts } from "../slices/dataSlice";
+import {
+    addToRecents,
+    fetchFilteredProducts,
+    setLastDomainPath,
+} from "../slices/dataSlice";
 import { Error } from "../components/Error";
 import { RelatedCategoriesInterface } from "./ProductDetailsPage";
 import { ProductsList } from "../components/ProductsList";
 import { FiMinimize2 } from "react-icons/fi";
 import { FaChevronDown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { checkUser } from "../components/auth/Login";
 
 export interface ProductDataInterface {
     id: number;
@@ -62,6 +69,7 @@ export const ProductsPage = () => {
     const fetchingProps = useSelector(
         (state: any) => state.productsData.fetchingProps
     );
+    const checkIfUser = checkUser();
     const productsPerPageData = useFetchProductsQuery(fetchingProps);
     const {
         data: productsData,
@@ -72,6 +80,7 @@ export const ProductsPage = () => {
         error?: any;
         isLoading?: any;
     } = productsPerPageData;
+    const navigate = useNavigate();
 
     // productsData as productsPerPageDataInterface;
     const categories = useFetchCategoriesQuery("categories");
@@ -96,6 +105,7 @@ export const ProductsPage = () => {
     const recentSearches = useSelector(
         (state: any) => state.productsData.recents
     );
+    const { user } = useAuth();
     const dimensions = useDimensions();
 
     //filter props - NE KORISIN
@@ -134,6 +144,11 @@ export const ProductsPage = () => {
         //     })
         // );
     };
+    useEffect(() => {
+        console.log(checkIfUser);
+        if (!user) navigate("/login");
+        dispatch(setLastDomainPath("products"));
+    }, []);
     useEffect(() => {}, [productsData]);
 
     return (

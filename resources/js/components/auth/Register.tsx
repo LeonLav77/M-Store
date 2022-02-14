@@ -20,7 +20,6 @@ export const Register = () => {
 
     useEffect(() => {
         console.log(user);
-
         if (user) navigate("/home");
     }, []);
     return (

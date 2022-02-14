@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import { dataSlice } from "../slices/dataSlice";
 import { apiSlice } from "../slices/rtkQuerySlice";
 import { userSlice } from "../slices/userInfoSlice";
-import { setUser } from "../slices/userInfoSlice";
 
 export const store = configureStore({
     reducer: {

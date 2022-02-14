@@ -19,6 +19,7 @@ const initialState = {
         params: { keyword: "" },
     },
     cartModified: 0,
+    lastDomainPath: "",
 };
 
 //NE KORISITIN
@@ -70,6 +71,9 @@ export const dataSlice = createSlice({
         setCartModified(state) {
             state.cartModified += 1;
         },
+        setLastDomainPath(state, action) {
+            state.lastDomainPath = action.payload;
+        },
     },
     //NE KORISITIN
     //------------------------------------------------------------------------------------------
@@ -101,5 +105,6 @@ export const {
     setFetchingProps,
     setSearchWord,
     setCartModified,
+    setLastDomainPath,
 } = dataSlice.actions;
 export default dataSlice.reducer;

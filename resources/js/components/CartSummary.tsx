@@ -8,7 +8,6 @@ export const CartSummary = () => {
     const [totalItemsPrice, setTotalItemsPrice] = useState<number | null>(null);
     const cartData = useFetchCartQuery(0);
     const location = useLocation();
-    console.log(location.pathname);
     const {
         data,
         isLoading,

@@ -1,5 +1,11 @@
 import axios from "axios";
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 
 //login cu nap s context-on a, register cu samo tamo s useState-ovima
 
@@ -9,7 +15,11 @@ export const AuthUserProvider = ({ children }) => {
     const [password, setPassword] = useState("password");
     const [email, setEmail] = useState(process.env.MIX_EMAIL);
 
-    const [user, setUser] = useState(false);
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
+    useEffect(() => {
+        localStorage.setItem("user", JSON.stringify(user));
+    }, [user]);
 
     const login = async () => {
         try {

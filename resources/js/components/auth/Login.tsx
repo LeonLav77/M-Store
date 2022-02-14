@@ -7,6 +7,12 @@ import useAuth from "../../hooks/useAuth";
 import { Error as ErrorMessage } from "../Error";
 import { useLocalStorage } from "react-use";
 import { BsFacebook, BsTwitter, BsInstagram } from "react-icons/bs";
+import { useSelector } from "react-redux";
+
+export function checkUser() {
+    if (JSON.parse(localStorage.getItem("user"))) return true;
+    else return false;
+}
 
 export const Login = () => {
     // const [showFalseTFACode, setShowFalseTFACode, remove] = useLocalStorage(
@@ -27,8 +33,13 @@ export const Login = () => {
     const [TFAChallengeCode, setTFAChallengeCode] = useState("");
     const [showFalseInfoMsg, setShowFalseInfoMsg] = useState(false);
 
+    const lastDomainPath = useSelector((state: any) =>
+        state.productsData.lastDomainPath == ""
+            ? "home"
+            : state.productsData.lastDomainPath
+    );
     const navigate = useNavigate();
-    const { login, logout, user, setUser } = useAuth();
+    const { login, user, setUser } = useAuth();
     // const [isReady, cancel] = useTimeout(1000);
 
     const TFAChallenge = () =>
@@ -47,7 +58,7 @@ export const Login = () => {
                 if (res.statusText == "No Content") {
                     setTFAChallengeCode("");
                     setUser(true);
-                    navigate("/home");
+                    navigate(`/${lastDomainPath}`);
                 }
             })
             .catch((err) => {
@@ -57,8 +68,8 @@ export const Login = () => {
                 }
             });
     useEffect(() => {
-        if (user) navigate("/home");
-        logout();
+        const checkIfLogged = checkUser();
+        if (checkIfLogged) navigate(`/${lastDomainPath}`);
     }, []);
 
     return (
@@ -223,10 +234,9 @@ export const Login = () => {
                         onClick={() => {
                             const nil = async () => {
                                 const resp = await login();
-                                console.log(resp);
                                 if (resp.data?.two_factor == false) {
                                     setUser(true);
-                                    navigate("/home");
+                                    navigate(`/${lastDomainPath}`);
                                 } else if (resp.data?.two_factor == true) {
                                     setShowTFAChallenge(true);
                                 } else {
