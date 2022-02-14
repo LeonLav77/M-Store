@@ -5,6 +5,7 @@ import { StripePage } from "../components/auth/StripePage";
 import { CartSummary } from "../components/CartSummary";
 import { CheckoutCart } from "../components/CheckoutCart";
 import { CheckoutForm } from "../components/CheckoutForm";
+import { Navbar } from "../components/Navbar";
 
 export const CheckoutPage = () => {
     // const handleSelect = (country) => {
@@ -22,7 +23,7 @@ export const CheckoutPage = () => {
     return (
         <div style={{ backgroundColor: "whitesmoke" }}>
             {/* <Cart /> */}
-
+            <Navbar />
             <div style={{ display: "flex", gap: 10 }}>
                 <div style={{ width: "60%" }}>
                     <CheckoutCart />
