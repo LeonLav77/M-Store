@@ -5,7 +5,6 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import "../../../css/LoginPage.css";
 import useAuth from "../../hooks/useAuth";
 import { Error as ErrorMessage } from "../Error";
-import { useLocalStorage } from "react-use";
 import { BsFacebook, BsTwitter, BsInstagram } from "react-icons/bs";
 import { useSelector } from "react-redux";
 
@@ -13,25 +12,15 @@ export function checkUser() {
     if (JSON.parse(localStorage.getItem("user"))) return true;
     else return false;
 }
-
 export const Login = () => {
-    // const [showFalseTFACode, setShowFalseTFACode, remove] = useLocalStorage(
-    //     "falseTFACode",
-    //     false
-    // );
-    function useLocalState(bool) {
-        const [myVal, setState] = useState(localStorage.getItem(bool));
-        function setMyVal(newBool) {
-            localStorage.setItem(bool, newBool);
-            setState(newBool);
-        }
-        return [myVal, setMyVal];
-    }
-    const localData = useLocalState("false");
     const [error, setError] = useState(false);
     const [showTFAChallenge, setShowTFAChallenge] = useState(false);
     const [TFAChallengeCode, setTFAChallengeCode] = useState("");
     const [showFalseInfoMsg, setShowFalseInfoMsg] = useState(false);
+
+    const [falseTFACode, setFalseTFACode] = useState<boolean>(() =>
+        JSON.parse(localStorage.getItem("local"))
+    );
 
     const lastDomainPath = useSelector((state: any) =>
         state.productsData.lastDomainPath == ""
@@ -39,10 +28,23 @@ export const Login = () => {
             : state.productsData.lastDomainPath
     );
     const navigate = useNavigate();
-    const { login, user, setUser } = useAuth();
-    // const [isReady, cancel] = useTimeout(1000);
+    const { login, setUser } = useAuth();
 
-    const TFAChallenge = () =>
+    const beforeLogin = async () => {
+        const resp = await login();
+        if (resp.data?.two_factor == false) {
+            setUser(true);
+            navigate(`/${lastDomainPath}`);
+        } else if (resp.data?.two_factor == true) {
+            setShowTFAChallenge(true);
+        } else {
+            //wrong infos/not logged in
+            setShowFalseInfoMsg(true);
+            throw new Error("Failed to login!");
+        }
+    };
+
+    const TFAChallenge = () => {
         axios({
             method: "post",
             url: "/auth/two-factor-challenge",
@@ -54,23 +56,27 @@ export const Login = () => {
             },
         })
             .then((res) => {
-                console.log(TFAChallengeCode);
                 if (res.statusText == "No Content") {
+                    setFalseTFACode(false);
                     setTFAChallengeCode("");
                     setUser(true);
                     navigate(`/${lastDomainPath}`);
                 }
             })
             .catch((err) => {
-                if (err.response.status == 422) {
-                    console.log("BIC");
-                    // window.location.reload();
-                }
+                setFalseTFACode(true);
+                window.location.reload();
             });
+    };
     useEffect(() => {
         const checkIfLogged = checkUser();
         if (checkIfLogged) navigate(`/${lastDomainPath}`);
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem("local", JSON.stringify(falseTFACode));
+        if (falseTFACode == true) beforeLogin();
+    }, [falseTFACode]);
 
     return (
         <div className="main_login_container2">
@@ -78,7 +84,7 @@ export const Login = () => {
                 <ErrorMessage showError={true} />
             ) : (
                 <div>
-                    {showTFAChallenge && (
+                    {(showTFAChallenge || falseTFACode) && (
                         <div
                             style={{
                                 position: "absolute",
@@ -133,7 +139,9 @@ export const Login = () => {
                                     />
                                     <button
                                         style={{ width: "30%" }}
-                                        onClick={() => TFAChallenge()}
+                                        onClick={() => {
+                                            TFAChallenge();
+                                        }}
                                     >
                                         Send
                                     </button>
@@ -232,20 +240,7 @@ export const Login = () => {
                     <button
                         className="login_submit_button"
                         onClick={() => {
-                            const nil = async () => {
-                                const resp = await login();
-                                if (resp.data?.two_factor == false) {
-                                    setUser(true);
-                                    navigate(`/${lastDomainPath}`);
-                                } else if (resp.data?.two_factor == true) {
-                                    setShowTFAChallenge(true);
-                                } else {
-                                    //wrong infos/not logged in
-                                    setShowFalseInfoMsg(true);
-                                    throw new Error("Failed to login!");
-                                }
-                            };
-                            nil();
+                            beforeLogin();
                         }}
                     >
                         Login
