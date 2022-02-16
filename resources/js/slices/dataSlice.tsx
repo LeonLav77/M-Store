@@ -22,6 +22,8 @@ const initialState = {
     lastDomainPath: "",
 
     toggleStyle: false,
+    //register
+    userVerified: false,
 };
 
 //NE KORISITIN
@@ -78,6 +80,9 @@ export const dataSlice = createSlice({
         },
         setToggleStyle(state, action) {
             state.toggleStyle = action.payload;
+        },
+        userVerified(state) {
+            state.userVerified = true;
         },
     },
     //NE KORISITIN

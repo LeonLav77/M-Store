@@ -27,7 +27,7 @@ export const AuthUserProvider = ({ children }) => {
                 method: "post",
                 url: "auth/login",
                 data: {
-                    email: "massimopersic1@gmail.com",
+                    email: "leonlav77@gmail.com",
                     password: "password",
                 },
                 headers: {

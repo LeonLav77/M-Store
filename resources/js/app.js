@@ -55,7 +55,11 @@ render(
                     <Route path="password_reset" element={<PasswordReset />} />
                     <Route path="user_profile" element={<UserProfilePage />} />
                     <Route path="cart" element={<CartPage />} />
-                    <Route path="checkout" element={<CheckoutPage />} />
+                    {/* <Route path="checkout" element={<CheckoutPage />} /> */}
+                    <Route
+                        path="checkout/order/:orderId"
+                        element={<CheckoutPage />}
+                    />
                     <Route path="testing" element={<Testing></Testing>} />
                     <Route path="testingUi" element={<TestingUi></TestingUi>} />
                     <Route

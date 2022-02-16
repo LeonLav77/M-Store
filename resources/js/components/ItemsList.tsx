@@ -27,7 +27,7 @@ export const ItemsList = ({ data, title, dataType }) => {
                                               margin: 10,
                                               width: "350px",
                                               height: "150px",
-                                              border: "2px solid #d3d3d3;",
+                                              border: "2px solid #d3d3d3",
                                               display: "flex",
                                               padding: "20px",
                                               minWidth: "370px",

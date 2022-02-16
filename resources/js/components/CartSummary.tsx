@@ -71,7 +71,7 @@ export const CartSummary = () => {
                     kn
                 </h2>
             </div>
-            {location.pathname == "/checkout" ? (
+            {location.pathname.startsWith("/checkout/order/") ? (
                 <button
                     style={{
                         width: "80%",
@@ -97,7 +97,8 @@ export const CartSummary = () => {
                     }}
                 >
                     <Link
-                        to="/checkout"
+                        to={`/checkout/order/${"" + Date.now()}`}
+                        //myb to ne rabi
                         style={{ color: "white", listStyle: "none" }}
                     >
                         Go To Checkkout

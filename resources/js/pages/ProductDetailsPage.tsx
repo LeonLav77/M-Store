@@ -26,7 +26,7 @@ export const addItemToCart = (product_id, quantity) => {
             quantity,
         },
     })
-        .then((res) => console.log(product_id, quantity))
+        .then((res) => console.log(res))
         .catch((err) => console.log(err));
 };
 
