@@ -23,6 +23,7 @@ const initialState = {
 
     toggleStyle: false,
     //register
+    //myb ne rabi global zavisi kada posalje mail
     userVerified: false,
 };
 

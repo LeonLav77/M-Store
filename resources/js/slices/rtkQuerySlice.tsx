@@ -14,8 +14,14 @@ export const apiSlice = createApi({
                     page,
                     params,
                 }) => {
-                    let { keyword, ...rest } = params;
-                    return `${domainName}&page=${page}&name=${keyword ?? ""}`;
+                    // let { keyword, ...rest } = params;
+                    let { category, condition, maxPrice, keyword, size } =
+                        params;
+                    return `${domainName}&page=${page}&name=${
+                        keyword ?? ""
+                    }&category=${category ?? ""}&condition=${
+                        condition ?? ""
+                    }&max=${maxPrice ?? ""}&size=${size ?? ""}`;
                 },
             }),
             fetchCategories: builder.query({
