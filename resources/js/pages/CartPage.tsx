@@ -3,7 +3,7 @@ import { Cart } from "../components/Cart";
 import { Navbar } from "../components/Navbar";
 import "../../css/CartPage.css";
 import { CartSummary } from "../components/CartSummary";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { setLastDomainPath } from "../slices/dataSlice";
@@ -11,6 +11,9 @@ import { setLastDomainPath } from "../slices/dataSlice";
 export const CartPage = () => {
     const dispatch = useDispatch();
     const { user } = useAuth();
+    const toggleStyle = useSelector(
+        (state: any) => state.productsData.toggleStyle
+    );
     const navigate = useNavigate();
     useEffect(() => {
         if (!user) navigate("/login");
@@ -19,7 +22,11 @@ export const CartPage = () => {
     return (
         <div>
             <Navbar />
-            <div className="cart_container">
+            <div
+                className={`cart_container ${
+                    toggleStyle ? "styleToggled" : ""
+                }`}
+            >
                 <Cart />
                 <CartSummary />
             </div>

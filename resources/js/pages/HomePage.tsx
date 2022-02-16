@@ -9,11 +9,14 @@ import { Slider } from "../components/Slider";
 import { useDimensions } from "../hooks/useDimensions";
 import { Tag } from "../components/Tag";
 import { CategoriesList } from "../components/CategoriesList";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLastDomainPath } from "../slices/dataSlice";
 
 export const HomePage = () => {
     const dispatch = useDispatch();
+    const toggleStyle = useSelector(
+        (state: any) => state.productsData.toggleStyle
+    );
     const dimensions = useDimensions();
     const SLIDE_WIDTH =
         dimensions.screenWidth < 550 ? 550 : 0.85 * dimensions.screenWidth;
@@ -56,7 +59,12 @@ export const HomePage = () => {
                     "radial-gradient(rgba(5, 5, 5, 1), rgba(5, 5, 5, 0.9))",
             }}
         >
-            <div className="main_home_container">
+            <div
+                // !toggleStyle ? "main_home_container" : "styleToggled"
+                className={`main_home_container ${
+                    toggleStyle ? "styleToggled" : ""
+                }`}
+            >
                 <Navbar />
                 <div
                     style={{

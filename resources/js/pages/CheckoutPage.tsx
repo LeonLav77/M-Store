@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../../css/CheckoutPage.css";
 import { StripePage } from "../components/auth/StripePage";
@@ -27,12 +27,19 @@ export const CheckoutPage = () => {
     const { user } = useAuth();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const toggleStyle = useSelector(
+        (state: any) => state.productsData.toggleStyle
+    );
     useEffect(() => {
         if (!user) navigate("/login");
         dispatch(setLastDomainPath("checkout"));
     }, []);
     return (
-        <div style={{ backgroundColor: "whitesmoke" }}>
+        <div
+            className={`checkout_main_container ${
+                toggleStyle ? "styleToggled" : ""
+            }`}
+        >
             {/* <Cart /> */}
             <Navbar />
             <div style={{ display: "flex", gap: 10 }}>

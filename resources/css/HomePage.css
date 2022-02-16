@@ -143,6 +143,11 @@
 .related_categories_container2::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(45deg, rgb(65, 159, 131), #097895);
 }
+.styleToggled {
+    height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+}
 
 @media (max-width: 1500px) {
     .main_home_container {

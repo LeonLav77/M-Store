@@ -66,6 +66,9 @@ interface productsPerPageDataInterface {
 
 export const ProductsPage = () => {
     const dispatch = useDispatch();
+    const toggleStyle = useSelector(
+        (state: any) => state.productsData.toggleStyle
+    );
     const fetchingProps = useSelector(
         (state: any) => state.productsData.fetchingProps
     );
@@ -154,7 +157,11 @@ export const ProductsPage = () => {
     return (
         <>
             <Navbar />
-            <div className="main_all_products_container">
+            <div
+                className={`main_all_products_container ${
+                    toggleStyle ? "productsStyleToggled" : ""
+                }`}
+            >
                 <div style={{ minWidth: 300, width: 350 }}>
                     <div className="filters_container">
                         {dimensions.screenWidth <= 1400 || !showFilters ? (

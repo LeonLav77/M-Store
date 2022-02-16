@@ -109,7 +109,10 @@ export const Login = () => {
                                     top: "2%",
                                     right: "2%",
                                 }}
-                                onClick={() => setShowTFAChallenge(false)}
+                                onClick={() => {
+                                    setShowTFAChallenge(false);
+                                    setFalseTFACode(false);
+                                }}
                                 size={25}
                             />
                             <h2 style={{ marginBlock: 10 }}>Login With TFA</h2>

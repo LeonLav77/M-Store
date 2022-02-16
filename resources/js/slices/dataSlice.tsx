@@ -20,6 +20,8 @@ const initialState = {
     },
     cartModified: 0,
     lastDomainPath: "",
+
+    toggleStyle: false,
 };
 
 //NE KORISITIN
@@ -74,6 +76,9 @@ export const dataSlice = createSlice({
         setLastDomainPath(state, action) {
             state.lastDomainPath = action.payload;
         },
+        setToggleStyle(state, action) {
+            state.toggleStyle = action.payload;
+        },
     },
     //NE KORISITIN
     //------------------------------------------------------------------------------------------
@@ -106,5 +111,6 @@ export const {
     setSearchWord,
     setCartModified,
     setLastDomainPath,
+    setToggleStyle,
 } = dataSlice.actions;
 export default dataSlice.reducer;

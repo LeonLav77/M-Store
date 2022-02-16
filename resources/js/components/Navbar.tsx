@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ImCog, ImCart } from "react-icons/im";
 import { CgProfile } from "react-icons/cg";
 import { FaSearch } from "react-icons/fa";
@@ -7,10 +7,9 @@ import { useDimensions } from "../hooks/useDimensions";
 import { useDispatch, useSelector } from "react-redux";
 import {
     addToRecents,
-    fetchFilteredProducts,
-    setCurrentPage,
     setFetchingProps,
     setSearchWord,
+    setToggleStyle,
 } from "../slices/dataSlice";
 import { useDebounced } from "../hooks/useDebounced";
 import { useNavigate } from "react-router-dom";
@@ -82,7 +81,12 @@ export const Navbar = () => {
                             >
                                 Enable TFA
                             </button>
-                            <button onClick={() => setToggleTFAPopup(false)}>
+                            <button
+                                onClick={() => {
+                                    setToggleTFAPopup(false);
+                                    dispatch(setToggleStyle(false));
+                                }}
+                            >
                                 Cancel
                             </button>
                         </div>
@@ -153,7 +157,10 @@ export const Navbar = () => {
                         <CgProfile
                             size={25}
                             color="white"
-                            onClick={() => setToggleTFAPopup(true)}
+                            onClick={() => {
+                                setToggleTFAPopup(true);
+                                dispatch(setToggleStyle(true));
+                            }}
                         />
                         <ImCog
                             title="settings"
