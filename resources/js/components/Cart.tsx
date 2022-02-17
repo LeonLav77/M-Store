@@ -61,6 +61,9 @@ export const Cart = () => {
             })
             .catch((err) => err);
     };
+    useEffect(() => {
+        dispatch(setCartModified());
+    }, []);
     useEffect(() => {}, [itemRemoved]);
     return (
         <div style={{ width: "70%", marginLeft: 20 }}>

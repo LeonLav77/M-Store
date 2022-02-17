@@ -8,23 +8,28 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     addToRecents,
     setFetchingProps,
+    setLastDomainPath,
     setSearchWord,
     setToggleStyle,
 } from "../slices/dataSlice";
 import { useDebounced } from "../hooks/useDebounced";
 import { useNavigate } from "react-router-dom";
 import $ from "jquery";
+import useAuth from "../hooks/useAuth";
+import { setUser } from "../slices/userInfoSlice";
 
 export const Navbar = () => {
     const [keyword, setKeyword] = useState("");
     const { screenWidth, screenHeight } = useDimensions();
     const dispatch = useDispatch();
+    const { logout, setUser } = useAuth();
     const search = useDebounced(keyword, 500);
     const navigate = useNavigate();
     const [toggleTFAPopup, setToggleTFAPopup] = useState(false);
     const currentPage = useSelector(
         (state: any) => state.productsData.currentPage
     );
+    const [showSettingsDropdown, setShowSettingsDropdown] = useState(false);
 
     function enableTFA() {
         $.ajax({
@@ -44,6 +49,18 @@ export const Navbar = () => {
     //overflow handling -> toggle popup u global state
     return (
         <>
+            {showSettingsDropdown && (
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                    }}
+                    onClick={() => setShowSettingsDropdown(false)}
+                ></div>
+            )}
             {toggleTFAPopup && (
                 <div className="tfa_popup_overlay">
                     <div
@@ -152,7 +169,9 @@ export const Navbar = () => {
                         <ImCart
                             size={25}
                             color="white"
-                            onClick={() => navigate("/cart")}
+                            onClick={() => {
+                                navigate("/cart");
+                            }}
                         />
                         <CgProfile
                             size={25}
@@ -167,10 +186,41 @@ export const Navbar = () => {
                             size={25}
                             color="white"
                             //show dropdown
-                            onClick={() => {}}
+                            onClick={() => setShowSettingsDropdown(true)}
                         />
                     </div>
                 ) : null}
+
+                {showSettingsDropdown && (
+                    <div className="settings_dropdown">
+                        <div style={{ position: "relative" }}>
+                            <ul className="settings_dropdown_list">
+                                <li onClick={() => navigate("/products")}>
+                                    All Products
+                                </li>
+                                <li onClick={() => navigate("/wishlist")}>
+                                    Wishlist
+                                </li>
+                                <li>Last Viewed</li>
+                                <li>buy again</li>
+                                <li
+                                    onClick={() => {
+                                        setUser(false);
+                                        logout();
+                                        navigate("/login");
+                                        dispatch(setLastDomainPath("home"));
+                                    }}
+                                >
+                                    Logout
+                                </li>
+                                {/* if seller */}
+                                {/* <li>selling</li>
+                            <li>bids/offers</li> */}
+                            </ul>
+                            <div className="settings_dropdown_shape"></div>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );

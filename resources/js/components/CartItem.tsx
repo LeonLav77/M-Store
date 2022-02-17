@@ -16,7 +16,7 @@ export const CartItem = ({ cartItemData, removeFromCart }) => {
                 quantity,
             },
         })
-            .then((res) => console.log(res))
+            .then((res) => console.log(res.data))
             .catch((err) => console.log(err));
     };
     return (
@@ -54,10 +54,7 @@ export const CartItem = ({ cartItemData, removeFromCart }) => {
                         <div style={{ display: "flex" }}>
                             <button
                                 onClick={() => {
-                                    addItemToCart(
-                                        cartItemData.product_id,
-                                        quantityCounter - 1
-                                    );
+                                    addItemToCart(cartItemData.product_id, -1);
                                     setQuantityCounter(quantityCounter - 1);
                                 }}
                             >
@@ -66,10 +63,7 @@ export const CartItem = ({ cartItemData, removeFromCart }) => {
                             <h5>{quantityCounter ?? cartItemData.quantity}</h5>
                             <button
                                 onClick={() => {
-                                    addItemToCart(
-                                        cartItemData.product_id,
-                                        quantityCounter + 1
-                                    );
+                                    addItemToCart(cartItemData.product_id, +1);
                                     setQuantityCounter(quantityCounter + 1);
                                 }}
                             >
@@ -102,10 +96,7 @@ export const CartItem = ({ cartItemData, removeFromCart }) => {
                         >
                             <button
                                 onClick={() => {
-                                    addItemToCart(
-                                        cartItemData.product_id,
-                                        quantityCounter - 1
-                                    );
+                                    addItemToCart(cartItemData.product_id, -1);
                                     setQuantityCounter(quantityCounter - 1);
                                 }}
                             >
@@ -114,10 +105,7 @@ export const CartItem = ({ cartItemData, removeFromCart }) => {
                             <h5>{quantityCounter ?? cartItemData.quantity}</h5>
                             <button
                                 onClick={() => {
-                                    addItemToCart(
-                                        cartItemData.product_id,
-                                        quantityCounter + 1
-                                    );
+                                    addItemToCart(cartItemData.product_id, +1);
                                     setQuantityCounter(quantityCounter + 1);
                                 }}
                             >

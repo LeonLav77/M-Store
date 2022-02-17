@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { setLastDomainPath } from "../slices/dataSlice";
+import { useFetchCartQuery } from "../slices/rtkQuerySlice";
 
 export const CartPage = () => {
     const dispatch = useDispatch();

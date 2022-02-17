@@ -54,7 +54,8 @@ export const dataSlice = createSlice({
             state.showFilteredProducts = true;
         },
         addToRecents(state, action) {
-            state.recents.push(action.payload);
+            if (state.recents.includes(action.payload)) return;
+            state.recents.unshift(action.payload);
         },
         setFilteredProducts(state, action) {
             state.filteredProducts = action.payload;

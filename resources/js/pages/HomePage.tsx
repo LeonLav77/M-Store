@@ -24,7 +24,7 @@ export const HomePage = () => {
     const fetchCategories = useFetchCategoriesQuery("categories");
     const sliderRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(1);
-    const { user, logout, setUser } = useAuth();
+    const { user } = useAuth();
     useEffect(() => {
         if (!user) navigate("/login");
         dispatch(setLastDomainPath("home"));
@@ -79,15 +79,6 @@ export const HomePage = () => {
                     <h3>we have no. But pizza jes.</h3>
                     <h3>Say no more, we have it all... BIČ</h3>
                     <Tag title="See All Products" navigateTo="products" />
-                    <button
-                        onClick={() => {
-                            setUser(false);
-                            logout();
-                            navigate("/login");
-                        }}
-                    >
-                        logout
-                    </button>
                 </div>
                 <Slider
                     currentIndex={currentIndex}

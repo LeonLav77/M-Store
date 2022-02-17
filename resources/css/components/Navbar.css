@@ -50,6 +50,43 @@
     z-index: 100;
     overflow: hidden;
 }
+.settings_dropdown {
+    position: absolute;
+    width: 300px;
+    height: fit-content;
+    background-color: whitesmoke;
+    top: 90%;
+    right: 2%;
+    border-radius: 10px;
+    box-shadow: 4px 4px 20px 0px #333;
+    z-index: 2;
+}
+.settings_dropdown_list {
+    padding: 0;
+    margin: 10px;
+    position: relative;
+    z-index: 2;
+    list-style: none;
+}
+.settings_dropdown_list li {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: left;
+}
+.settings_dropdown_list li:hover {
+    background-color: #dedede;
+}
+.settings_dropdown_shape {
+    position: absolute;
+    top: -9%;
+    z-index: 1;
+    right: 13%;
+    width: 20px;
+    height: 20px;
+    transform: rotateZ(45deg);
+    background-color: whitesmoke;
+}
 @media (max-width: 600px) {
     .search_bar {
         min-width: 100%;
