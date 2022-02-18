@@ -124,6 +124,9 @@
     flex-direction: column;
     margin-left: 2%;
 }
+.related_categories_container2 {
+    overflow-x: scroll;
+}
 
 .related_categories_container2::-webkit-scrollbar {
     width: 25px !important;

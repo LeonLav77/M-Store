@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { FiMinimize2 } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
@@ -63,7 +63,7 @@ export const ProductFilters = () => {
     };
     return (
         <div className="filters_container">
-            {dimensions.screenWidth <= 1400 || !showFilters ? (
+            {dimensions.screenWidth <= 1400 && !showFilters ? (
                 <div
                     style={{
                         width: "100%",
@@ -99,7 +99,9 @@ export const ProductFilters = () => {
                                 marginTop: 5,
                             }}
                             size={25}
-                            onClick={() => setShowFilters(false)}
+                            onClick={() => {
+                                setShowFilters(false);
+                            }}
                         />
                     </div>
                     <div className="category_filter">
@@ -111,7 +113,7 @@ export const ProductFilters = () => {
                                 else setSelectedCategory(e.target.value);
                             }}
                         >
-                            <option value="any" selected>
+                            <option value="any" defaultValue={"any"}>
                                 any
                             </option>
                             {categoriesError ? (
@@ -136,7 +138,7 @@ export const ProductFilters = () => {
                                 else setSelectedSize(e.target.value);
                             }}
                         >
-                            <option value="any" selected>
+                            <option value="any" defaultValue={"any"}>
                                 any
                             </option>
                             {sizes.map((size, id) => (
@@ -155,7 +157,7 @@ export const ProductFilters = () => {
                                 else setSelectedCondition(e.target.value);
                             }}
                         >
-                            <option value="any" selected>
+                            <option value="any" defaultValue={"any"}>
                                 any
                             </option>
                             {conditions.map((condition, id) => (

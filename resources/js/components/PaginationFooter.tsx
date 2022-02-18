@@ -174,25 +174,31 @@ export const PaginationFooter = ({
                     <p style={{ margin: 0, fontSize: 20 }}>Last Page</p>
                 )}
             </div>
-            <div
-                style={{
-                    border: "1px solid rgba(0, 0, 0, 0.5)",
-                    borderRadius: 10,
-                    padding: 10,
-                }}
-            >
-                {listStyle == "block" ? (
-                    <BsGrid1X2Fill
-                        size={30}
-                        onClick={() => dispatch(toggleListStyle("flex"))}
-                    />
-                ) : (
-                    <GiHamburgerMenu
-                        size={30}
-                        onClick={() => dispatch(toggleListStyle("block"))}
-                    />
-                )}
-            </div>
+            {dimensions.screenWidth >= 850 ? (
+                <div
+                    style={{
+                        border: "1px solid rgba(0, 0, 0, 0.5)",
+                        borderRadius: 10,
+                        padding: 0,
+                    }}
+                >
+                    {listStyle == "block" ? (
+                        <div
+                            style={{ padding: 10 }}
+                            onClick={() => dispatch(toggleListStyle("flex"))}
+                        >
+                            <BsGrid1X2Fill size={30} />
+                        </div>
+                    ) : (
+                        <div
+                            style={{ padding: 10 }}
+                            onClick={() => dispatch(toggleListStyle("block"))}
+                        >
+                            <GiHamburgerMenu size={30} />
+                        </div>
+                    )}
+                </div>
+            ) : null}
         </div>
     );
 };

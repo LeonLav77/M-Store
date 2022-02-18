@@ -189,7 +189,20 @@ export const ProductDetailsPage = () => {
                 </div>
                 {/* PRODUCT INFOS */}
                 <div className="product_infos">
-                    <span style={{ display: "flex" }}>
+                    <span
+                        style={
+                            dimensions.screenWidth < 800
+                                ? {
+                                      display: "flex",
+                                      flexWrap: "wrap",
+                                      marginTop: 30,
+                                  }
+                                : {
+                                      display: "flex",
+                                      flexWrap: "wrap",
+                                  }
+                        }
+                    >
                         <h1 className="main_title">{name}</h1>
                         {dimensions.screenWidth < 1132 && (
                             <h3 className="on_sale on_sale_secondary">
@@ -212,31 +225,35 @@ export const ProductDetailsPage = () => {
                         </div>
                     </div>
                     <h3 className="product_price">
-                        <span className="current_price_span">
-                            Current Price:
-                        </span>{" "}
-                        {discount ? (
-                            <>
-                                <span className="crossed">
-                                    {current_price.toFixed(2)}
-                                </span>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                alignItems: "center",
+                            }}
+                        >
+                            <span className="current_price_span">
+                                Current Price:
+                            </span>{" "}
+                            {discount ? (
+                                <div>
+                                    <span className="crossed">
+                                        {current_price.toFixed(2)}
+                                    </span>
+                                    <span className="real_price">
+                                        {discount.discount.toFixed(2)} Kn
+                                    </span>
+                                </div>
+                            ) : (
                                 <span
                                     style={{
                                         letterSpacing: 2,
                                     }}
                                 >
-                                    {discount.discount.toFixed(2)} Kn
+                                    {current_price.toFixed(2)} Kn
                                 </span>
-                            </>
-                        ) : (
-                            <span
-                                style={{
-                                    letterSpacing: 2,
-                                }}
-                            >
-                                {current_price.toFixed(2)} Kn
-                            </span>
-                        )}
+                            )}
+                        </div>
                     </h3>
                     {/* BUTTONS */}
                     <div className="product_buttons">

@@ -24,7 +24,7 @@
 @media (max-width: 600px) {
     .checkout_container {
         width: 90%;
-        min-width: 340px;
+        min-width: 300px;
         margin: 10px auto;
     }
 }

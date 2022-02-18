@@ -9,6 +9,7 @@ import { Navbar } from "../components/Navbar";
 import { PaginationFooter } from "../components/PaginationFooter";
 import { ProductFilters } from "../components/ProductFilters";
 import { ProductsList } from "../components/ProductsList";
+import { RecentSearches } from "../components/RecentSearches";
 import useAuth from "../hooks/useAuth";
 import { useDimensions } from "../hooks/useDimensions";
 import { setLastDomainPath } from "../slices/dataSlice";
@@ -87,11 +88,8 @@ export const ProductsPage = () => {
     // const filteredProductsStatus = useSelector(
     //     (state: any) => state.productsData.status
     // );
-    const recentSearches = useSelector(
-        (state: any) => state.productsData.recents
-    );
+
     const { user } = useAuth();
-    const dimensions = useDimensions();
 
     //filter props - NE KORISIN
     // const [categories, setCategories] = useState<RelatedCategoriesInterface[]>(
@@ -99,7 +97,6 @@ export const ProductsPage = () => {
     // );
 
     //dropdowns
-    const [showRecents, setShowRecents] = useState(false);
 
     //listStyle
     const listStyle = useSelector((state: any) => state.productsData.listStyle);
@@ -119,63 +116,9 @@ export const ProductsPage = () => {
                     toggleStyle ? "productsStyleToggled" : ""
                 }`}
             >
-                <div style={{ minWidth: 300, width: 350 }}>
+                <div style={{ minWidth: 300 }}>
                     <ProductFilters />
-                    <div className="recent_searches">
-                        {dimensions.screenWidth <= 1400 || !showRecents ? (
-                            <div
-                                style={{
-                                    width: "100%",
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                }}
-                                onClick={() => {
-                                    setShowRecents(true);
-                                }}
-                            >
-                                <h3 style={{ margin: 0 }}>Recents</h3>
-                                <FaChevronDown
-                                    size={20}
-                                    style={{
-                                        marginRight: 5,
-                                    }}
-                                />
-                            </div>
-                        ) : (
-                            <>
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        width: "100%",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <h3>Recents</h3>
-                                    <FiMinimize2
-                                        style={{
-                                            marginRight: 10,
-                                            marginTop: 5,
-                                        }}
-                                        size={25}
-                                        onClick={() => setShowRecents(false)}
-                                    />
-                                </div>
-                                <div>
-                                    {recentSearches.length == 0 ? (
-                                        <h4>No Recent Searches...</h4>
-                                    ) : (
-                                        recentSearches.map(
-                                            (recentSearch, id) => (
-                                                <h4 key={id}>{recentSearch}</h4>
-                                            )
-                                        )
-                                    )}
-                                </div>
-                            </>
-                        )}
-                    </div>
+                    <RecentSearches />
                 </div>
                 <div className="products_list">
                     {productsLoading ? (

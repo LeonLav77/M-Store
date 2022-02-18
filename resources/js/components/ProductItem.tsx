@@ -4,7 +4,7 @@ import "../../css/ProductsPage.css";
 import { Link } from "react-router-dom";
 
 export const ProductItem = ({ item, listStyle }) => {
-    const [favorite, setFavorite] = useState(false);
+    // const [favorite, setFavorite] = useState(false);
     return (
         <div
             key={item.id}
@@ -33,14 +33,14 @@ export const ProductItem = ({ item, listStyle }) => {
                           }
                 }
             >
-                <AiFillStar
+                {/* <AiFillStar
                     color={favorite ? "yellow" : "black"}
                     size={35}
                     onClick={() => {
                         setFavorite(!favorite);
                         //add to wishlist i remove
                     }}
-                />
+                /> */}
             </div>
             <img
                 src={item.images[0].path}

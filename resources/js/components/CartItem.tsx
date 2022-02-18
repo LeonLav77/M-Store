@@ -21,7 +21,7 @@ export const CartItem = ({ cartItemData, removeFromCart }) => {
     };
     return (
         <tr>
-            <td>
+            <td style={dimensions.screenWidth < 1000 ? { padding: 5 } : null}>
                 <img
                     src={cartItemData.product.images[0].path}
                     alt=""
@@ -33,6 +33,7 @@ export const CartItem = ({ cartItemData, removeFromCart }) => {
                 style={{
                     display: "flex",
                     flexDirection: "column",
+                    padding: 5,
                 }}
             >
                 <h1>{cartItemData.product.name}</h1>

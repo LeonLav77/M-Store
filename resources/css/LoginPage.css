@@ -185,11 +185,29 @@
     align-items: center;
     gap: 75px;
 }
-@media (max-width: 830px) {
-    .login_bg_img {
+@media (max-width: 1000px) {
+    .login_container_shape,
+    .login_container_shape2 {
         display: none;
     }
-    .login_container {
+    .login_container_shape3 {
+        bottom: -37%;
+        left: -5%;
+        height: 650px;
+        transform: rotateZ(-60deg);
+    }
+    .login_container_shape4 {
+        top: -37%;
+        right: -5%;
+        height: 650px;
+        transform: rotateZ(-60deg);
+    }
+}
+@media (max-width: 830px) {
+    .login_image_container {
+        display: none;
+    }
+    .login_form_wrapper {
         width: 90%;
         height: calc(90% / 1.5);
         min-width: 200px;

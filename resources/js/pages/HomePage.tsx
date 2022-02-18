@@ -90,7 +90,13 @@ export const HomePage = () => {
                     <h1 style={{ textAlign: "left", margin: 0 }}>
                         Routing Tags
                     </h1>
-                    <div style={{ display: "flex", marginBlock: 20 }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            marginBlock: 20,
+                            flexWrap: "wrap",
+                        }}
+                    >
                         <Tag title="All Products" navigateTo="products" />
                         <Tag title="Cart" navigateTo="cart" />
                         <Tag title="Wishlist" navigateTo="wishlist" />

@@ -6,3 +6,8 @@
         display: block;
     }
 }
+@media (max-width: 1000px) {
+    td h1 {
+        font-size: 20px;
+    }
+}

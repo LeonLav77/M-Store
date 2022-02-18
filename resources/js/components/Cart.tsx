@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useFetchCartQuery } from "../slices/rtkQuerySlice";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../../css/CartPage.css";
 import { useDimensions } from "../hooks/useDimensions";
-import axios from "axios";
+import { setCartModified } from "../slices/dataSlice";
+import { useFetchCartQuery } from "../slices/rtkQuerySlice";
 import { CartItem } from "./CartItem";
-import { useDispatch, useSelector } from "react-redux";
-import { setCartModified, setLastDomainPath } from "../slices/dataSlice";
-import useAuth from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 
 //nanovo
 // interface CartDataInterface {
@@ -66,7 +64,13 @@ export const Cart = () => {
     }, []);
     useEffect(() => {}, [itemRemoved]);
     return (
-        <div style={{ width: "70%", marginLeft: 20 }}>
+        <div
+            style={
+                dimensions.screenWidth < 1000
+                    ? { width: "70%", marginLeft: 2 }
+                    : { width: "70%", marginLeft: 20 }
+            }
+        >
             <table cellPadding={20}>
                 <thead
                     style={
