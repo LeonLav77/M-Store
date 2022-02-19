@@ -42,20 +42,12 @@ export const CheckoutPage = () => {
         >
             {/* <Cart /> */}
             <Navbar />
-            <div style={{ display: "flex", gap: 10 }}>
-                <div style={{ width: "60%" }}>
+            <div className="checkout_cart_info_container">
+                <div className="checkout_cart">
                     <CheckoutCart />
                 </div>
 
-                <div
-                    style={{
-                        width: "40%",
-                        backgroundColor: "rgb(240,240, 240)",
-                        border: "2px solid #dedede",
-                        marginBlock: 10,
-                        marginRight: 40,
-                    }}
-                >
+                <div className="order_summary_container">
                     <h3
                         style={{
                             backgroundColor: "rgb(212, 212, 212, 0.3)",
@@ -92,14 +84,7 @@ export const CheckoutPage = () => {
                     </div>
                 </div>
             </div>
-            <div
-                style={{
-                    width: 1000,
-                    backgroundColor: "#f0f0f0",
-                    marginLeft: 40,
-                    border: "2px solid #dedede",
-                }}
-            >
+            <div className="checkout_user_form_container">
                 <h3
                     style={{
                         backgroundColor: "rgb(212, 212, 212, 0.3)",

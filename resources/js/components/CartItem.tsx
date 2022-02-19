@@ -21,7 +21,7 @@ export const CartItem = ({ cartItemData, removeFromCart }) => {
     };
     return (
         <tr>
-            <td style={dimensions.screenWidth < 1000 ? { padding: 5 } : null}>
+            <td style={dimensions.screenWidth < 1000 ? { padding: 5 } : {}}>
                 <img
                     src={cartItemData.product.images[0].path}
                     alt=""

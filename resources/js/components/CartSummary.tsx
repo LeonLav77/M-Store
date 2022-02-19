@@ -25,7 +25,14 @@ export const CartSummary = () => {
         setTotalItemsPrice(totalPrice);
     }, [data]);
     return (
-        <div className="checkout_container">
+        <div
+            className={
+                location.pathname == "/checkout/order"
+                    ? // location.pathname.startsWith("/checkout/order/")
+                      "checkout_summary_container"
+                    : "cart_summary_container"
+            }
+        >
             <div
                 style={{
                     display: "flex",
@@ -97,7 +104,8 @@ export const CartSummary = () => {
                     }}
                 >
                     <Link
-                        to={`/checkout/order/${"" + Date.now()}`}
+                        // to={`/checkout/order/${"" + Date.now()}`}
+                        to={"/checkout/order"}
                         //myb to ne rabi
                         style={{ color: "white", listStyle: "none" }}
                     >

@@ -9,14 +9,7 @@ export const CheckoutCart = () => {
         error,
     }: { data?: any[]; isLoading?: any; error?: any } = cartData;
     return (
-        <div
-            style={{
-                border: "2px solid #dedede",
-                marginLeft: 40,
-                marginBlock: 10,
-                backgroundColor: "rgb(240, 240, 240)",
-            }}
-        >
+        <div className="checkout_cart_wrapper">
             <h3
                 style={{
                     backgroundColor: "rgb(212, 212, 212, 0.3)",
@@ -37,7 +30,7 @@ export const CheckoutCart = () => {
                     ? "Loading..."
                     : error
                     ? "Error..."
-                    : data.map((item, id) => {
+                    : data?.map((item, id) => {
                           return (
                               <div
                                   key={id}

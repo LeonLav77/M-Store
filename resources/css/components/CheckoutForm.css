@@ -1,9 +1,19 @@
 .user_info_form {
-    width: 1000px;
+    width: 100%;
+    min-width: 350px;
     padding: 10px;
 }
 .checkout_form_container_wrapper {
     border: 2px solid #dedede;
     background-color: #ebebeb;
     margin-block: 10px;
+}
+.address_form_info {
+    display: flex;
+    justify-content: space-around;
+}
+@media (max-width: 700px) {
+    .address_form_info {
+        flex-direction: column;
+    }
 }

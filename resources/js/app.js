@@ -57,7 +57,8 @@ render(
                     <Route path="cart" element={<CartPage />} />
                     {/* <Route path="checkout" element={<CheckoutPage />} /> */}
                     <Route
-                        path="checkout/order/:orderId"
+                        // path="checkout/order/:orderId"
+                        path="checkout/order"
                         element={<CheckoutPage />}
                     />
                     <Route path="testing" element={<Testing></Testing>} />

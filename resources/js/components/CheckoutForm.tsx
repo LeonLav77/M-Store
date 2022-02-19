@@ -13,7 +13,8 @@ export const CheckoutForm = () => {
                     style={{
                         display: "flex",
                         flexWrap: "wrap",
-                        justifyContent: "space-around",
+                        // justifyContent: "space-around",
+                        minWidth: 300,
                     }}
                 >
                     <div className="checkout_form_container">
@@ -36,12 +37,7 @@ export const CheckoutForm = () => {
             </div>
             <div className="checkout_form_container_wrapper">
                 <h4 style={{ margin: 8 }}>Adress</h4>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-around",
-                    }}
-                >
+                <div className="address_form_info">
                     <div
                         style={{
                             width: "32%",
@@ -73,12 +69,7 @@ export const CheckoutForm = () => {
                         <input type="zip" placeholder="Zip" />
                     </div>
                 </div>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-around",
-                    }}
-                >
+                <div className="address_form_info">
                     <div
                         style={{
                             width: "32%",

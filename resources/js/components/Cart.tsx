@@ -74,9 +74,7 @@ export const Cart = () => {
             <table cellPadding={20}>
                 <thead
                     style={
-                        dimensions.screenWidth < 1000
-                            ? { display: "none" }
-                            : null
+                        dimensions.screenWidth < 1000 ? { display: "none" } : {}
                     }
                 >
                     <tr
@@ -102,14 +100,14 @@ export const Cart = () => {
                         <tr>
                             <td>Erorr</td>
                         </tr>
-                    ) : data.length == 0 ? (
+                    ) : data?.length == 0 ? (
                         <tr>
                             <td>
                                 <h1>NO items in cart...</h1>
                             </td>
                         </tr>
                     ) : (
-                        data.map((cartItemData, id) => (
+                        data?.map((cartItemData, id) => (
                             <CartItem
                                 cartItemData={cartItemData}
                                 key={id}
