@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AiFillStar } from "react-icons/ai";
+// import { AiFillStar } from "react-icons/ai";
 import "../../css/ProductsPage.css";
 import { Link } from "react-router-dom";
 

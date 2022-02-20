@@ -1,12 +1,16 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+
+interface ProductsDataState {
+    productsData: ReturnType<(...args: any) => typeof initialState>;
+}
 
 const initialState = {
     //NE KORISTIN
     //------------------
     filteredProducts: [],
     showFilteredProducts: false,
-    status: null,
+    status: null || "",
     //------------------
     recents: [],
     currentPage: 1,
@@ -27,6 +31,7 @@ const initialState = {
     userVerified: false,
 };
 
+initialState.recents as unknown as string[];
 //NE KORISITIN
 //------------------------------------------------------------------------------------------
 export const fetchFilteredProducts = createAsyncThunk(
@@ -53,9 +58,12 @@ export const dataSlice = createSlice({
         setShowFilteredProducts(state) {
             state.showFilteredProducts = true;
         },
-        addToRecents(state, action) {
-            if (state.recents.includes(action.payload)) return;
-            state.recents.unshift(action.payload);
+        addToRecents(state, action: PayloadAction<string>) {
+            //state daje never[] nez kako convertat :/
+            let result = state.recents as unknown as string[];
+            if (result.includes(action.payload)) return;
+            result.unshift(action.payload);
+            state.recents = result as never;
         },
         setFilteredProducts(state, action) {
             state.filteredProducts = action.payload;
@@ -121,3 +129,4 @@ export const {
     setToggleStyle,
 } = dataSlice.actions;
 export default dataSlice.reducer;
+export type RootState = ProductsDataState;

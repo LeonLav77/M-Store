@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Slide = ({ slideWidth }) => {
+export const Slide = ({ slideWidth }: { slideWidth: number }) => {
     return (
         <div
             style={{

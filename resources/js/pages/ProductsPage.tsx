@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FaChevronDown } from "react-icons/fa";
-import { FiMinimize2 } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { DefaultRootState, useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../../css/ProductsPage.css";
 import { checkUser } from "../components/auth/Login";
@@ -11,9 +9,10 @@ import { ProductFilters } from "../components/ProductFilters";
 import { ProductsList } from "../components/ProductsList";
 import { RecentSearches } from "../components/RecentSearches";
 import useAuth from "../hooks/useAuth";
-import { useDimensions } from "../hooks/useDimensions";
-import { setLastDomainPath } from "../slices/dataSlice";
+import { RootState, setLastDomainPath } from "../slices/dataSlice";
 import { useFetchProductsQuery } from "../slices/rtkQuerySlice";
+
+//to provati malo bolje haha
 
 export interface ProductDataInterface {
     id: number;
@@ -41,7 +40,7 @@ interface LinkInterface {
     active: boolean;
 }
 
-interface productsPerPageDataInterface {
+export interface productsPerPageDataInterface {
     current_page: number;
     data: ProductDataInterface[];
     first_page_url: string;
@@ -61,10 +60,10 @@ interface productsPerPageDataInterface {
 export const ProductsPage = () => {
     const dispatch = useDispatch();
     const toggleStyle = useSelector(
-        (state: any) => state.productsData.toggleStyle
+        (state: RootState) => state.productsData.toggleStyle
     );
     const fetchingProps = useSelector(
-        (state: any) => state.productsData.fetchingProps
+        (state: RootState) => state.productsData.fetchingProps
     );
     const checkIfUser = checkUser();
     const productsPerPageData = useFetchProductsQuery(fetchingProps);
@@ -125,18 +124,18 @@ export const ProductsPage = () => {
                         <h3 style={{ margin: 50 }}>Loading...</h3>
                     ) : productsError ? (
                         <h3 style={{ margin: 50 }}>Error...</h3>
-                    ) : productsData.message ? (
-                        <h3 style={{ margin: 50 }}>{productsData.message}</h3>
+                    ) : productsData?.message ? (
+                        <h3 style={{ margin: 50 }}>{productsData?.message}</h3>
                     ) : (
                         // ) : filteredProducts.message != undefined ? (
                         //     <h1>{filteredProducts.message}</h1>
                         <div style={{ width: "100%" }}>
                             <PaginationFooter
-                                currentPage={productsData.current_page}
-                                lastPage={productsData.last_page}
-                                firstPage={productsData.first_page_url}
-                                nextPage={productsData.next_page_url}
-                                prevPage={productsData.prev_page_url}
+                                currentPage={productsData?.current_page}
+                                lastPage={productsData?.last_page}
+                                firstPage={productsData?.first_page_url}
+                                nextPage={productsData?.next_page_url}
+                                prevPage={productsData?.prev_page_url}
                             />
                             <div
                                 style={
@@ -146,10 +145,10 @@ export const ProductsPage = () => {
                                               flexWrap: "wrap",
                                               width: "100%",
                                           }
-                                        : null
+                                        : {}
                                 }
                             >
-                                <ProductsList data={productsData.data} />
+                                <ProductsList data={productsData?.data} />
                                 {/* {!showFilteredItems ? (
                                     <ProductsList data={data.data} />
                                 ) : (
@@ -166,11 +165,11 @@ export const ProductsPage = () => {
                                 )} */}
                             </div>
                             <PaginationFooter
-                                currentPage={productsData.current_page}
-                                lastPage={productsData.last_page}
-                                firstPage={productsData.first_page_url}
-                                nextPage={productsData.next_page_url}
-                                prevPage={productsData.prev_page_url}
+                                currentPage={productsData?.current_page}
+                                lastPage={productsData?.last_page}
+                                firstPage={productsData?.first_page_url}
+                                nextPage={productsData?.next_page_url}
+                                prevPage={productsData?.prev_page_url}
                             />
                         </div>
                     )}

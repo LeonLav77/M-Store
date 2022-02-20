@@ -8,7 +8,9 @@ import { ConfirmEmail } from "./ConfirmEmail";
 
 export const Register = () => {
     const [error, setError] = useState(false);
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState<{
+        selectedFile: any;
+    } | null>(null);
     const [email, setEmail] = useState(process.env.MIX_EMAIL);
     const [name, setName] = useState("Leon");
     const [password1, setPassword1] = useState("password");
@@ -16,8 +18,8 @@ export const Register = () => {
     const [showFalseInfoMsg, setShowFalseInfoMsg] = useState(false);
     const navigate = useNavigate();
     const { register, setUser, user } = useAuth();
-    const onFileChange = (event) => {
-        setSelectedFile({ selectedFile: event.target.files[0] });
+    const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedFile({ selectedFile: event.target.files![0] });
     };
     const userVerified = useSelector(
         (state: any) => state.productsData.userVerified
@@ -57,7 +59,7 @@ export const Register = () => {
             )}
             <div className="main_register_container">
                 {error ? (
-                    <ErrorMessage showError={error} />
+                    <ErrorMessage />
                 ) : (
                     <div className="register_form_container">
                         <h1>Create Account</h1>
@@ -136,10 +138,10 @@ export const Register = () => {
                                 const nil = async () => {
                                     setShowVerifictaionNotification(true);
                                     if (userVerified) {
-                                        const reponse = await register();
+                                        const reponse = await register!();
                                         console.log(reponse);
                                         if (reponse.statusText == "Created") {
-                                            setUser(true);
+                                            setUser!(true);
                                             navigate("/home");
                                             //verify email
                                         } else {

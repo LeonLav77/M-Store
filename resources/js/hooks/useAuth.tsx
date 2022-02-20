@@ -6,21 +6,26 @@ import React, {
     useMemo,
     useState,
 } from "react";
+import { InputValues, useForm } from "./useForm";
 
 //login cu nap s context-on a, register cu samo tamo s useState-ovima
 
 const AuthUserContext = createContext({});
 
 export const AuthUserProvider = ({ children }) => {
-    const [password, setPassword] = useState("password");
-    const [email, setEmail] = useState(process.env.MIX_EMAIL);
+    const [values, changeValues] = useForm({ email: "", password: "" });
+    // const [password, setPassword] = useState("password");
+    // const [email, setEmail] = useState(process.env.MIX_EMAIL);
 
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [user, setUser] = useState(
+        JSON.parse(localStorage.getItem("user") || "")
+    );
 
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(user));
     }, [user]);
 
+    //pass email, password
     const login = async () => {
         try {
             let response = await axios({
@@ -40,6 +45,7 @@ export const AuthUserProvider = ({ children }) => {
         }
     };
 
+    //pass sve
     const register = async () => {
         try {
             let response = await axios({
@@ -89,8 +95,10 @@ export const AuthUserProvider = ({ children }) => {
             // userInfo,
             logout,
             // isLoggedIn,
+            values,
+            changeValues,
         }),
-        [user, setUser]
+        [user, setUser, values, changeValues]
         // [password, setPassword, email, setEmail]
     );
     return (
@@ -106,6 +114,8 @@ export interface AuthContextInterface {
     setUser?: (bool: boolean) => any;
     logout?: () => any;
     register?: () => any;
+    values?: InputValues;
+    changeValues?: (e: React.ChangeEvent<HTMLInputElement>) => InputValues;
 }
 
 export default function useAuth() {

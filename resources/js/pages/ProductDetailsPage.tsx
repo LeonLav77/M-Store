@@ -7,7 +7,6 @@ import { ItemsList } from "../components/ItemsList";
 import { ProductDataInterface } from "./ProductsPage";
 import { useFetchCategoriesQuery } from "../slices/rtkQuerySlice";
 import { useDimensions } from "../hooks/useDimensions";
-import { Error } from "../components/Error";
 
 export interface RelatedCategoriesInterface {
     created_at: null | string;
@@ -217,7 +216,7 @@ export const ProductDetailsPage = () => {
                         </div>
                         <div className="product_info">
                             <span className="first_span">Category: </span>
-                            <span>{categoriesData[category_id - 1]?.name}</span>
+                            <span>{categoriesData![category_id - 1].name}</span>
                         </div>
                         <div className="product_info">
                             <span className="first_span">Description:</span>

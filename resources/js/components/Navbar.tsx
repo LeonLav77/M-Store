@@ -16,7 +16,6 @@ import { useDebounced } from "../hooks/useDebounced";
 import { useNavigate } from "react-router-dom";
 import $ from "jquery";
 import useAuth from "../hooks/useAuth";
-import { setUser } from "../slices/userInfoSlice";
 
 export const Navbar = () => {
     const [keyword, setKeyword] = useState("");
@@ -205,8 +204,8 @@ export const Navbar = () => {
                                 <li>buy again</li>
                                 <li
                                     onClick={() => {
-                                        setUser(false);
-                                        logout();
+                                        setUser!(false);
+                                        logout!();
                                         navigate("/login");
                                         dispatch(setLastDomainPath("home"));
                                     }}

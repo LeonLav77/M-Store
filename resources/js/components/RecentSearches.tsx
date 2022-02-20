@@ -3,12 +3,13 @@ import { FaChevronDown } from "react-icons/fa";
 import { FiMinimize2 } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { useDimensions } from "../hooks/useDimensions";
+import { RootState } from "../slices/dataSlice";
 
 export const RecentSearches = () => {
     const [showRecents, setShowRecents] = useState(false);
     const dimensions = useDimensions();
     const recentSearches = useSelector(
-        (state: any) => state.productsData.recents
+        (state: RootState) => state.productsData.recents
     );
     return (
         <div className="recent_searches">

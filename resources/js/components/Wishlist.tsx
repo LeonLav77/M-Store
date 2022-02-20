@@ -1,13 +1,12 @@
-import { skipToken } from "@reduxjs/toolkit/dist/query";
 import axios from "axios";
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState } from "react";
 import { useFetchWishlistQuery } from "../slices/rtkQuerySlice";
 import { Error } from "./Error";
 
 export const Wishlist = () => {
-    const [itemRemoved, setItemRemoved] = useState<any>(0);
+    const [itemRemoved, setItemRemoved] = useState<number>(0);
     const wishlistData = useFetchWishlistQuery(itemRemoved);
-    const removeFromWishlist = (product_id) => {
+    const removeFromWishlist = (product_id: number) => {
         return axios({
             method: "delete",
             url: `/api/removeFromWishlist/${product_id}`,
@@ -23,7 +22,7 @@ export const Wishlist = () => {
         <>
             <div>
                 {wishlistData.isError ? (
-                    <Error showError={true} />
+                    <Error />
                 ) : wishlistData.isLoading ? (
                     <h1>Loading...</h1>
                 ) : wishlistData.data ? (

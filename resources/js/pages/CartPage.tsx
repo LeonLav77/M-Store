@@ -6,14 +6,13 @@ import { CartSummary } from "../components/CartSummary";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { setLastDomainPath } from "../slices/dataSlice";
-import { useFetchCartQuery } from "../slices/rtkQuerySlice";
+import { RootState, setLastDomainPath } from "../slices/dataSlice";
 
 export const CartPage = () => {
     const dispatch = useDispatch();
     const { user } = useAuth();
     const toggleStyle = useSelector(
-        (state: any) => state.productsData.toggleStyle
+        (state: RootState) => state.productsData.toggleStyle
     );
     const navigate = useNavigate();
     useEffect(() => {

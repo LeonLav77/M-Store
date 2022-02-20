@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Slide } from "./Slide";
 
 export const Slider = ({
@@ -51,7 +51,7 @@ export const Slider = ({
                         >
                             {Array(3)
                                 .fill("")
-                                .map((_, i) => {
+                                .map((_, i: number) => {
                                     return (
                                         <Slide
                                             slideWidth={slideWidth}
@@ -72,7 +72,7 @@ export const Slider = ({
                         >
                             {Array(3)
                                 .fill("")
-                                .map((_, id) => (
+                                .map((_, id: number) => (
                                     <div
                                         style={
                                             currentIndex - 1 == id

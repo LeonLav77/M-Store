@@ -4,21 +4,25 @@ import { FiMinimize2 } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { useDimensions } from "../hooks/useDimensions";
 import { RelatedCategoriesInterface } from "../pages/ProductDetailsPage";
-import { addToRecents, setFetchingProps } from "../slices/dataSlice";
+import { addToRecents, RootState, setFetchingProps } from "../slices/dataSlice";
 import { useFetchCategoriesQuery } from "../slices/rtkQuerySlice";
 import { Error } from "./Error";
 
 export const ProductFilters = () => {
     const dispatch = useDispatch();
     const currentPage = useSelector(
-        (state: any) => state.productsData.currentPage
+        (state: RootState) => state.productsData.currentPage
     );
     const [showFilters, setShowFilters] = useState(false);
     const dimensions = useDimensions();
     const [maxPrice, setMaxPrice] = useState<string | number>("100");
-    const [selectedCategory, setSelectedCategory] = useState<string>(null);
-    const [selectedSize, setSelectedSize] = useState<string>(null);
-    const [selectedCondition, setSelectedCondition] = useState<string>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(
+        null
+    );
+    const [selectedSize, setSelectedSize] = useState<string | null>(null);
+    const [selectedCondition, setSelectedCondition] = useState<string | null>(
+        null
+    );
     const conditions = ["new", "used"];
     const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
     const [keyword, setKeyword] = useState("");
@@ -117,11 +121,11 @@ export const ProductFilters = () => {
                                 any
                             </option>
                             {categoriesError ? (
-                                <Error showError={true} />
+                                <Error />
                             ) : categoriesLoading ? (
                                 <h4>Loading...</h4>
                             ) : (
-                                categoriesData.map((category, id) => (
+                                categoriesData?.map((category, id) => (
                                     <option key={id} value={category.name}>
                                         {category.name}
                                     </option>

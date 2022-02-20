@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { Component, useState } from "react";
+import React from "react";
 import { Register } from "../components/auth/Register";
 
 export const RegisterPage = () => {

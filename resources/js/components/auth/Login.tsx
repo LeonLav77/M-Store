@@ -4,22 +4,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 import "../../../css/LoginPage.css";
 import useAuth from "../../hooks/useAuth";
-import { Error as ErrorMessage } from "../Error";
 import { BsFacebook, BsTwitter, BsInstagram } from "react-icons/bs";
 import { useSelector } from "react-redux";
 
 export function checkUser() {
-    if (JSON.parse(localStorage.getItem("user"))) return true;
+    if (JSON.parse(localStorage.getItem("user") || "")) return true;
     else return false;
 }
 export const Login = () => {
-    const [error, setError] = useState(false);
     const [showTFAChallenge, setShowTFAChallenge] = useState(false);
     const [TFAChallengeCode, setTFAChallengeCode] = useState("");
     const [showFalseInfoMsg, setShowFalseInfoMsg] = useState(false);
 
     const [falseTFACode, setFalseTFACode] = useState<boolean>(() =>
-        JSON.parse(localStorage.getItem("local"))
+        JSON.parse(localStorage.getItem("local") || "")
     );
 
     const lastDomainPath = useSelector((state: any) =>
@@ -28,12 +26,12 @@ export const Login = () => {
             : state.productsData.lastDomainPath
     );
     const navigate = useNavigate();
-    const { login, setUser } = useAuth();
+    const { login, setUser, values, changeValues } = useAuth();
 
     const beforeLogin = async () => {
-        const resp = await login();
+        const resp = await login!();
         if (resp.data?.two_factor == false) {
-            setUser(true);
+            setUser!(true);
             navigate(`/${lastDomainPath}`);
         } else if (resp.data?.two_factor == true) {
             setShowTFAChallenge(true);
@@ -59,7 +57,7 @@ export const Login = () => {
                 if (res.statusText == "No Content") {
                     setFalseTFACode(false);
                     setTFAChallengeCode("");
-                    setUser(true);
+                    setUser!(true);
                     navigate(`/${lastDomainPath}`);
                 }
             })
@@ -80,101 +78,92 @@ export const Login = () => {
 
     return (
         <div className="main_login_container2">
-            {error ? (
-                <ErrorMessage showError={true} />
-            ) : (
-                <div>
-                    {(showTFAChallenge || falseTFACode) && (
-                        <div
+            <div>
+                {(showTFAChallenge || falseTFACode) && (
+                    <div
+                        style={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            width: 300,
+                            backgroundColor: "whitesmoke",
+                            border: "1px solid gray",
+                            borderRadius: 10,
+                            height: 300,
+                            zIndex: 10,
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        <AiFillCloseCircle
                             style={{
                                 position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                transform: "translate(-50%, -50%)",
-                                width: 300,
-                                backgroundColor: "whitesmoke",
-                                border: "1px solid gray",
-                                borderRadius: 10,
-                                height: 300,
-                                zIndex: 10,
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignItems: "center",
+                                top: "2%",
+                                right: "2%",
+                            }}
+                            onClick={() => {
+                                setShowTFAChallenge(false);
+                                setFalseTFACode(false);
+                            }}
+                            size={25}
+                        />
+                        <h2 style={{ marginBlock: 10 }}>Login With TFA</h2>
+                        <div
+                            style={{
+                                width: "90%",
+                                marginBlock: 10,
                             }}
                         >
-                            <AiFillCloseCircle
-                                style={{
-                                    position: "absolute",
-                                    top: "2%",
-                                    right: "2%",
-                                }}
-                                onClick={() => {
-                                    setShowTFAChallenge(false);
-                                    setFalseTFACode(false);
-                                }}
-                                size={25}
-                            />
-                            <h2 style={{ marginBlock: 10 }}>Login With TFA</h2>
-                            <div
-                                style={{
-                                    width: "90%",
-                                    marginBlock: 10,
-                                }}
-                            >
-                                <h5>TFA Challenge Code</h5>
-                                <div style={{ width: "100%", display: "flex" }}>
-                                    <input
-                                        value={TFAChallengeCode}
-                                        onChange={(e) => {
-                                            if (e.target.value.length > 7)
-                                                return;
-                                            if (e.target.value.length == 3) {
-                                                setTFAChallengeCode(
-                                                    e.target.value + " "
-                                                );
-                                            } else {
-                                                setTFAChallengeCode(
-                                                    e.target.value
-                                                );
-                                            }
-                                        }}
-                                    />
-                                    <button
-                                        style={{ width: "30%" }}
-                                        onClick={() => {
-                                            TFAChallenge();
-                                        }}
-                                    >
-                                        Send
-                                    </button>
-                                </div>
-                            </div>
-                            <h6 style={{ margin: 0 }}>OR</h6>
-                            <div style={{ width: "90%", marginBlock: 10 }}>
-                                <h5>Recovery Codes</h5>
-                                <div
-                                    style={{
-                                        width: "100%",
-                                        display: "flex",
+                            <h5>TFA Challenge Code</h5>
+                            <div style={{ width: "100%", display: "flex" }}>
+                                <input
+                                    value={TFAChallengeCode}
+                                    onChange={(e) => {
+                                        if (e.target.value.length > 7) return;
+                                        if (e.target.value.length == 3) {
+                                            setTFAChallengeCode(
+                                                e.target.value + " "
+                                            );
+                                        } else {
+                                            setTFAChallengeCode(e.target.value);
+                                        }
+                                    }}
+                                />
+                                <button
+                                    style={{ width: "30%" }}
+                                    onClick={() => {
+                                        TFAChallenge();
                                     }}
                                 >
-                                    <input type="text" />
-                                    <button style={{ width: "30%" }}>
-                                        Send
-                                    </button>
-                                </div>
+                                    Send
+                                </button>
                             </div>
-                            {/* {showFalseTFACode && (
+                        </div>
+                        <h6 style={{ margin: 0 }}>OR</h6>
+                        <div style={{ width: "90%", marginBlock: 10 }}>
+                            <h5>Recovery Codes</h5>
+                            <div
+                                style={{
+                                    width: "100%",
+                                    display: "flex",
+                                }}
+                            >
+                                <input type="text" />
+                                <button style={{ width: "30%" }}>Send</button>
+                            </div>
+                        </div>
+                        {/* {showFalseTFACode && (
                                 <h5 style={{ marginInline: 20 }}>
                                     Code or Recovery Code is incorrect! Try
                                     Again...
                                 </h5>
                             )} */}
-                        </div>
-                    )}
-                </div>
-            )}
+                    </div>
+                )}
+            </div>
             <div className="login_form_wrapper">
                 <div className="login_image_container">
                     <div className="login_image_container_overlay">
@@ -220,9 +209,12 @@ export const Login = () => {
                         <div className="wrap_input">
                             <input
                                 className="form_input"
-                                type="email"
+                                // type="email"
+                                name="email"
                                 id=""
                                 placeholder="Enter Email...."
+                                value={values?.email}
+                                onChange={changeValues}
                             />
                         </div>
                     </div>
@@ -231,9 +223,12 @@ export const Login = () => {
                         <div className="wrap_input">
                             <input
                                 className="form_input"
-                                type="password"
+                                // type="password"
+                                name="password"
                                 id=""
                                 placeholder="Enter Password..."
+                                value={values?.password}
+                                onChange={changeValues}
                             />
                         </div>
                     </div>

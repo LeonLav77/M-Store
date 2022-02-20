@@ -7,7 +7,7 @@ export const CartItem = ({ cartItemData, removeFromCart }) => {
     const [quantityCounter, setQuantityCounter] = useState(
         cartItemData.quantity
     );
-    const addItemToCart = (product_id, quantity) => {
+    const addItemToCart = (product_id: number, quantity: number) => {
         return axios({
             method: "post",
             url: "http://127.0.0.1:8000/api/addItemToCart",

@@ -1,13 +1,9 @@
 import React from "react";
 
-export const Error = ({ showError }: { showError: boolean }) => {
+export const Error = () => {
     return (
-        <>
-            {showError && (
-                <h3 style={{ marginInline: "auto" }}>
-                    Something went wrong! Try again later...
-                </h3>
-            )}
-        </>
+        <h3 style={{ marginInline: "auto" }}>
+            Something went wrong! Try again later...
+        </h3>
     );
 };

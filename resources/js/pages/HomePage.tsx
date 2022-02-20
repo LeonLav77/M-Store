@@ -11,18 +11,20 @@ import { Tag } from "../components/Tag";
 import { CategoriesList } from "../components/CategoriesList";
 import { useDispatch, useSelector } from "react-redux";
 import { setLastDomainPath } from "../slices/dataSlice";
+import { useScrollToElement } from "../hooks/useScrollToElement";
+import { RootState } from "../slices/dataSlice";
 
 export const HomePage = () => {
     const dispatch = useDispatch();
     const toggleStyle = useSelector(
-        (state: any) => state.productsData.toggleStyle
+        (state: RootState) => state.productsData.toggleStyle
     );
     const dimensions = useDimensions();
     const SLIDE_WIDTH =
         dimensions.screenWidth < 550 ? 550 : 0.85 * dimensions.screenWidth;
     const navigate = useNavigate();
     const fetchCategories = useFetchCategoriesQuery("categories");
-    const sliderRef = useRef(null);
+    const sliderRef = useRef<null | HTMLDivElement>(null);
     const [currentIndex, setCurrentIndex] = useState(1);
     const { user } = useAuth();
     useEffect(() => {
@@ -34,11 +36,11 @@ export const HomePage = () => {
             for (let i = 1; i <= 3; i++) {
                 if (currentIndex >= 3) {
                     setCurrentIndex(1);
-                    sliderRef.current.style.transform = `translateX(0px)`;
+                    sliderRef.current!.style.transform = `translateX(0px)`;
                     return;
                 }
                 setCurrentIndex(currentIndex + 1);
-                sliderRef.current.style.transform = `translateX(-${
+                sliderRef.current!.style.transform = `translateX(-${
                     currentIndex * SLIDE_WIDTH
                 }px)`;
                 return;
@@ -49,8 +51,10 @@ export const HomePage = () => {
 
     useEffect(() => {
         setCurrentIndex(1);
-        sliderRef.current.style.transform = `translateX(0px)`;
+        sliderRef.current!.style.transform = `translateX(0px)`;
     }, [SLIDE_WIDTH]);
+
+    const [myRef] = useScrollToElement();
 
     return (
         <div
@@ -91,6 +95,7 @@ export const HomePage = () => {
                         Routing Tags
                     </h1>
                     <div
+                        ref={myRef}
                         style={{
                             display: "flex",
                             marginBlock: 20,

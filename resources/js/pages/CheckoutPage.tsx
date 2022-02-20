@@ -9,7 +9,7 @@ import { CheckoutCart } from "../components/CheckoutCart";
 import { CheckoutForm } from "../components/CheckoutForm";
 import { Navbar } from "../components/Navbar";
 import useAuth from "../hooks/useAuth";
-import { setLastDomainPath } from "../slices/dataSlice";
+import { RootState, setLastDomainPath } from "../slices/dataSlice";
 
 export const CheckoutPage = () => {
     // const handleSelect = (country) => {
@@ -28,7 +28,7 @@ export const CheckoutPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const toggleStyle = useSelector(
-        (state: any) => state.productsData.toggleStyle
+        (state: RootState) => state.productsData.toggleStyle
     );
     useEffect(() => {
         if (!user) navigate("/login");
