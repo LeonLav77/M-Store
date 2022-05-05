@@ -29,7 +29,7 @@ export const StripeChild = () => {
         getOrderData();
     }, []);
 
-    const elements = useElements();
+    const elements: any = useElements();
     const stripe = useStripe();
     const handleSubmit = async (event) => {
         event.preventDefault();

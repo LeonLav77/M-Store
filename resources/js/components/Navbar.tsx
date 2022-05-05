@@ -7,6 +7,7 @@ import { useDimensions } from "../hooks/useDimensions";
 import { useDispatch, useSelector } from "react-redux";
 import {
     addToRecents,
+    RootState,
     setFetchingProps,
     setLastDomainPath,
     setSearchWord,
@@ -26,7 +27,7 @@ export const Navbar = () => {
     const navigate = useNavigate();
     const [toggleTFAPopup, setToggleTFAPopup] = useState(false);
     const currentPage = useSelector(
-        (state: any) => state.productsData.currentPage
+        (state: RootState) => state.productsData.currentPage
     );
     const [showSettingsDropdown, setShowSettingsDropdown] = useState(false);
 

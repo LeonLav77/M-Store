@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDimensions } from "../hooks/useDimensions";
 import axios from "axios";
 
-export const CartItem = ({ cartItemData, removeFromCart }) => {
+export const CartItem = React.memo(({ cartItemData, removeFromCart }: any) => {
     const dimensions = useDimensions();
     const [quantityCounter, setQuantityCounter] = useState(
         cartItemData.quantity
@@ -121,4 +121,4 @@ export const CartItem = ({ cartItemData, removeFromCart }) => {
             )}
         </tr>
     );
-};
+});

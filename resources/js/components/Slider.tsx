@@ -1,12 +1,19 @@
 import React from "react";
 import { Slide } from "./Slide";
 
+interface SliderProps {
+    sliderRef: React.MutableRefObject<HTMLDivElement | null>;
+    currentIndex: number;
+    slideWidth: number;
+    setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+}
+
 export const Slider = ({
     sliderRef,
     currentIndex,
     setCurrentIndex,
     slideWidth,
-}) => {
+}: SliderProps) => {
     return (
         <div>
             <div className="slider_container">
@@ -99,7 +106,7 @@ export const Slider = ({
                                         key={id}
                                         onClick={() => {
                                             setCurrentIndex(id + 1);
-                                            sliderRef.current.style.transform = `translateX(-${
+                                            sliderRef.current!.style.transform = `translateX(-${
                                                 id * slideWidth
                                             }px)`;
                                         }}
@@ -112,7 +119,7 @@ export const Slider = ({
                         onClick={() => {
                             if (currentIndex <= 1) return;
                             setCurrentIndex(currentIndex - 1);
-                            sliderRef.current.style.transform = `translateX(-${
+                            sliderRef.current!.style.transform = `translateX(-${
                                 (currentIndex - 2) * slideWidth
                             }px)`;
                         }}
@@ -124,7 +131,7 @@ export const Slider = ({
                         onClick={() => {
                             if (currentIndex >= 3) return;
                             setCurrentIndex(currentIndex + 1);
-                            sliderRef.current.style.transform = `translateX(-${
+                            sliderRef.current!.style.transform = `translateX(-${
                                 currentIndex * slideWidth
                             }px)`;
                         }}

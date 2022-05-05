@@ -10,18 +10,7 @@ export const useForm = (inputValues: InputValues) => {
     const [values, setValues] = useState(inputValues);
     return [
         values,
-        (
-            e: React.ChangeEvent<HTMLInputElement>
-            //     {
-            //     target: {
-            //         // name: string;
-            //         value: string;
-            //         // placeholder: string;
-            //         type: string;
-            //     };
-            // }
-        ) =>
-            // set value to: {keyName:"email": value}
+        (e: React.ChangeEvent<HTMLInputElement>) =>
             setValues({ ...values, [e.target.name]: e.target.value }),
     ];
 };

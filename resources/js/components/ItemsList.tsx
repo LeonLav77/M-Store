@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-export const ItemsList = ({ data, title, dataType }) => {
+export const ItemsList = React.memo(({ data, title, dataType }:any) => {
     return (
         <>
             <h2 style={{ margin: 10, color: "#ebebeb" }}>{title}</h2>
@@ -57,7 +57,7 @@ export const ItemsList = ({ data, title, dataType }) => {
                                                   left: 0,
                                                   backgroundColor: "lightgray",
                                               }
-                                            : null
+                                            : undefined
                                     }
                                 />
                                 <div
@@ -70,7 +70,7 @@ export const ItemsList = ({ data, title, dataType }) => {
                                                   marginLeft: 20,
                                                   marginBottom: 5,
                                               }
-                                            : null
+                                            : undefined
                                     }
                                 >
                                     {dataType == "categories" ? (
@@ -99,4 +99,4 @@ export const ItemsList = ({ data, title, dataType }) => {
             </div>
         </>
     );
-};
+});
