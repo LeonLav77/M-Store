@@ -6,3 +6,4 @@ trebala je postojati mogucnost da postanes seller i prodajes ali smo finili dela
 
 -koristija san redux po prvi put, pocea san vise koristiti ts, useContext za auth,
 vrlo malo koristenje useMemo i useCallback-a -> nez bas u kojoj situaciji se koriste  
+-dizajn ni bas nisto, ali responsive dela sve
