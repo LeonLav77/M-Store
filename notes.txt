@@ -1,0 +1,8 @@
+Notes:
+
+E-commerce app, ima TFA (prvi put smo delali s tin),
+products, cart, placing orders (koristili smo stripe za placanje karticon),
+trebala je postojati mogucnost da postanes seller i prodajes ali smo finili delati na projektu
+
+-koristija san redux po prvi put, pocea san vise koristiti ts, useContext za auth,
+vrlo malo koristenje useMemo i useCallback-a -> nez bas u kojoj situaciji se koriste  
